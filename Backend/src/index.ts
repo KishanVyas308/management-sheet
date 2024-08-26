@@ -35,7 +35,7 @@ app.use(cors());
 
 
 app.get("/", (req, res) => {
-  res.send("Hello from Kishan Vyas");
+  return res.send("Hello from Kishan Vyas");
 });
 
 app.post("/signup", async (req, res) => {
