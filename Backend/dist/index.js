@@ -23,6 +23,9 @@ const upload = (0, multer_1.default)({ dest: "uploads/" });
 const prisma = new client_1.PrismaClient();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
+app.get("/", (req, res) => {
+    return res.send("Hello from Kishan Vyas");
+});
 app.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, contactPersonName, companyName, addressLine1, addressLine2, city, state, country, pin, webpage, phoneNumber, gstNo, companyLogo, } = req.body;
     try {
