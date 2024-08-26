@@ -1,0 +1,271 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                Int    @id @default(autoincrement())
+  email             String @unique
+  password          String @default("")
+  contactPersonName String @default("")
+  companyName       String @default("")
+  addressLine1      String @default("")
+  addressLine2      String @default("")
+  city              String @default("")
+  state             String @default("")
+  country           String @default("")
+  pin               String @default("")
+  webpage           String @default("")
+  phoneNumber       String @default("")
+  gstNo             String @default("")
+  companyLogo       String @default("")
+}
+
+model ExcelDataFinal {
+  // set id for sql
+  id                   Int     @id @default(autoincrement())
+  companyName          String
+  srNo                 String
+  shippingBillNo       String
+  shippingBillDate     String?
+  thirdPartyExporter   String?
+  hsCodeAndDescription String?
+  epcgLicNo            String?
+  cifValue             String  @default("0.00")
+  freight              String  @default("0.00")
+  insurance            String  @default("0.00")
+  brc                  String  @default("0.00")
+  exchangeRate         String  @default("0.0000")
+  cifValue2            String  @default("0.00")
+  freight2             String  @default("0.00")
+  insurance2           String  @default("0.00")
+  brc2                 String  @default("0.00")
+  exchangeRate2        String  @default("0.0000")
+  product              String?
+  remarks              String?
+}
+
+model Part1 {
+  id               Int     @id @default(autoincrement())
+  exportersName    String?
+  exportersAddress String?
+  type             String?
+  adCode           String?
+  rbiWaiverNo      String?
+  rbiWaiverDt      String?
+  cbName           String?
+  aeo              String?
+  consigneeName    String?
+  consigneeAddress String?
+  gstinType        String?
+  forexBankAcNo    String?
+  dbkBankAcNo      String?
+  ifscNo           String?
+  mode             String?
+  assess           String?
+  exmn             String?
+  jobbing          String?
+  meis             String?
+  dbk              String?
+  pkgs             String?
+  grossWeight      String?
+  volWeight        String?
+  packType         String?
+  ieCode           String?
+  pan              String?
+  vesselName       String?
+  portDischarge    String?
+  exchRate         String?
+  fobValue         String?
+  freight          String?
+  insurance        String?
+  discount         String?
+  commission       String?
+  deductions       String?
+  pc               String?
+  duty             String?
+  cess             String?
+  dbkClaim         String?
+  igstAmt          String?
+  cessAmt          String?
+  igstValue        String?
+  rodtepAmt        String?
+  rosctlAmt        String?
+  mawbNo           String?
+  hawbNo           String?
+}
+
+model Part2 {
+  id                Int    @id @default(autoincrement())
+  sNo               String
+  invoiceNo         String
+  invoiceDt         String
+  poNo              String
+  poDt              String
+  locNo             String
+  locDt             String
+  contractNo        String
+  contractDt        String
+  adCode            String
+  invTerm           String
+  exporterName      String
+  exporterAddress   String
+  buyerName         String
+  buyerAddress      String
+  thirdPartyName    String
+  thirdPartyAddress String
+  buyerAeoStatus    String
+  invoiceValue      String
+  fobValue          String
+  freight           String
+  insurance         String
+  discount          String
+  commission        String
+  deduct            String
+  pc                String
+  exchangeRate      String
+  itemSno           String
+  hsCd              String
+  description       String
+  quantity          String
+  uqc               String
+  rate              String
+  valueFc           String
+}
+
+model Part3 {
+  id                Int    @id @default(autoincrement())
+  invsn             String
+  itemsn            String
+  hsCd              String
+  description       String
+  quantity          String
+  uqc               String
+  rate              String
+  valueFc           String
+  fobInr            String
+  pmv               String
+  dutyAmt           String
+  cessRt            String
+  cesamt            String
+  dbkclmd           String
+  igststat          String
+  igstValue         String
+  igstAmount        String
+  schcod            String
+  schemeDescription String
+  sqcMsr            String
+  sqcUqc            String
+  stateOfOrigin     String
+  districtOfOrigin  String
+  ptAbroad          String
+  compCess          String
+  endUse            String
+  ftaBenefitAvailed String
+  rewardBenefit     String
+  thirdPartyItem    String
+}
+
+model Part4 {
+  id                 Int    @id @default(autoincrement())
+  invSno             String @db.Text
+  itemsn             String @db.Text
+  dbkSno             String @db.Text
+  qtyWt              String @db.Text
+  value              String @db.Text
+  rate               String @db.Text
+  dbkAmt             String @db.Text
+  stalev             String @db.Text
+  cenlev             String @db.Text
+  rosctlAmt          String @db.Text
+  invSnoB            String @db.Text
+  itemSnoB           String @db.Text
+  licenseNo          String @db.Text
+  descnExportItem    String @db.Text
+  expSno             String @db.Text
+  expqty             String @db.Text
+  uqc                String @db.Text
+  fobValue           String @db.Text
+  sion               String @db.Text
+  descnImportItem    String @db.Text
+  impSno             String @db.Text
+  impqt              String @db.Text
+  uqcB               String @db.Text
+  indigImp           String @db.Text
+  beNo               String @db.Text
+  beDate             String @db.Text
+  portCode           String @db.Text
+  descnImportedGoods String @db.Text
+  qtyImp             String @db.Text
+  qtyUsed            String @db.Text
+  invsn              String @db.Text
+  itmsn              String @db.Text
+  info               String @db.Text
+  qualifier          String @db.Text
+  infoCd             String @db.Text
+  infoText           String @db.Text
+  infoMsr            String @db.Text
+  itmsno             String @db.Text
+  cSno               String @db.Text
+  name               String @db.Text
+  code               String @db.Text
+  percentage         String @db.Text
+  yieldPct           String @db.Text
+  ing                String @db.Text
+  controlType        String @db.Text
+  location           String @db.Text
+  stDt               String @db.Text
+  endDt              String @db.Text
+  resCd              String @db.Text
+  resText            String @db.Text
+  docypcd            String @db.Text
+  icegateId          String @db.Text
+  irn                String @db.Text
+  partyCd            String @db.Text
+  issuePla           String @db.Text
+  issDt              String @db.Text
+  expDt              String @db.Text
+  sno                String @db.Text
+  invoiceNo          String @db.Text
+  invoiceAmount      String @db.Text
+  currency           String @db.Text
+  container          String @db.Text
+  seal               String @db.Text
+  date               String @db.Text
+  ar4Number          String @db.Text
+  ar4Date            String @db.Text
+  commissionerate    String @db.Text
+  division           String @db.Text
+  range              String @db.Text
+  iec                String @db.Text
+  exporterName       String @db.Text
+  address            String @db.Text
+  gstnId             String @db.Text
+  gstnType           String @db.Text
+  type               String @db.Text
+  manufactCd         String @db.Text
+  sourceState        String @db.Text
+  transCy            String @db.Text
+  invs               String @db.Text
+  quantity           String @db.Text
+  noOfUnits          String @db.Text
+  beSiteId           String @db.Text
+  beNumber           String @db.Text
+  beInvSno           String @db.Text
+  beItemS            String @db.Text
+  beQty              String @db.Text
+  beUqc              String @db.Text
+}
+
+model Part5 {
+  id                   Int    @id @default(autoincrement())
+  declarationStatement String
+  date                 String
+  place                String
+  authorizedSignatory  String
+  chaName              String
+}
