@@ -23,10 +23,10 @@ const upload = (0, multer_1.default)({ dest: "uploads/" });
 const prisma = new client_1.PrismaClient();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
     return res.send("Hello from Kishan Vyas");
 });
-app.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, contactPersonName, companyName, addressLine1, addressLine2, city, state, country, pin, webpage, phoneNumber, gstNo, companyLogo, } = req.body;
     try {
         const user = yield prisma.user.create({
@@ -59,7 +59,7 @@ app.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         return res.json({ message: "Please try again later" });
     }
 }));
-app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
         const user = yield prisma.user.findUnique({
@@ -92,7 +92,7 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json({ message: "Please try again later" });
     }
 }));
-app.post("/upload", upload.single("file"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/upload", upload.single("file"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
     try {
         const { sheetJsonData, companyName } = req.body;
@@ -151,7 +151,7 @@ app.post("/upload", upload.single("file"), (req, res) => __awaiter(void 0, void 
         return res.json({ message: "Error importing data" });
     }
 }));
-app.post("/newData/part1", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/newData/part1", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     try {
         const upload = yield prisma.part1.create({
@@ -164,7 +164,7 @@ app.post("/newData/part1", (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.json({ message: "Error importing data" });
     }
 }));
-app.post("/newData/part2", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/newData/part2", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         console.log(data);
@@ -178,7 +178,7 @@ app.post("/newData/part2", (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.json({ message: "Error importing data" });
     }
 }));
-app.post("/newData/part3", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/newData/part3", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         console.log(data);
@@ -192,7 +192,7 @@ app.post("/newData/part3", (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.json({ message: "Error importing data" });
     }
 }));
-app.post("/newData/part4", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/newData/part4", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const upload = yield prisma.part4.create({
@@ -205,7 +205,7 @@ app.post("/newData/part4", (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.json({ message: "Error importing data" });
     }
 }));
-app.post("/newData/part5", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/newData/part5", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
         const upload = yield prisma.part5.create({
