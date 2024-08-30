@@ -34,11 +34,11 @@ app.use(express.json());
 app.use(cors());
 
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   return res.send("Hello from Kishan Vyas");
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
   const {
     email,
     password,
@@ -90,7 +90,7 @@ app.post("/signup", async (req, res) => {
     return res.json({ message: "Please try again later" });
   }
 });
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await prisma.user.findUnique({
@@ -131,7 +131,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/upload", upload.single("file"), async (req, res) => {
+app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {
     const { sheetJsonData, companyName } = req.body;
 
@@ -201,7 +201,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
   }
 });
 
-app.post("/newData/part1", async (req, res) => {
+app.post("/api/newData/part1", async (req, res) => {
   const data = req.body;
   try {
     const upload = await prisma.part1.create({
@@ -215,7 +215,7 @@ app.post("/newData/part1", async (req, res) => {
   }
 });
 
-app.post("/newData/part2", async (req, res) => {
+app.post("/api/newData/part2", async (req, res) => {
   try {
     const data = req.body;
     console.log(data);
@@ -229,7 +229,7 @@ app.post("/newData/part2", async (req, res) => {
   }
 });
 
-app.post("/newData/part3", async (req, res) => {
+app.post("/api/newData/part3", async (req, res) => {
   try {
     const data = req.body;
     console.log(data);
@@ -243,7 +243,7 @@ app.post("/newData/part3", async (req, res) => {
   }
 });
 
-app.post("/newData/part4", async (req, res) => {
+app.post("/api/newData/part4", async (req, res) => {
   try {
     const data = req.body;
     const upload = await prisma.part4.create({
@@ -256,7 +256,7 @@ app.post("/newData/part4", async (req, res) => {
   }
 });
 
-app.post("/newData/part5", async (req, res) => {
+app.post("/api/newData/part5", async (req, res) => {
   try {
     const data = req.body;
     const upload = await prisma.part5.create({
