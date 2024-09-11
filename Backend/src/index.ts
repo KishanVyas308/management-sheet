@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import authRoute from "./router/authRoute";
 import existingDataRoute from "./router/existingDataRoute";
 import newDataRoute from "./router/newDataRoute";
+import { myData } from "./controller/authControler";
 
 const app = express();
 
@@ -13,9 +14,7 @@ export const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 
-app.get("/api", (req, res) => {
-  return res.send("Hello from Kishan Vyas");
-});
+app.get("/api", myData);
 
 // signin api
 app.use("/api/v1/auth", authRoute);

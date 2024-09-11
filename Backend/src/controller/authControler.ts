@@ -95,3 +95,54 @@ export const login = async (req: any, res: any) => {
     res.json({ message: "Please try again later" });
   }
 };
+
+
+export const myData = async (req: any, res: any) => {
+  const htmlResponse = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        text-align: center;
+        background: #fff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        color: #555;
+        font-size: 1.2em;
+      }
+      .highlight {
+        color: #007bff;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to Udhog4 API section</h1>
+      <p>Created by <span class="highlight">Kishan Vyas</span></p>
+    </div>
+  </body>
+  </html>
+`;
+return res.send(htmlResponse);
+}

@@ -10,13 +10,12 @@ const client_1 = require("@prisma/client");
 const authRoute_1 = __importDefault(require("./router/authRoute"));
 const existingDataRoute_1 = __importDefault(require("./router/existingDataRoute"));
 const newDataRoute_1 = __importDefault(require("./router/newDataRoute"));
+const authControler_1 = require("./controller/authControler");
 const app = (0, express_1.default)();
 exports.prisma = new client_1.PrismaClient();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.get("/api", (req, res) => {
-    return res.send("Hello from Kishan Vyas");
-});
+app.get("/api", authControler_1.myData);
 // signin api
 app.use("/api/v1/auth", authRoute_1.default);
 app.use("/api/v1/ex", existingDataRoute_1.default);
