@@ -12,86 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.prisma = void 0;
 const express_1 = __importDefault(require("express"));
 const multer_1 = __importDefault(require("multer"));
 const cors_1 = __importDefault(require("cors"));
 const client_1 = require("@prisma/client");
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const authRouter_1 = __importDefault(require("./router/authRouter"));
 const app = (0, express_1.default)();
 const upload = (0, multer_1.default)({ dest: "uploads/" });
-const prisma = new client_1.PrismaClient();
+exports.prisma = new client_1.PrismaClient();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.get("/api/", (req, res) => {
+app.get("/api", (req, res) => {
     return res.send("Hello from Kishan Vyas");
 });
-app.post("/api/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password, contactPersonName, companyName, addressLine1, addressLine2, city, state, country, pin, webpage, phoneNumber, gstNo, companyLogo, } = req.body;
-    try {
-        const user = yield prisma.user.create({
-            data: {
-                email,
-                password: yield bcryptjs_1.default.hash(password, 10),
-                contactPersonName,
-                companyName,
-                addressLine1,
-                addressLine2,
-                city,
-                state,
-                country,
-                pin,
-                webpage,
-                phoneNumber,
-                gstNo,
-                companyLogo,
-            },
-        });
-        const token = jsonwebtoken_1.default.sign({
-            id: user.id,
-            email: user.email,
-        }, process.env.JWT_SECRET);
-        return res.status(200).json({
-            token,
-        });
-    }
-    catch (error) {
-        return res.json({ message: "Please try again later" });
-    }
-}));
-app.post("/api/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    try {
-        const user = yield prisma.user.findUnique({
-            where: {
-                email,
-            },
-            select: {
-                id: true,
-                email: true,
-                password: true,
-            },
-        });
-        if (!user) {
-            return res.json({ message: "Please register first" });
-        }
-        const isPasswordCorrect = yield bcryptjs_1.default.compare(password, user.password);
-        if (!isPasswordCorrect) {
-            return res.json({ message: "Invalid password" });
-        }
-        const token = jsonwebtoken_1.default.sign({
-            id: user.id,
-            email: user.email,
-        }, process.env.JWT_SECRET);
-        res.status(200).json({
-            token,
-        });
-    }
-    catch (error) {
-        console.error("Error authenticating user:", error);
-        res.json({ message: "Please try again later" });
-    }
-}));
+// signin api
+app.use("/api/v1/auth", authRouter_1.default);
 app.post("/api/upload", upload.single("file"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
     try {
@@ -141,7 +77,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => __awaiter(void 0, v
             // Insert the row into the database
             dataToInsertArray.push(dataToInsert);
         }
-        yield prisma.excelDataFinal.createMany({
+        yield exports.prisma.excelDataFinal.createMany({
             data: dataToInsertArray,
         });
         return res.json({ message: "Data imported successfully" });
@@ -154,7 +90,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => __awaiter(void 0, v
 app.post("/api/newData/part1", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     try {
-        const upload = yield prisma.part1.create({
+        const upload = yield exports.prisma.part1.create({
             data: data,
         });
         return res.json({ message: "Data imported successfully" });
@@ -168,7 +104,7 @@ app.post("/api/newData/part2", (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const data = req.body;
         console.log(data);
-        const upload = yield prisma.part2.create({
+        const upload = yield exports.prisma.part2.create({
             data: data,
         });
         return res.json({ message: "Data imported successfully" });
@@ -182,7 +118,7 @@ app.post("/api/newData/part3", (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const data = req.body;
         console.log(data);
-        const upload = yield prisma.part3.create({
+        const upload = yield exports.prisma.part3.create({
             data: data,
         });
         return res.json({ message: "Data imported successfully" });
@@ -195,7 +131,7 @@ app.post("/api/newData/part3", (req, res) => __awaiter(void 0, void 0, void 0, f
 app.post("/api/newData/part4", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const upload = yield prisma.part4.create({
+        const upload = yield exports.prisma.part4.create({
             data: data,
         });
         return res.json({ message: "Data imported successfully" });
@@ -208,7 +144,7 @@ app.post("/api/newData/part4", (req, res) => __awaiter(void 0, void 0, void 0, f
 app.post("/api/newData/part5", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
-        const upload = yield prisma.part5.create({
+        const upload = yield exports.prisma.part5.create({
             data: data,
         });
         return res.json({ message: "Data imported successfully" });

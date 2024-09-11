@@ -2,12 +2,11 @@ import express from "express";
 import multer from "multer";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import authRoute from "./router/authRouter";
 
 const app = express();
 const upload = multer({ dest: "uploads/" });
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 interface DataInterface {
   A?: string;
@@ -34,102 +33,17 @@ app.use(express.json());
 app.use(cors());
 
 
-app.get("/api/", (req, res) => {
+app.get("/api", (req, res) => {
   return res.send("Hello from Kishan Vyas");
 });
 
-app.post("/api/signup", async (req, res) => {
-  const {
-    email,
-    password,
-    contactPersonName,
-    companyName,
-    addressLine1,
-    addressLine2,
-    city,
-    state,
-    country,
-    pin,
-    webpage,
-    phoneNumber,
-    gstNo,
-    companyLogo,
-  } = req.body;
-  try {
-    const user = await prisma.user.create({
-      data: {
-        email,
-        password: await bcrypt.hash(password, 10),
-        contactPersonName,
-        companyName,
-        addressLine1,
-        addressLine2,
-        city,
-        state,
-        country,
-        pin,
-        webpage,
-        phoneNumber,
-        gstNo,
-        companyLogo,
-      },
-    });
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-      },
-      process.env.JWT_SECRET as string
-    );
 
-    return res.status(200).json({
-      token,
-    });
-  } catch (error) {
-    return res.json({ message: "Please try again later" });
-  }
-});
-app.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-      },
-    });
 
-    if (!user) {
-      return res.json({ message: "Please register first" });
-    }
+// signin api
+app.use("/api/v1/auth", authRoute);
 
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordCorrect) {
-      return res.json({ message: "Invalid password" });
-    }
-
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-      },
-      process.env.JWT_SECRET as string
-    );
-
-    res.status(200).json({
-      token,
-    });
-  } catch (error) {
-    console.error("Error authenticating user:", error);
-    res.json({ message: "Please try again later" });
-  }
-});
 
 app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {

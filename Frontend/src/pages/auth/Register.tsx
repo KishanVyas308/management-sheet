@@ -74,7 +74,7 @@ const Register = () => {
     }
 
     setLoading(true);
-    const res = await axios.post(`${BACKEND_URL}/signup`, {
+    const res = await axios.post(`${BACKEND_URL}/auth/signup`, {
       email: email,
       password: password,
       contactPersonName: contactPersonName,
