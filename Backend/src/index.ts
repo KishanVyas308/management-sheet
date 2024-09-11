@@ -6,6 +6,7 @@ import authRoute from "./router/authRoute";
 import existingDataRoute from "./router/existingDataRoute";
 import newDataRoute from "./router/newDataRoute";
 import { myData } from "./controller/authControler";
+import {verifyToken} from "./middleWare";
 
 const app = express();
 
@@ -16,11 +17,15 @@ app.use(cors());
 
 app.get("/api", myData);
 
-// signin api
+//? auth api
 app.use("/api/v1/auth", authRoute);
 
-app.use("/api/v1/ex", existingDataRoute);
+app.use(verifyToken)
 
+//? existing data api
+app.use("/api/v1/ex" ,existingDataRoute);
+
+//? new data api
 app.use("/api/v1/newData", newDataRoute);
 
 const PORT = process.env.PORT || 3000;
