@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 import { BACKEND_URL } from '../../Globle';
+import { useCookies } from 'react-cookie';
 
 const Part1 = () => {
     const [exportersName, setExportersName] = useState("");
@@ -52,6 +53,8 @@ const Part1 = () => {
     const [mawbNo, setMawbNo] = useState("");
     const [hawbNo, setHawbNo] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const [cookies, setCookie] = useCookies(["token"]);
 
     const navigate = useNavigate();
 
@@ -113,7 +116,11 @@ const Part1 = () => {
             hawbNo: hawbNo,
         }
         
-        const response = await axios.post(`${BACKEND_URL}/newData/part1`, jsonData);
+        const response = await axios.post(`${BACKEND_URL}/newData/part1`, jsonData, {
+            headers: {
+                "Authorization": cookies.token,
+            }
+        });
         setLoading(false);
         alert(response.data.message);
     

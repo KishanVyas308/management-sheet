@@ -3,6 +3,7 @@ import axios from "axios";
 import * as XLSX from "xlsx";
 import Loading from "../components/Loading";
 import { BACKEND_URL } from "../../Globle";
+import { Cookies, useCookies } from "react-cookie";
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -12,6 +13,8 @@ const FileUpload = () => {
   const [sheetNames, setSheetNames] = useState<any>([]);
   const [selectedSheetName, setSelectedSheetName] = useState("");
   const [sheetData, setSheetData] = useState<any>([]);
+
+  const [cookies, setCookie] = useCookies(["token"]);
 
   const [loading, setLoading] = useState(false);
 
@@ -123,6 +126,7 @@ const FileUpload = () => {
         const response = await axios.post(`${BACKEND_URL}/ex/upload`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Authorization": cookies.token as string,
           },
         });
         setLoading(false);

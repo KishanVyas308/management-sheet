@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../Globle";
 import Loading from "../components/Loading";
+import { useCookies } from "react-cookie";
 
 const Part3 = () => {
   const [invsn, setInvsn] = useState("");
@@ -35,6 +36,8 @@ const Part3 = () => {
   const [rewardBenefit, setRewardBenefit] = useState("");
   const [thirdPartyItem, setThirdPartyItem] = useState("");
   const navigate = useNavigate();
+
+  const [cookies, setCookie] = useCookies(["token"]);
 
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +75,11 @@ const Part3 = () => {
       rewardBenefit: rewardBenefit,
       thirdPartyItem: thirdPartyItem,
     };
-    const response = await axios.post(`${BACKEND_URL}/newdata/part3`, jsonData);
+    const response = await axios.post(`${BACKEND_URL}/newdata/part3`, jsonData, {
+      headers: {
+          "Authorization": cookies.token,
+      }
+  });
 
     setLoading(false);
     alert(response.data.message);

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../Globle";
 import Loading from "../components/Loading";
+import { useCookies } from "react-cookie";
 
 const Part4 = () => {
   const [invSno, setInvSno] = useState("");
@@ -104,6 +105,9 @@ const Part4 = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [cookies, setCookie] = useCookies(["token"]);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -195,7 +199,11 @@ const Part4 = () => {
       beItemS: beItemS,
       beQty: beQty,
     };
-    const response = await axios.post(`${BACKEND_URL}/newdata/part4`, jsonData);
+    const response = await axios.post(`${BACKEND_URL}/newdata/part4`, jsonData , {
+      headers: {
+          "Authorization": cookies.token,
+      }
+  });
     setLoading(false);
     alert(response.data.message);
   };

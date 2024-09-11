@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
+import { useCookies } from "react-cookie";
 
 const Part5 = () => {
   const [declarationStatement, setDeclarationStatement] = useState("");
@@ -14,6 +15,8 @@ const Part5 = () => {
 
   const navigate = useNavigate();
 
+  const [cookies, setCookie] = useCookies(["token"]);
+
   const handleSubmit = async () => {
     setLoading(true);
     const jsonData = {
@@ -25,7 +28,12 @@ const Part5 = () => {
     };
     const response = await axios.post(
       "http://localhost:3000/newData/part5",
-      jsonData
+      jsonData,
+      {
+        headers: {
+          "Authorization": cookies.token,
+        },
+      }
     );
     setLoading(false);
     alert(response.data.message);
