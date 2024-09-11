@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import Loading from "../components/Loading";
@@ -120,7 +120,7 @@ const FileUpload = () => {
       formData.append("companyName", sheetData[0]["A"]); // Assuming company name is in the first cell
 
       try {
-        const response = await axios.post(`${BACKEND_URL}/upload`, formData, {
+        const response = await axios.post(`${BACKEND_URL}/ex/upload`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

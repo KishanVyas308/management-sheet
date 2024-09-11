@@ -35,7 +35,7 @@ const Signin: React.FC = () => {
 
     setLoading(true);
 
-    const res = await axios.post(`${BACKEND_URL}/login`, {
+    const res = await axios.post(`${BACKEND_URL}/auth/login`, {
       email: username,
       password: password,
     });
