@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post("/upload", upload.single("file") ,uploadExecingData);
 
-router.get("/all", getAllData);
+router.get("/getall", getAllData);
 
 export default router;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadExecingData = void 0;
+exports.getAllData = exports.uploadExecingData = void 0;
 const __1 = require("..");
 const uploadExecingData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
@@ -71,3 +71,14 @@ const uploadExecingData = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.uploadExecingData = uploadExecingData;
+const getAllData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield __1.prisma.excelDataFinal.findMany();
+        return res.json(data);
+    }
+    catch (error) {
+        console.error("Error fetching data:", error);
+        return res.json({ message: "Error fetching data" });
+    }
+});
+exports.getAllData = getAllData;

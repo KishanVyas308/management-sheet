@@ -6,17 +6,20 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 const DataManagementPage: React.FC = () => {
   return (
-    <div className="bg-[#e6e7e9] w-screen h-screen lg:p-10 p-5">
+    <div className="bg-[#e6e7e9] w-screen h-full     min-h-screen lg:p-10 p-5">
       <Header />
 
       <div className="flex lg:px-10 lg:py-4 px-6 py-4 text-white font-semibold text-[28px] my-10 justify-between items-center bg-[#63d478]">
-        <Link to={"/"} className="text-white flex gap-2 items-center"> <IoMdArrowRoundBack />Home</Link>
+        <Link to={"/"} className="text-white flex gap-2 items-center">
+          {" "}
+          <IoMdArrowRoundBack />
+          Home
+        </Link>
         <div>Data Management</div>
         <div>Sign Out</div>
       </div>
 
-      <div className="flex gap-8 justify-between">
-    
+      <div className="flex gap-8 my-4 justify-between">
         <DetailCard
           link={"/datamanagement/newdata/part1"}
           title={"New Data"}
@@ -36,7 +39,19 @@ const DataManagementPage: React.FC = () => {
           }
           imageSrc={"https://udhyog4.co.in/Images/logo.png"}
         />
- 
+      </div>
+      <div className="flex gap-8 my-8 justify-between">
+        <DetailCard
+          link={"/datamanagement/downloaddata"}
+          title={"Download Data"}
+          color={"#faaa55"}
+          description={
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
+          }
+          imageSrc={"https://udhyog4.co.in/Images/logo.png"}
+        />
+
+          <div className="w-[50%]"></div>
       </div>
     </div>
   );

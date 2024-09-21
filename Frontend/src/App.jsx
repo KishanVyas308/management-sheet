@@ -13,6 +13,7 @@ import Signin from "./pages/auth/SIgnin";
 import ProtectedRoute from "./pages/components/ProtectedRoute";
 import Register from "./pages/auth/Register";
 import DataManagementPage from "./pages/Home/DataManagement/DataManagementPage";
+import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadDataPage";
 
 function App() {
   return (
@@ -54,6 +55,11 @@ function App() {
           path="/datamanagement"
           element={<ProtectedRoute element={<DataManagementPage />} />}
         />
+        <Route
+          path="/datamanagement/downloaddata"
+          element={<ProtectedRoute element={<DownloadDataPage />} />}
+        />
+        
       </Routes>
     </Router>
   );
