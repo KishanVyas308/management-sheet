@@ -30,7 +30,7 @@ const DataManagementPage: React.FC = () => {
         <DetailCard
           link={"/datamanagement/existingdata"}
           title={"Existing Data"}
-          color={"#faaa55"}
+          color={"#f6874f"}
           description={
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
           }
