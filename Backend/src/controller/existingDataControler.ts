@@ -92,3 +92,14 @@ export const uploadExecingData = async (req: any, res: any) => {
     return res.json({ message: "Error importing data" });
   }
 };
+
+
+export const getAllData = async (req: any, res: any) => {
+  try {
+    const data = await prisma.excelDataFinal.findMany();
+    return res.json(data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return res.json({ message: "Error fetching data" });
+  }
+};
