@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../components/Loading";
 import { BACKEND_URL } from "../../../../Globle";
 import { useCookies } from "react-cookie";
+import NewDataHeaderComponent from "./NewDataHeaderComponent";
+import NewDataButtons from "./NewDataButtons";
+import InputField from "../../../components/InputField";
 
 const Part3 = () => {
   const [invsn, setInvsn] = useState("");
@@ -75,11 +78,15 @@ const Part3 = () => {
       rewardBenefit: rewardBenefit,
       thirdPartyItem: thirdPartyItem,
     };
-    const response = await axios.post(`${BACKEND_URL}/newdata/part3`, jsonData, {
-      headers: {
-          "Authorization": cookies.token,
+    const response = await axios.post(
+      `${BACKEND_URL}/newdata/part3`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
       }
-  });
+    );
 
     setLoading(false);
     alert(response.data.message);
@@ -90,414 +97,74 @@ const Part3 = () => {
   }, []);
 
   return (
-    <div style={styles.container}>
-      {loading && <Loading />}
-      <h2 style={{ textAlign: "center" }}>Part 3 - ITEM DETAILS</h2>
+    <div className="bg-[#e6e7e9] w-full h-full min-h-screen">
+      <div className="container mx-auto px-4 py-8 ">
+        {loading && <Loading />}
 
-      <h3>Invoice</h3>
-      <div style={styles.formGroup}>
-        <label htmlFor="invsn">INVSN</label>
-        <input
-          type="number"
-          id="invsn"
-          name="invsn"
-          required
-          style={styles.input}
-          value={invsn}
-          onChange={(e) => setInvsn(e.target.value)}
+        <NewDataHeaderComponent
+          backLink={"/datamanagement/newdata/part2"}
+          nextLink={"/datamanagement/newdata/part4"}
         />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="itemsn">ITEMSN</label>
-        <input
-          type="number"
-          id="itemsn"
-          name="itemsn"
-          required
-          style={styles.input}
-          value={itemsn}
-          onChange={(e) => setItemsn(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="hs-cd">HS CD</label>
-        <input
-          type="number"
-          id="hs-cd"
-          name="hs-cd"
-          required
-          style={styles.input}
-          value={hsCd}
-          onChange={(e) => setHsCd(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="description">DESCRIPTION</label>
-        <input
-          type="text"
-          id="description"
-          name="description"
-          required
-          style={styles.input}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="quantity">QUANTITY</label>
-        <input
-          type="number"
-          id="quantity"
-          name="quantity"
-          required
-          style={styles.input}
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="uqc">UQC</label>
-        <input
-          type="number"
-          id="uqc"
-          name="uqc"
-          required
-          style={styles.input}
-          value={uqc}
-          onChange={(e) => setUqc(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="rate">RATE</label>
-        <input
-          type="number"
-          id="rate"
-          name="rate"
-          required
-          style={styles.input}
-          value={rate}
-          onChange={(e) => setRate(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="value-fc">VALUE(F/C)</label>
-        <input
-          type="number"
-          id="value-fc"
-          name="value-fc"
-          required
-          style={styles.input}
-          value={valueFc}
-          onChange={(e) => setValueFc(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="fob-inr">FOB(INR)</label>
-        <input
-          type="number"
-          id="fob-inr"
-          name="fob-inr"
-          required
-          style={styles.input}
-          value={fobInr}
-          onChange={(e) => setFobInr(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="pmv">PMV</label>
-        <input
-          type="number"
-          id="pmv"
-          name="pmv"
-          required
-          style={styles.input}
-          value={pmv}
-          onChange={(e) => setPmv(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="duty-amt">DUTY AMT</label>
-        <input
-          type="number"
-          id="duty-amt"
-          name="duty-amt"
-          required
-          style={styles.input}
-          value={dutyAmt}
-          onChange={(e) => setDutyAmt(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="cess-rt">CESS RT</label>
-        <input
-          type="number"
-          id="cess-rt"
-          name="cess-rt"
-          required
-          style={styles.input}
-          value={cessRt}
-          onChange={(e) => setCessRt(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="cesamt">CESAMT</label>
-        <input
-          type="number"
-          id="cesamt"
-          name="cesamt"
-          required
-          style={styles.input}
-          value={cesamt}
-          onChange={(e) => setCesamt(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="dbkclmd">DBKCLMD</label>
-        <input
-          type="number"
-          id="dbkclmd"
-          name="dbkclmd"
-          required
-          style={styles.input}
-          value={dbkclmd}
-          onChange={(e) => setDbkclmd(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="igststat">IGSTSTAT</label>
-        <input
-          type="number"
-          id="igststat"
-          name="igststat"
-          required
-          style={styles.input}
-          value={igststat}
-          onChange={(e) => setIgststat(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="igst-value">IGST VALUE</label>
-        <input
-          type="number"
-          step="0.01"
-          id="igst-value"
-          name="igst-value"
-          required
-          style={styles.input}
-          value={igstValue}
-          onChange={(e) => setIgstValue(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="igst-amount">IGST AMOUNT</label>
-        <input
-          type="number"
-          id="igst-amount"
-          name="igst-amount"
-          required
-          style={styles.input}
-          value={igstAmount}
-          onChange={(e) => setIgstAmount(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="schcod">SCHCOD</label>
-        <input
-          type="number"
-          id="schcod"
-          name="schcod"
-          required
-          style={styles.input}
-          value={schcod}
-          onChange={(e) => setSchcod(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="scheme-description">SCHEME DESCRIPTION</label>
-        <input
-          type="text"
-          id="scheme-description"
-          name="scheme-description"
-          required
-          style={styles.input}
-          value={schemeDescription}
-          onChange={(e) => setSchemeDescription(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="sqc-msr">SQC MSR</label>
-        <input
-          type="number"
-          id="sqc-msr"
-          name="sqc-msr"
-          required
-          style={styles.input}
-          value={sqcMsr}
-          onChange={(e) => setSqcMsr(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="sqc-uqc">SQC UQC</label>
-        <input
-          type="text"
-          id="sqc-uqc"
-          name="sqc-uqc"
-          required
-          style={styles.input}
-          value={sqcUqc}
-          onChange={(e) => setSqcUqc(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="state-of-origin">STATE OF ORIGIN</label>
-        <input
-          type="text"
-          id="state-of-origin"
-          name="state-of-origin"
-          required
-          style={styles.input}
-          value={stateOfOrigin}
-          onChange={(e) => setStateOfOrigin(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="district-of-origin">DISTRICT OF ORIGIN</label>
-        <input
-          type="text"
-          id="district-of-origin"
-          name="district-of-origin"
-          required
-          style={styles.input}
-          value={districtOfOrigin}
-          onChange={(e) => setDistrictOfOrigin(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="pt-abroad">PT Abroad</label>
-        <input
-          type="text"
-          id="pt-abroad"
-          name="pt-abroad"
-          required
-          style={styles.input}
-          value={ptAbroad}
-          onChange={(e) => setPtAbroad(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="comp-cess">COMP CESS</label>
-        <input
-          type="text"
-          id="comp-cess"
-          name="comp-cess"
-          required
-          style={styles.input}
-          value={compCess}
-          onChange={(e) => setCompCess(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="end-use">END USE</label>
-        <input
-          type="text"
-          id="end-use"
-          name="end-use"
-          required
-          style={styles.input}
-          value={endUse}
-          onChange={(e) => setEndUse(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="fta-benefit-availed">FTA BENEFIT AVAILED</label>
-        <input
-          type="text"
-          id="fta-benefit-availed"
-          name="fta-benefit-availed"
-          required
-          style={styles.input}
-          value={ftaBenefitAvailed}
-          onChange={(e) => setFtaBenefitAvailed(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="reward-benefit">REWARD BENEFIT</label>
-        <input
-          type="text"
-          id="reward-benefit"
-          name="reward-benefit"
-          required
-          style={styles.input}
-          value={rewardBenefit}
-          onChange={(e) => setRewardBenefit(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="third-party-item">THIRD PARTY ITEM</label>
-        <input
-          type="text"
-          id="third-party-item"
-          name="third-party-item"
-          required
-          style={styles.input}
-          value={thirdPartyItem}
-          onChange={(e) => setThirdPartyItem(e.target.value)}
-        />
-      </div>
-      <button className="p-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 mx-1" onClick={handleSubmit}>
-        submit
-      </button>
-      <button className="p-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mx-1" onClick={() => navigate("/newdata/part2")}>
-        Back
-      </button>
-      <button
-        onClick={() => navigate("/newdata/part4")}
-        className="p-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mx-1"
-      >
-        Next
-      </button>
+
+        <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
+          Part 3
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              Section 1
+            </div>
+            <InputField label="invsn" value={invsn} onChange={(e) => setInvsn(e.target.value)} />
+            <InputField label="itemsn" value={itemsn} onChange={(e) => setItemsn(e.target.value)} />
+            <InputField label="hsCd" value={hsCd} onChange={(e) => setHsCd(e.target.value)} />
+            <InputField label="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <InputField label="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+            <InputField label="uqc" value={uqc} onChange={(e) => setUqc(e.target.value)} />
+            <InputField label="rate" value={rate} onChange={(e) => setRate(e.target.value)} />
+            <InputField label="valueFc" value={valueFc} onChange={(e) => setValueFc(e.target.value)} />
+            <InputField label="fobInr" value={fobInr} onChange={(e) => setFobInr(e.target.value)} />
+            <InputField label="pmv" value={pmv} onChange={(e) => setPmv(e.target.value)} />
+           </div>
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              Section 2
+            </div>
+            <InputField label="dutyAmt" value={dutyAmt} onChange={(e) => setDutyAmt(e.target.value)} />
+            <InputField label="cessRt" value={cessRt} onChange={(e) => setCessRt(e.target.value)} />
+            <InputField label="cesamt" value={cesamt} onChange={(e) => setCesamt(e.target.value)} />
+            <InputField label="dbkclmd" value={dbkclmd} onChange={(e) => setDbkclmd(e.target.value)} />
+            <InputField label="igststat" value={igststat} onChange={(e) => setIgststat(e.target.value)} />
+            <InputField label="igstValue" value={igstValue} onChange={(e) => setIgstValue(e.target.value)} />
+            <InputField label="igstAmount" value={igstAmount} onChange={(e) => setIgstAmount(e.target.value)} />
+            <InputField label="schcod" value={schcod} onChange={(e) => setSchcod(e.target.value)} />
+            <InputField label="schemeDescription" value={schemeDescription} onChange={(e) => setSchemeDescription(e.target.value)} />
+            <InputField label="sqcMsr" value={sqcMsr} onChange={(e) => setSqcMsr(e.target.value)} />
+          </div>
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              Section 3
+            </div>
+            <InputField label="sqcUqc" value={sqcUqc} onChange={(e) => setSqcUqc(e.target.value)} />
+            <InputField label="stateOfOrigin" value={stateOfOrigin} onChange={(e) => setStateOfOrigin(e.target.value)} />
+            <InputField label="districtOfOrigin" value={districtOfOrigin} onChange={(e) => setDistrictOfOrigin(e.target.value)} />
+            <InputField label="ptAbroad" value={ptAbroad} onChange={(e) => setPtAbroad(e.target.value)} />
+            <InputField label="compCess" value={compCess} onChange={(e) => setCompCess(e.target.value)} />
+            <InputField label="endUse" value={endUse} onChange={(e) => setEndUse(e.target.value)} />
+            <InputField label="ftaBenefitAvailed" value={ftaBenefitAvailed} onChange={(e) => setFtaBenefitAvailed(e.target.value)} />
+            <InputField label="rewardBenefit" value={rewardBenefit} onChange={(e) => setRewardBenefit(e.target.value)} />
+            <InputField label="thirdPartyItem" value={thirdPartyItem} onChange={(e) => setThirdPartyItem(e.target.value)} />
 
 
-      <button
-        onClick={() => navigate("/")}
-        className="p-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mx-1"
-      >
-        {" "}
-        Home
-      </button>
+            <NewDataButtons
+              backLink={"/datamanagement/newdata/part2"}
+              nextLink={"/datamanagement/newdata/part4"}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-const styles: any = {
-  container: {
-    backgroundColor: "#e0f7fa",
-    padding: "20px",
-    borderRadius: "8px",
-    margin: "0",
-    fontFamily: "Arial, sans-serif",
-  },
-  formGroup: {
-    marginBottom: "15px",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-  },
-  submitButtonContainer: {
-    textAlign: "center",
-    marginTop: "20px",
-  },
-  submitButton: {
-    padding: "10px 20px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
 };
 
 export default Part3;

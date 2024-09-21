@@ -5,7 +5,7 @@ import { IoMdArrowRoundForward } from "react-icons/io";
 
 const NewDataButtons = ({ backLink, nextLink, handleSubmit }) => {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between mt-4">
         <div className="flex gap-2">
 
          <Link
