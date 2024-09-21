@@ -11,6 +11,7 @@ const DataManagementPage: React.FC = () => {
 
       <div className="flex lg:px-10 lg:py-4 px-6 py-4 text-white font-semibold text-[28px] my-10 justify-between items-center bg-[#63d478]">
         <Link to={"/"} className="text-white flex gap-2 items-center"> <IoMdArrowRoundBack />Home</Link>
+        <div>Data Management</div>
         <div>Sign Out</div>
       </div>
 

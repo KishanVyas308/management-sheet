@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../components/Loading";
 import { BACKEND_URL } from "../../../../Globle";
 import { useCookies } from "react-cookie";
+import NewDataHeaderComponent from "./NewDataHeaderComponent";
+import InputField from "../../../components/InputField";
+import NewDataButtons from "./NewDataButtons";
 
 const Part5 = () => {
   const [declarationStatement, setDeclarationStatement] = useState("");
@@ -32,7 +35,7 @@ const Part5 = () => {
       jsonData,
       {
         headers: {
-          "Authorization": cookies.token,
+          Authorization: cookies.token,
         },
       }
     );
@@ -45,119 +48,58 @@ const Part5 = () => {
   }, []);
 
   return (
-    <div style={styles.container}>
-      {loading && <Loading />}
-      <h2 style={{ textAlign: "center" }}>PART 5 - DECLARATIONS</h2>
-      <h3>Section A - Declaration Statement</h3>
-      <div style={styles.formGroup}>
-        <label htmlFor="declaration-statement">Declaration Statement</label>
-        <textarea
-          id="declaration-statement"
-          name="declaration-statement"
-          required
-          value={declarationStatement}
-          onChange={(e) => setDeclarationStatement(e.target.value)}
-        ></textarea>
-      </div>
+    <div className="bg-[#e6e7e9] w-full h-full min-h-screen">
+      <div className="container mx-auto px-4 py-8 ">
+        {loading && <Loading />}
 
-      <h3>Section B - Authorized Signatory</h3>
-      <div style={styles.formGroup}>
-        <label htmlFor="date">Date</label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          required
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+        <NewDataHeaderComponent
+          backLink={"/datamanagement/newdata/part4"}
+          nextLink={"/datamanagement"}
         />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="place">Place</label>
-        <input
-          type="text"
-          id="place"
-          name="place"
-          required
-          value={place}
-          onChange={(e) => setPlace(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="authorized-signatory">Authorized Signatory</label>
-        <input
-          type="text"
-          id="authorized-signatory"
-          name="authorized-signatory"
-          required
-          value={authorizedSignatory}
-          onChange={(e) => setAuthorizedSignatory(e.target.value)}
-        />
-      </div>
-      <div style={styles.formGroup}>
-        <label htmlFor="cha-name">CHA Name</label>
-        <input
-          type="text"
-          id="cha-name"
-          name="cha-name"
-          required
-          value={chaName}
-          onChange={(e) => setChaName(e.target.value)}
-        />
-      </div>
-      <button
-        className="p-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 mx-1"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
 
-      <button
-        className="p-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mx-1"
-        onClick={() => navigate("/newdata/part1")}
-      >
-        Back
-      </button>
-      <button
-        onClick={() => navigate("/")}
-        className="p-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mx-1"
-      >
-        {" "}
-        Home
-      </button>
+        <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
+          Part 5
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              Section 1
+            </div>
+            <InputField
+              label="Declaration Statement"
+              value={declarationStatement}
+              onChange={(e) => setDeclarationStatement(e.target.value)}
+            />
+            <InputField
+              label="Date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <InputField
+              label="Place"
+              value={place}
+              onChange={(e) => setPlace(e.target.value)}
+            />
+            <InputField
+              label="Authorized Signatory"
+              value={authorizedSignatory}
+              onChange={(e) => setAuthorizedSignatory(e.target.value)}
+            />
+            <InputField
+              label="Cha Name"
+              value={chaName}
+              onChange={(e) => setChaName(e.target.value)}
+            />
+            <NewDataButtons
+              backLink={"/datamanagement/newdata/part4"}
+              nextLink={"/datamanagement"}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-const styles: any = {
-  container: {
-    backgroundColor: "#e0f7fa",
-    padding: "20px",
-    borderRadius: "8px",
-    margin: "0",
-    fontFamily: "Arial, sans-serif",
-  },
-  formGroup: {
-    marginBottom: "15px",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-  },
-  submitButtonContainer: {
-    textAlign: "center",
-    marginTop: "20px",
-  },
-  submitButton: {
-    padding: "10px 20px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
 };
 
 export default Part5;
