@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import Loading from "../components/Loading";
-import { BACKEND_URL } from "../../Globle";
+import Loading from "../../../components/Loading";
+import { BACKEND_URL } from "../../../../Globle";
 import { Cookies, useCookies } from "react-cookie";
 
 const FileUpload = () => {

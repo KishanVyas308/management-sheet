@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../../Globle";
-import Loading from "../components/Loading";
+import Loading from "../../../components/Loading";
+import { BACKEND_URL } from "../../../../Globle";
 import { useCookies } from "react-cookie";
 
 const Part4 = () => {
@@ -199,7 +199,7 @@ const Part4 = () => {
       beItemS: beItemS,
       beQty: beQty,
     };
-    const response = await axios.post(`${BACKEND_URL}/newdata/part4`, jsonData , {
+    const response = await axios.post(`${BACKEND_URL}/newdata/part5`, jsonData , {
       headers: {
           "Authorization": cookies.token,
       }

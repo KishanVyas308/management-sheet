@@ -1,0 +1,34 @@
+import React from 'react';
+
+interface InputFieldProps {
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const InputField: React.FC<InputFieldProps> = ({ label, type = "text", value, onChange }) => {
+  return (
+    <div className="w-full min-w-[200px] text-[20px] my-2">
+      <div className="relative">
+        <input
+          type={type}
+          value={value}
+          onChange={onChange}
+          className="peer w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+          placeholder=" " // This adds an empty placeholder to trigger label animation
+        />
+        <label
+          className={`absolute bg-white px-1 left-2.5 top-2.5 text-slate-400 text-sm transition-all transform origin-left
+            peer-placeholder-shown:top-2.5 peer-placeholder-shown:left-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400
+            peer-focus:-top-2 peer-focus:left-2.5 peer-focus:text-xs peer-focus:text-slate-400
+            ${value ? '-top-2 left-2.5 text-xs scale-90' : ''}`}
+        >
+          {label}
+        </label>
+      </div>
+    </div>
+  );
+};
+
+export default InputField;

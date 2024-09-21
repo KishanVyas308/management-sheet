@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/Loading";
+import Loading from "../../../components/Loading";
+import { BACKEND_URL } from "../../../../Globle";
 import { useCookies } from "react-cookie";
 
 const Part5 = () => {
@@ -27,7 +28,7 @@ const Part5 = () => {
       chaName: chaName,
     };
     const response = await axios.post(
-      "http://localhost:3000/newData/part5",
+      "${BACKEND_URL}/newdata/part4",
       jsonData,
       {
         headers: {
