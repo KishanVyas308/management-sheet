@@ -9,7 +9,7 @@ const Header = () => {
           alt="logo"
         />
         <img
-          src="https://udhyog4.co.in/Images/logo.png"
+          src="http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/logo_adjacent.png"
           className="lg:h-[150px] h-[120px]"
           alt="logo"
         />

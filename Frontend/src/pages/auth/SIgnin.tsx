@@ -6,6 +6,13 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loading from "../components/Loading";
 import { BACKEND_URL } from "../../Globle";
+import { jwtDecode } from "jwt-decode";
+
+export interface User {
+  id: number;
+  email: string;
+  name: string;
+}
 
 const Signin: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -15,7 +22,6 @@ const Signin: React.FC = () => {
   const navigate = useNavigate();
 
   const [cookies, setCookie] = useCookies(["token"]);
-
 
   const validation = () => {
     if (username === "" || password === "") {
@@ -40,9 +46,10 @@ const Signin: React.FC = () => {
       password: password,
     });
     if (res.data.token) {
+      const user = jwtDecode<User>(res.data.token);
       setAuth({
         isAuthenticated: true,
-        user: res.data.token,
+        user: user,
       });
       setCookie("token", res.data.token);
       setLoading(false);
@@ -53,14 +60,19 @@ const Signin: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  async function setUp() {
     if (cookies.token && auth.isAuthenticated == false) {
+      const user = jwtDecode<User>(cookies.token);
       setAuth({
         isAuthenticated: true,
-        user: cookies.token,
+        user: user,
       });
       navigate("/");
     }
+  }
+
+  useEffect(() => {
+    setUp();
   }, []);
 
   return (
@@ -76,7 +88,7 @@ const Signin: React.FC = () => {
         </div>
         <div className="px-8">
           <img
-            src="https://udhyog4.co.in/Images/logo.png"
+            src="http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/logo_adjacent.png"
             className="h-[100px]"
             alt="logo"
           />
@@ -84,7 +96,7 @@ const Signin: React.FC = () => {
       </div>
 
       <div className="flex flex-row  p-10 my-4 justify-center w-full h-full ">
-        <div className="flex-1 max-w-[50%] p-5">
+        <div className="flex-1 text-xl max-w-[50%] p-5">
           Udhyog 4.0 (U4) is a start-up initiation by professionals in 2019, and
           mainly provides technological solutions related to emerging
           technologies such as Industry 4.0. This in turn transform existing

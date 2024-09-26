@@ -19,6 +19,8 @@ import {
 import axios from "axios";
 import Loading from "../components/Loading";
 import { BACKEND_URL } from "../../Globle";
+import { jwtDecode } from "jwt-decode";
+import { User } from "./SIgnin";
 
 const Register = () => {
   const [contactPersonName, setContactPersonName] = useState("");
@@ -93,9 +95,10 @@ const Register = () => {
 
     if (res.data.token) {
       // replace with actual condition
+      const user = jwtDecode<User>(res.data.token);
       setAuth({
         isAuthenticated: true,
-        user: res.data.token, // replace with actual token
+        user: user,
       });
       setLoading(false);
       setCookie("token", res.data.token); // replace with actual token
@@ -123,7 +126,7 @@ const Register = () => {
         </div>
         <div className="px-8">
           <img
-            src="https://udhyog4.co.in/Images/logo.png"
+              src="http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/logo_adjacent.png"
             className="h-[100px]"
             alt="logo"
           />
