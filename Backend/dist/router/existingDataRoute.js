@@ -9,5 +9,5 @@ const existingDataControler_1 = require("../controller/existingDataControler");
 const upload = (0, multer_1.default)({ dest: "uploads/" });
 const router = express_1.default.Router();
 router.post("/upload", upload.single("file"), existingDataControler_1.uploadExecingData);
-router.get("/all", existingDataControler_1.getAllData);
+router.get("/getall", existingDataControler_1.getAllData);
 exports.default = router;
