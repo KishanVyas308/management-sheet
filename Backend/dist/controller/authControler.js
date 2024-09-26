@@ -40,6 +40,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = jsonwebtoken_1.default.sign({
             id: user.id,
             email: user.email,
+            name: user.contactPersonName,
         }, process.env.JWT_SECRET);
         return res.status(200).json({
             token,
@@ -61,6 +62,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 id: true,
                 email: true,
                 password: true,
+                contactPersonName: true,
             },
         });
         if (!user) {
@@ -73,6 +75,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = jsonwebtoken_1.default.sign({
             id: user.id,
             email: user.email,
+            name: user.contactPersonName,
         }, process.env.JWT_SECRET);
         res.status(200).json({
             token,

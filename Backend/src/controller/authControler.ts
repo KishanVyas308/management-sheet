@@ -43,6 +43,7 @@ export const signup = async (req: any, res: any) => {
       {
         id: user.id,
         email: user.email,
+        name: user.contactPersonName,
       },
       process.env.JWT_SECRET as string
     );
@@ -66,6 +67,7 @@ export const login = async (req: any, res: any) => {
         id: true,
         email: true,
         password: true,
+        contactPersonName: true,
       },
     });
 
@@ -83,6 +85,7 @@ export const login = async (req: any, res: any) => {
       {
         id: user.id,
         email: user.email,
+        name: user.contactPersonName,
       },
       process.env.JWT_SECRET as string
     );
