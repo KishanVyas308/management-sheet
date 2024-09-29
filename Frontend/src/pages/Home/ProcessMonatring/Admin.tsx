@@ -13,6 +13,7 @@ interface User {
   contactPersonName: string;
   email: string;
   isOnline: boolean;
+  
 }
 
 // Declare socket variable outside the component to ensure it's not re-created on every render
@@ -46,14 +47,14 @@ const App: React.FC = () => {
       setUsers((prevUsers) =>
         prevUsers.map((u) => (u.id === user.id ? { ...u, isOnline: true } : u))
       );
-      console.log("New user connected:", user);
+     
     });
 
     socket.on("userDisconnected", (user) => {
       setUsers((prevUsers) =>
         prevUsers.map((u) => (u.id === user.id ? { ...u, isOnline: false } : u))
       );
-      console.log("User disconnected:", user);
+      
     });
 
     // Clean up on component unmount
@@ -66,23 +67,20 @@ const App: React.FC = () => {
   return (
     <div className="bg-[#e6e7e8] min-h-screen h-full">
       <ProcessMonatringHeader />
+      <div className="grid p-4   sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 items-center justify-center mt-10">
+
       {users.map((user) => (
-        <div className="" key={user.id}>
+        <div className= "m-auto w-[300px] h-[300px] rounded-lg shadow-lg bg-white p-4">
           <Card
             userName={user.contactPersonName}
             userEmail={user.email}
             isActive={user.isOnline}
           />
         </div>
-        // <div key={user.id}>
-        //   <span>
-        //     {user.name} ({user.email}):{" "}
-        //   </span>
-        //   <span style={{ color: user.isOnline ? "green" : "red" }}>
-        //     ● {user.isOnline ? "Online" : "Offline"}
-        //   </span>
-        // </div>
+
       ))}
+      </div>
+
     </div>
   );
 };
@@ -94,7 +92,7 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ userName, userEmail, isActive }) => {
-  console.log(userName, userEmail, isActive);
+
   
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white p-4">

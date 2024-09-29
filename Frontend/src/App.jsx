@@ -16,6 +16,8 @@ import DataManagementPage from "./pages/Home/DataManagement/DataManagementPage";
 import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadDataPage";
 
 import Admin from "./pages/Home/ProcessMonatring/Admin";
+import NewDataAnalytics from "./pages/Home/DataManagement/newdata/NewDataAnalytics";
+
 
 function App() {
   return (
@@ -43,6 +45,10 @@ function App() {
         <Route
           path="/datamanagement/newdata/part5"
           element={<ProtectedRoute element={<Part5 />} />}
+        />
+        <Route
+          path="/datamanagement/newdata/dataanalytics"
+          element={<ProtectedRoute element={<NewDataAnalytics/>} />}
         />
         <Route
           path="/datamanagement/existingdata"

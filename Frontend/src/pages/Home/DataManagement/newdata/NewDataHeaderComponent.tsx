@@ -77,6 +77,7 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
         </Link>
       </div>
       <div className="flex gap-6 items-center">
+        <Link to={"/datamanagement/newdata/dataanalytics"} className="text-white flex gap-2 hover:text-gray-100  items-center">Analytics</Link>
           <div>{(user.user.name).split(" ")[0]}</div>
           <div >
             <SignOut />
