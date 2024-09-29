@@ -94,7 +94,7 @@ io.on("connection", async (socket: any) => {
 
     try {
       const updatedUser = await prisma.user.update({
-        where: {id : socket.user.id},
+        where: {id : socket.user.id},   
         data: {isOnline: false},
       })
       socket.broadcast.emit('userDisconnected', {
