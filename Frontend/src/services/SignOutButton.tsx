@@ -20,7 +20,7 @@ const SignOut = () => {
     setCookie("token", "");
   };
   return (
-    <div>
+    <div className="cursor-pointer">
       <FaPowerOff onClick={signOutHandle} />
     </div>
   )

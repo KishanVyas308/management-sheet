@@ -30,6 +30,7 @@
     "react-spreadsheet": "^0.9.5",
     "react-table": "^7.8.0",
     "recoil": "^0.7.7",
+    "socket.io-client": "^4.8.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 // src/atoms/authAtom.ts
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
 interface Auth {
   isAuthenticated: boolean;
@@ -11,13 +11,15 @@ interface Auth {
 }
 
 export const authAtom = atom<Auth>({
-  key: 'authAtom', // unique ID (with respect to other atoms/selectors)
+  key: "authAtom", // unique ID (with respect to other atoms/selectors)
   default: {
     isAuthenticated: false,
     user: {
       id: 0,
-      email: '',
-      name: '',
+      email: "",
+      name: "",
     },
   },
 });
+
+

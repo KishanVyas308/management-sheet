@@ -15,6 +15,8 @@ import Register from "./pages/auth/Register";
 import DataManagementPage from "./pages/Home/DataManagement/DataManagementPage";
 import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadDataPage";
 
+import Admin from "./pages/Home/ProcessMonatring/Admin";
+
 function App() {
   return (
     <Router>
@@ -58,6 +60,13 @@ function App() {
         <Route
           path="/datamanagement/downloaddata"
           element={<ProtectedRoute element={<DownloadDataPage />} />}
+        />
+
+
+        {/* //? process monitoring section */}
+        <Route
+          path="/admin"
+          element={<ProtectedRoute element={<Admin />} />}
         />
         
       </Routes>
