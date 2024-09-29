@@ -44,7 +44,7 @@ const Part3 = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmitSection1 = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     const jsonData = {
@@ -58,6 +58,24 @@ const Part3 = () => {
       valueFc: valueFc,
       fobInr: fobInr,
       pmv: pmv,
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part3section1`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  };
+
+  const handleSubmitSection2 = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       dutyAmt: dutyAmt,
       cessRt: cessRt,
       cesamt: cesamt,
@@ -68,6 +86,24 @@ const Part3 = () => {
       schcod: schcod,
       schemeDescription: schemeDescription,
       sqcMsr: sqcMsr,
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part3section2`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  };
+
+  const handleSubmitSection3 = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       sqcUqc: sqcUqc,
       stateOfOrigin: stateOfOrigin,
       districtOfOrigin: districtOfOrigin,
@@ -79,7 +115,7 @@ const Part3 = () => {
       thirdPartyItem: thirdPartyItem,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newdata/part3`,
+      `${BACKEND_URL}/newData/part3section3`,
       jsonData,
       {
         headers: {
@@ -87,10 +123,10 @@ const Part3 = () => {
         },
       }
     );
-
     setLoading(false);
     alert(response.data.message);
   };
+
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -124,6 +160,11 @@ const Part3 = () => {
             <InputField label="valueFc" value={valueFc} onChange={(e) => setValueFc(e.target.value)} />
             <InputField label="fobInr" value={fobInr} onChange={(e) => setFobInr(e.target.value)} />
             <InputField label="pmv" value={pmv} onChange={(e) => setPmv(e.target.value)} />
+            <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection1}
+            />
            </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -139,6 +180,11 @@ const Part3 = () => {
             <InputField label="schcod" value={schcod} onChange={(e) => setSchcod(e.target.value)} />
             <InputField label="schemeDescription" value={schemeDescription} onChange={(e) => setSchemeDescription(e.target.value)} />
             <InputField label="sqcMsr" value={sqcMsr} onChange={(e) => setSqcMsr(e.target.value)} />
+            <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection2}
+            />
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -158,7 +204,7 @@ const Part3 = () => {
             <NewDataButtons
               backLink={"/datamanagement/newdata/part2"}
               nextLink={"/datamanagement/newdata/part4"}
-              handleSubmit={handleSubmit}
+              handleSubmit={handleSubmitSection3}
             />
           </div>
         </div>

@@ -16,7 +16,7 @@ const user = useRecoilValue(authAtom);
 
       <div className="flex lg:px-10 lg:py-4 px-6 py-4 text-white font-semibold text-[28px] my-10 justify-between items-center bg-[#63d478]">
         <div className="flex gap-6 items-center"> 
-          <div>Data Management</div>
+          <div className="underline">Data Management</div>
         <Link to={"/"} className="text-white flex gap-2 items-center">
           {" "}
           Dashboard

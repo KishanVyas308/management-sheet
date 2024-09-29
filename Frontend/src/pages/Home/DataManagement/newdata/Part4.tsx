@@ -103,7 +103,7 @@ const Part4 = () => {
 
   const [cookies, setCookie] = useCookies(["token"]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmitSection1 = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     const jsonData = {
@@ -121,6 +121,24 @@ const Part4 = () => {
       itemSnoB: itemSnoB,
       licenseNo: licenseNo,
       descnExportItem: descnExportItem,
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part4section1`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  };
+
+  const handleSubmitSection2 = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       expSno: expSno,
       expqty: expqty,
       uqc: uqc,
@@ -135,6 +153,24 @@ const Part4 = () => {
       beDate: beDate,
       portCode: portCode,
       descnImportedGoods: descnImportedGoods,
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part4section2`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  };
+
+  const handleSubmitSection3 = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       qtyImp: qtyImp,
       qtyUsed: qtyUsed,
       invsn: invsn,
@@ -149,6 +185,24 @@ const Part4 = () => {
       name: name,
       code: code,
       percentage: percentage,
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part4section3`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  };
+
+  const handleSubmitSection4 = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       yieldPct: yieldPct,
       ing: ing,
       controlType: controlType,
@@ -164,6 +218,24 @@ const Part4 = () => {
       issuePla: issuePla,
       issDt: issDt,
       expDt: expDt,
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part4section4`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  };
+
+  const handleSubmitSection5 = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       sno: sno,
       invoiceNo: invoiceNo,
       invoiceAmount: invoiceAmount,
@@ -179,6 +251,25 @@ const Part4 = () => {
       iec: iec,
       exporterName: exporterName,
       address: address,
+      
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part4section5`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  };
+
+  const handleSubmitSection6 = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       gstnId: gstnId,
       gstnType: gstnType,
       type: type,
@@ -196,7 +287,7 @@ const Part4 = () => {
       beUqc: beUqc,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newdata/part4`,
+      `${BACKEND_URL}/newData/part4section6`,
       jsonData,
       {
         headers: {
@@ -300,6 +391,11 @@ const Part4 = () => {
               value={descnExportItem}
               onChange={(e) => setDescnExportItem(e.target.value)}
             />
+            <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection1}
+            />
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -375,6 +471,11 @@ const Part4 = () => {
               value={descnImportedGoods}
               onChange={(e) => setDescnImportedGoods(e.target.value)}
             />
+            <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection2}
+            />
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -449,6 +550,11 @@ const Part4 = () => {
               label="percentage"
               value={percentage}
               onChange={(e) => setPercentage(e.target.value)}
+            />
+            <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection3}
             />
           </div>
           <div className="bg-white p-4 rounded-md">
@@ -529,6 +635,11 @@ const Part4 = () => {
               label="expDt"
               value={expDt}
               onChange={(e) => setExpDt(e.target.value)}
+            />
+            <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection4}
             />
             
           </div>
@@ -611,7 +722,11 @@ const Part4 = () => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-           
+           <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection5}
+            />
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -696,7 +811,7 @@ const Part4 = () => {
             <NewDataButtons
               backLink={"/datamanagement/newdata/part3"}
               nextLink={"/datamanagement/newdata/part5"}
-              handleSubmit={handleSubmit}
+              handleSubmit={handleSubmitSection6}
             />
           </div>
         </div>

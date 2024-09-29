@@ -65,7 +65,7 @@ const Part1 = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  async function handleSubmit(e) {
+  async function handleSubmitSection1(e) {
     e.preventDefault();
     setLoading(true);
     const jsonData = {
@@ -85,6 +85,25 @@ const Part1 = () => {
       ifscNo: ifscNo,
       mode: mode,
       assess: assess,
+    };
+
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part1section1`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  }
+
+  async function handleSubmitSection2(e) {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       exmn: exmn,
       jobbing: jobbing,
       meis: meis,
@@ -101,6 +120,25 @@ const Part1 = () => {
       fobValue: fobValue,
       freight: freight,
       insurance: insurance,
+    };
+
+    const response = await axios.post(
+      `${BACKEND_URL}/newData/part1section2`,
+      jsonData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    setLoading(false);
+    alert(response.data.message);
+  }
+
+  async function handleSubmitSection3(e) {
+    e.preventDefault();
+    setLoading(true);
+    const jsonData = {
       discount: discount,
       commission: commission,
       deductions: deductions,
@@ -115,10 +153,11 @@ const Part1 = () => {
       rosctlAmt: rosctlAmt,
       mawbNo: mawbNo,
       hawbNo: hawbNo,
+      
     };
 
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part1`,
+      `${BACKEND_URL}/newData/part1section3`,
       jsonData,
       {
         headers: {
@@ -229,6 +268,11 @@ const Part1 = () => {
               value={assess}
               onChange={(e) => setAssess(e.target.value)}
             />
+            <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection1}
+            />
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -314,6 +358,11 @@ const Part1 = () => {
               value={insurance}
               onChange={(e) => setInsurance(e.target.value)}
             />
+              <NewDataButtons
+              backLink={""}
+              nextLink={""}
+              handleSubmit={handleSubmitSection2}
+            />
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -394,7 +443,7 @@ const Part1 = () => {
             <NewDataButtons
               backLink={"/datamanagement"}
               nextLink={"/datamanagement/newdata/part2"}
-              handleSubmit={handleSubmit}
+              handleSubmit={handleSubmitSection3}
             />
           </div>
         </div>
