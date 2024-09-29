@@ -25,6 +25,7 @@ const authRoute_1 = __importDefault(require("./router/authRoute"));
 const existingDataRoute_1 = __importDefault(require("./router/existingDataRoute"));
 const newDataRoute_1 = __importDefault(require("./router/newDataRoute"));
 const manageUser_1 = __importDefault(require("./router/manageUser"));
+const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRoute"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer, {
@@ -46,6 +47,8 @@ app.use("/api/v1/ex", existingDataRoute_1.default);
 app.use("/api/v1/newData", newDataRoute_1.default);
 //? manage user api
 app.use("/api/v1/manageUser", manageUser_1.default);
+//? data analytics api
+app.use("/api/v1/dataAnalytics", dataAnalyticsRoute_1.default);
 //? socket api
 io.use((socket, next) => {
     const token = socket.handshake.auth.token;

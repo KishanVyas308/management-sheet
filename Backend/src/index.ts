@@ -13,6 +13,7 @@ import authRoute from "./router/authRoute";
 import existingDataRoute from "./router/existingDataRoute";
 import newDataRoute from "./router/newDataRoute";
 import manageUserRoute from "./router/manageUser";
+import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
 
 const app = express();
 const httpServer = createServer(app);
@@ -44,8 +45,11 @@ app.use("/api/v1/newData", newDataRoute);
 //? manage user api
 app.use("/api/v1/manageUser", manageUserRoute);
 
-//? socket api
+//? data analytics api
+app.use("/api/v1/dataAnalytics", dataAnalyticsRoute);
 
+
+//? socket api
 io.use((socket: any, next) => {
   const token = socket.handshake.auth.token;
   if (token) {
