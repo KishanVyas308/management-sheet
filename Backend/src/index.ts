@@ -15,12 +15,12 @@ import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
 
 const app = express();
-app.use(cors());  
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 export const prisma = new PrismaClient();
 
+app.use(cors());  
 app.use(express.json());
 
 app.get("/api", myData);
