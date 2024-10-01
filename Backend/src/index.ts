@@ -19,18 +19,17 @@ const httpServer = createServer(app);
 
 app.use(
   cors({
-    origin: "https://importexport.udhyog4.co.in", // Replace with your frontend origin
+    origin: "*", 
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Allow credentials like cookies or authorization headers
+    credentials: true, 
   })
 );
 
-// Create a new Socket.io server instance and enable CORS
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://importexport.udhyog4.co.in", // Replace with your frontend origin
+    origin: "*",
     methods: ["GET", "POST"],
-    credentials: true, // Allow credentials for WebSocket connections
+    credentials: true,
   },
 });
 

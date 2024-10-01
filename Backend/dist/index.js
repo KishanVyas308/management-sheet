@@ -29,16 +29,15 @@ const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRout
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 app.use((0, cors_1.default)({
-    origin: "https://importexport.udhyog4.co.in", // Replace with your frontend origin
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Allow credentials like cookies or authorization headers
+    credentials: true,
 }));
-// Create a new Socket.io server instance and enable CORS
 const io = new socket_io_1.Server(httpServer, {
     cors: {
-        origin: "https://importexport.udhyog4.co.in", // Replace with your frontend origin
+        origin: "*",
         methods: ["GET", "POST"],
-        credentials: true, // Allow credentials for WebSocket connections
+        credentials: true,
     },
 });
 exports.prisma = new client_1.PrismaClient();
