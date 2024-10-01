@@ -1,8 +1,7 @@
 import express from "express";
-import { Server } from "socket.io";
 import { createServer } from "http";
+import WebSocket, { WebSocketServer } from "ws";
 import jwt from "jsonwebtoken";
-
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import { myData } from "./controller/authControler";
@@ -25,18 +24,9 @@ app.use(
   })
 );
 
-const io = new Server(httpServer, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
-
 export const prisma = new PrismaClient();
 
 app.use(express.json());
-
 
 app.get("/api", myData);
 
@@ -57,68 +47,101 @@ app.use("/api/v1/manageUser", manageUserRoute);
 //? data analytics api
 app.use("/api/v1/dataAnalytics", dataAnalyticsRoute);
 
-//? socket api
-io.use((socket: any, next) => {
-  const token = socket.handshake.auth.token;
-  if (token) {
-    jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
-      (err: any, decoded: any) => {
-        if (err) return next(new Error("Invalid token"));
-        socket.user = decoded;
-        console.log("Token verified");
-        
-        next();
-      }
-    );
-  } else {
-    console.log("No token");
-    
-    next(new Error("Authentication error"));
-  }
-});
+// Initialize WebSocket server on the same HTTP server
+const wss = new WebSocketServer({ server: httpServer, path: "/api/socket" });
 
-io.on("connection", async (socket: any) => {
-  console.log("A user connected:", socket.user);
-  try {
-    const updaedUser = await prisma.user.update({
-      where: { id: socket.user.id },
-      data: { isOnline: true },
-    });
-    console.log(updaedUser);
+// Authenticate WebSocket connections
+wss.on("connection", async (ws : any, req : any) => {
+  const params = new URLSearchParams(req.url?.split("?")[1]);
+  const token = params.get("token");
 
-    socket.broadcast.emit("userConnected", {
-      id: updaedUser.id,
-      name: updaedUser.contactPersonName,
-      email: updaedUser.email,
-      isOnline: updaedUser.isOnline,
-    });
-  } catch (error) {
-    console.log("Error updating user online status", error);
+  if (!token) {
+    ws.close(1008, "Missing authentication token");
+    return;
   }
 
-  // Listen for status update from clients
-  socket.on("updateStatus", (statusData: any) => {
-    // Broadcast updated status to all connected clients
-    io.emit("statusChanged", statusData);
-  });
+  jwt.verify(token, process.env.JWT_SECRET as string, async (err: any, decoded: any) => {
+    if (err) {
+      ws.close(1008, "Invalid token");
+      return;
+    }
 
-  // Handle socket disconnection
-  socket.on("disconnect", async () => {
-    console.log("User disconnected:", socket.user.id);
+    ws.user = decoded;
+    console.log("User authenticated:", decoded);
 
     try {
+      // Update the user status as online in the database
       const updatedUser = await prisma.user.update({
-        where: { id: socket.user.id },
-        data: { isOnline: false },
+        where: { id: decoded.id },
+        data: { isOnline: true },
       });
-      socket.broadcast.emit("userDisconnected", {
-        id: updatedUser.id,
-        isOnline: updatedUser.isOnline,
+
+      console.log("User connected:", updatedUser);
+      // Broadcast to all clients that the user is online
+      wss.clients.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({
+            event: "userConnected",
+            data: {
+              id: updatedUser.id,
+              name: updatedUser.contactPersonName,
+              email: updatedUser.email,
+              isOnline: updatedUser.isOnline,
+            },
+          }));
+        }
+      });
+
+      // Listen for messages from clients (e.g., status updates)
+      ws.on("message", (message : any) => {
+        try {
+          const parsedMessage = JSON.parse(message.toString());
+
+          if (parsedMessage.event === "updateStatus") {
+            // Broadcast updated status to all clients
+            wss.clients.forEach((client) => {
+              if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                  event: "statusChanged",
+                  data: parsedMessage.data,
+                }));
+              }
+            });
+          }
+        } catch (error) {
+          console.error("Error parsing WebSocket message:", error);
+        }
+      });
+
+      // Handle socket disconnection
+      ws.on("close", async () => {
+        console.log("User disconnected:", decoded.id);
+
+        try {
+          // Update user status to offline in the database
+          const updatedUser = await prisma.user.update({
+            where: { id: decoded.id },
+            data: { isOnline: false },
+          });
+
+          // Broadcast to all clients that the user is offline
+          wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify({
+                event: "userDisconnected",
+                data: {
+                  id: updatedUser.id,
+                  isOnline: updatedUser.isOnline,
+                },
+              }));
+            }
+          });
+        } catch (error) {
+          console.error("Error updating user offline status:", error);
+        }
       });
     } catch (error) {
-      console.error("Error updating user offline status:", error);
+      console.error("Error updating user online status:", error);
     }
   });
 });

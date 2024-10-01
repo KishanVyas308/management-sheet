@@ -3,55 +3,68 @@ import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Navigate } from 'react-router-dom';
 import { authAtom } from '../../atoms/authAtom';
-import {  useCookies } from 'react-cookie';
-import { io } from 'socket.io-client';
+import { useCookies } from 'react-cookie';
 import { BACKEND_URL } from '../../Globle';
 
 interface ProtectedRouteProps {
   element: JSX.Element;
 }
 
+export let socket: WebSocket | null = null;
 
-export let socket: any = null;
-
-function connectSocket(token : string) {
-  // Ensure that socket isn't already connected or being connected
-  console.log("socket is ", socket);
+function connectSocket(token: string) {
+  // Ensure that socket isn't already connected
+  console.log("Current socket:", socket);
   
-  if (!socket) {
-    console.log("socket 2 is ", socket);
-    socket = io("https://importexport.udhyog4.co.in", {
-      path: "/api/socket.io",  // Important for matching the API path
-      transports: ["websocket"],  // Ensure websocket transport is used
-      withCredentials: true,      // Support cross-origin cookies if required
-      auth: {
-        token: token,  // Pass token for authentication
-      },
-    });
-    console.log("socket 3 is ", socket);
-    socket.on('connect_error', (err) => {
-      console.error('Connection failed:', err.message);
-    });
+  if (!socket || socket.readyState === WebSocket.CLOSED) {
+    console.log("Connecting to WebSocket...");
+    
+    // Create a new WebSocket connection
+    socket = new WebSocket(`wss://importexport.udhyog4.co.in/api/socket?token=${token}`);
+
+    // WebSocket event handlers
+    socket.onopen = () => {
+      console.log('WebSocket connected');
+    };
+
+    socket.onmessage = (event) => {
+      console.log('WebSocket message received:', event.data);
+    };
+
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    socket.onclose = () => {
+      console.log('WebSocket disconnected');
+      socket = null; // Reset the socket when closed
+    };
   }
 }
 
 function disconnectSocket() {
-  if (socket) {
-    socket.disconnect();
+  if (socket && socket.readyState !== WebSocket.CLOSED) {
+    console.log('Disconnecting WebSocket...');
+    socket.close(); // Close the WebSocket connection
     socket = null;
   }
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
-  const auth = useRecoilValue(authAtom)
+  const auth = useRecoilValue(authAtom);
   const [cookies, setCookie] = useCookies(['token']);
 
   useEffect(() => {
-   if (auth.isAuthenticated) {
-     connectSocket(cookies.token);
-   } else {
-     disconnectSocket();
-   }
+    if (auth.isAuthenticated) {
+      connectSocket(cookies.token);
+    } else {
+      disconnectSocket();
+    }
+
+    // Cleanup the WebSocket when the component unmounts
+    return () => {
+      disconnectSocket();
+    };
   }, [auth.isAuthenticated]);
 
   return auth.isAuthenticated ? element : <Navigate to="/signin" />;
