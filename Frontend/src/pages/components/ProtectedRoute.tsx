@@ -5,7 +5,6 @@ import { Navigate } from 'react-router-dom';
 import { authAtom } from '../../atoms/authAtom';
 import {  useCookies } from 'react-cookie';
 import { io } from 'socket.io-client';
-import { BACKEND_URL } from '../../Globle';
 
 interface ProtectedRouteProps {
   element: JSX.Element;
@@ -17,7 +16,7 @@ export let socket: any = null;
 function connectSocket(token : string) {
   // Ensure that socket isn't already connected or being connected
   if (!socket) {
-    socket = io(BACKEND_URL, {
+    socket = io("http://68.178.162.107:3000/", {
       auth: {
         token: token  // Pass the authentication token when connecting
       }
