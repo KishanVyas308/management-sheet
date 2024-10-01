@@ -67,17 +67,20 @@ io.use((socket: any, next) => {
       (err: any, decoded: any) => {
         if (err) return next(new Error("Invalid token"));
         socket.user = decoded;
+        console.log("Token verified");
+        
         next();
       }
     );
   } else {
+    console.log("No token");
+    
     next(new Error("Authentication error"));
   }
 });
 
 io.on("connection", async (socket: any) => {
   console.log("A user connected:", socket.user);
-
   try {
     const updaedUser = await prisma.user.update({
       where: { id: socket.user.id },
