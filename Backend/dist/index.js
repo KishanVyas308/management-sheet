@@ -27,15 +27,21 @@ const newDataRoute_1 = __importDefault(require("./router/newDataRoute"));
 const manageUser_1 = __importDefault(require("./router/manageUser"));
 const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRoute"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)({
+    origin: "https://importexport.udhyog4.co.in",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer, {
     cors: {
+        origin: "https://importexport.udhyog4.co.in",
         methods: ["GET", "POST"],
+        credentials: true
     },
 });
 exports.prisma = new client_1.PrismaClient();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
 app.get("/api", authControler_1.myData);
 //? auth api
 app.use("/api/v1/auth", authRoute_1.default);

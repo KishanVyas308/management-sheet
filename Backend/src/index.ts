@@ -15,17 +15,23 @@ import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
 
 const app = express();
+app.use(cors({
+  origin: "https://importexport.udhyog4.co.in",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true 
+}));  
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
+    origin: "https://importexport.udhyog4.co.in", 
     methods: ["GET", "POST"],
+    credentials: true
   },
 });
 
 export const prisma = new PrismaClient();
 
 app.use(express.json());
-app.use(cors());
 
 app.get("/api", myData);
 
