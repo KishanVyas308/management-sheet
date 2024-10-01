@@ -16,7 +16,7 @@ export let socket: any = null;
 function connectSocket(token : string) {
   // Ensure that socket isn't already connected or being connected
   if (!socket) {
-    socket = io("http://localhost:3000", {
+    socket = io("https://importexport.udhyog4.co.in", {
       auth: {
         token: token  // Pass the authentication token when connecting
       }
