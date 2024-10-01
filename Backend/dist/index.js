@@ -76,6 +76,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             where: { id: socket.user.id },
             data: { isOnline: true },
         });
+        console.log(updaedUser);
         socket.broadcast.emit("userConnected", {
             id: updaedUser.id,
             name: updaedUser.contactPersonName,

@@ -19,9 +19,9 @@ const httpServer = createServer(app);
 
 app.use(
   cors({
-    origin: "*", 
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, 
+    credentials: true,
   })
 );
 
@@ -82,6 +82,8 @@ io.on("connection", async (socket: any) => {
       where: { id: socket.user.id },
       data: { isOnline: true },
     });
+    console.log(updaedUser);
+
     socket.broadcast.emit("userConnected", {
       id: updaedUser.id,
       name: updaedUser.contactPersonName,
