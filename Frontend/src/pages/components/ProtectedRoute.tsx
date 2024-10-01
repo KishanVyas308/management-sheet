@@ -20,7 +20,7 @@ function connectSocket(token : string) {
   
   if (!socket) {
     console.log("socket 2 is ", socket);
-    socket = io("https://importexport.udhyog4.co.in", {
+    socket = io("https://importexport.udhyog4.co.in/api", {
       auth: {
         token: token  // Pass the authentication token when connecting
       }
