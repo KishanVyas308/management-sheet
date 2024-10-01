@@ -30,8 +30,6 @@ const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer, {
     cors: {
-        // origin: "http://localhost:5173",
-        origin: "https://importexport.udhyog4.co.in",
         methods: ["GET", "POST"],
     },
 });
@@ -76,7 +74,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             id: updaedUser.id,
             name: updaedUser.contactPersonName,
             email: updaedUser.email,
-            isOnline: updaedUser.isOnline
+            isOnline: updaedUser.isOnline,
         });
     }
     catch (error) {
@@ -95,13 +93,13 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
                 where: { id: socket.user.id },
                 data: { isOnline: false },
             });
-            socket.broadcast.emit('userDisconnected', {
+            socket.broadcast.emit("userDisconnected", {
                 id: updatedUser.id,
-                isOnline: updatedUser.isOnline
+                isOnline: updatedUser.isOnline,
             });
         }
         catch (error) {
-            console.error('Error updating user offline status:', error);
+            console.error("Error updating user offline status:", error);
         }
     }));
 }));
