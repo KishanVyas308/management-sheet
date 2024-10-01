@@ -32,7 +32,7 @@ const ProcessMonatringHeader = () => {
           {" "}
           <div className="flex gap-6 items-center">
             <div className="underline cursor-pointer" >ProcessMonatring</div>
-            <Link to={"/"} className="text-white flex gap-2 items-center cursor-pointer">Dashnoard</Link>
+            <Link to={"/"} className="text-white flex gap-2 items-center cursor-pointer">Dashboard</Link>
           </div>
           <div className="flex gap-6 items-center">
           

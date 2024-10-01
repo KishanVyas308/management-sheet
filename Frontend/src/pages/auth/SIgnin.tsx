@@ -142,12 +142,12 @@ const Signin: React.FC = () => {
               >
                 Sign In
               </button>
-              <button
+              {/* <button
                 className="w-full py-2 text-white bg-green-500 rounded-full hover:bg-green-600"
                 onClick={() => navigate("/register")}
               >
                 Register
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

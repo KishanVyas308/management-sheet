@@ -9,6 +9,8 @@ datasource db {
 
 model user {
   id                Int      @id @default(autoincrement())
+  // id for mongo db
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   email             String   @unique
   password          String   @default("")
   contactPersonName String   @default("")
@@ -29,6 +31,7 @@ model user {
 
 model ExcelDataFinal {
   // set id for sql
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id                   Int     @id @default(autoincrement())
   companyName          String
   srNo                 String
@@ -52,6 +55,7 @@ model ExcelDataFinal {
 }
 
 model Part1Section1 {
+  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
   id               Int     @id @default(autoincrement())
   exportersName    String?
   exportersAddress String?
@@ -72,6 +76,7 @@ model Part1Section1 {
 }
 
 model Part1Section2 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id            Int     @id @default(autoincrement())
   exmn          String?
   jobbing       String?
@@ -92,6 +97,7 @@ model Part1Section2 {
 }
 
 model Part1Section3 {
+  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
   id         Int     @id @default(autoincrement())
   discount   String?
   commission String?
@@ -110,6 +116,7 @@ model Part1Section3 {
 }
 
 model Part2Section1 {
+  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
   id           Int    @id @default(autoincrement())
   sNo          String
   invoiceNo    String
@@ -126,6 +133,7 @@ model Part2Section1 {
 }
 
 model Part2Section2 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id                Int    @id @default(autoincrement())
   exporterAddress   String
   buyerName         String
@@ -142,6 +150,7 @@ model Part2Section2 {
 }
 
 model Part2Section3 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id           Int    @id @default(autoincrement())
   deduct       String
   pc           String
@@ -156,6 +165,7 @@ model Part2Section3 {
 }
 
 model Part3Section1 {
+  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
   id          Int    @id @default(autoincrement())
   invsn       String
   itemsn      String
@@ -170,6 +180,7 @@ model Part3Section1 {
 }
 
 model Part3Section2 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id                Int    @id @default(autoincrement())
   dutyAmt           String
   cessRt            String
@@ -184,6 +195,7 @@ model Part3Section2 {
 }
 
 model Part3Section3 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id                Int    @id @default(autoincrement())
   sqcUqc            String
   stateOfOrigin     String
@@ -197,117 +209,124 @@ model Part3Section3 {
 }
 
 model Part4Section1 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id              Int    @id @default(autoincrement())
-  invSno          String @db.Text
-  itemsn          String @db.Text
-  dbkSno          String @db.Text
-  qtyWt           String @db.Text
-  value           String @db.Text
-  rate            String @db.Text
-  dbkAmt          String @db.Text
-  stalev          String @db.Text
-  cenlev          String @db.Text
-  rosctlAmt       String @db.Text
-  invSnoB         String @db.Text
-  itemSnoB        String @db.Text
-  licenseNo       String @db.Text
-  descnExportItem String @db.Text
+  invSno          String
+  itemsn          String
+  dbkSno          String
+  qtyWt           String
+  value           String
+  rate            String
+  dbkAmt          String
+  stalev          String
+  cenlev          String
+  rosctlAmt       String
+  invSnoB         String
+  itemSnoB        String
+  licenseNo       String
+  descnExportItem String
 }
 
 model Part4Section2 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id                 Int    @id @default(autoincrement())
-  expSno             String @db.Text
-  expqty             String @db.Text
-  uqc                String @db.Text
-  fobValue           String @db.Text
-  sion               String @db.Text
-  descnImportItem    String @db.Text
-  impSno             String @db.Text
-  impqt              String @db.Text
-  uqcB               String @db.Text
-  indigImp           String @db.Text
-  beNo               String @db.Text
-  beDate             String @db.Text
-  portCode           String @db.Text
-  descnImportedGoods String @db.Text
+  expSno             String
+  expqty             String
+  uqc                String
+  fobValue           String
+  sion               String
+  descnImportItem    String
+  impSno             String
+  impqt              String
+  uqcB               String
+  indigImp           String
+  beNo               String
+  beDate             String
+  portCode           String
+  descnImportedGoods String
 }
 
 model Part4Section3 {
+  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
   id         Int    @id @default(autoincrement())
-  qtyImp     String @db.Text
-  qtyUsed    String @db.Text
-  invsn      String @db.Text
-  itmsn      String @db.Text
-  info       String @db.Text
-  qualifier  String @db.Text
-  infoCd     String @db.Text
-  infoText   String @db.Text
-  infoMsr    String @db.Text
-  itmsno     String @db.Text
-  cSno       String @db.Text
-  name       String @db.Text
-  code       String @db.Text
-  percentage String @db.Text
+  qtyImp     String
+  qtyUsed    String
+  invsn      String
+  itmsn      String
+  info       String
+  qualifier  String
+  infoCd     String
+  infoText   String
+  infoMsr    String
+  itmsno     String
+  cSno       String
+  name       String
+  code       String
+  percentage String
 }
 
 model Part4Section4 {
+  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
   id          Int    @id @default(autoincrement())
-  yieldPct    String @db.Text
-  ing         String @db.Text
-  controlType String @db.Text
-  location    String @db.Text
-  stDt        String @db.Text
-  endDt       String @db.Text
-  resCd       String @db.Text
-  resText     String @db.Text
-  docypcd     String @db.Text
-  icegateId   String @db.Text
-  irn         String @db.Text
-  partyCd     String @db.Text
-  issuePla    String @db.Text
-  issDt       String @db.Text
-  expDt       String @db.Text
+  yieldPct    String
+  ing         String
+  controlType String
+  location    String
+  stDt        String
+  endDt       String
+  resCd       String
+  resText     String
+  docypcd     String
+  icegateId   String
+  irn         String
+  partyCd     String
+  issuePla    String
+  issDt       String
+  expDt       String
 }
 
 model Part4Section5 {
+  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
   id              Int    @id @default(autoincrement())
-  sno             String @db.Text
-  invoiceNo       String @db.Text
-  invoiceAmount   String @db.Text
-  currency        String @db.Text
-  container       String @db.Text
-  seal            String @db.Text
-  date            String @db.Text
-  ar4Number       String @db.Text
-  ar4Date         String @db.Text
-  commissionerate String @db.Text
-  division        String @db.Text
-  range           String @db.Text
-  iec             String @db.Text
-  exporterName    String @db.Text
-  address         String @db.Text
+  sno             String
+  invoiceNo       String
+  invoiceAmount   String
+  currency        String
+  container       String
+  seal            String
+  date            String
+  ar4Number       String
+  ar4Date         String
+  commissionerate String
+  division        String
+  range           String
+  iec             String
+  exporterName    String
+  address         String
 }
 
 model Part4Section6 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id          Int    @id @default(autoincrement())
-  gstnId      String @db.Text
-  gstnType    String @db.Text
-  type        String @db.Text
-  manufactCd  String @db.Text
-  sourceState String @db.Text
-  transCy     String @db.Text
-  invs        String @db.Text
-  quantity    String @db.Text
-  noOfUnits   String @db.Text
-  beSiteId    String @db.Text
-  beNumber    String @db.Text
-  beInvSno    String @db.Text
-  beItemS     String @db.Text
-  beQty       String @db.Text
-  beUqc       String @db.Text
+  gstnId      String
+  gstnType    String
+  type        String
+  manufactCd  String
+  sourceState String
+  transCy     String
+  invs        String
+  quantity    String
+  noOfUnits   String
+  beSiteId    String
+  beNumber    String
+  beInvSno    String
+  beItemS     String
+  beQty       String
+  beUqc       String
 }
 
 model Part5 {
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
   id                   Int    @id @default(autoincrement())
   declarationStatement String
   date                 String
