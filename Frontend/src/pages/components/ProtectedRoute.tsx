@@ -20,10 +20,13 @@ function connectSocket(token : string) {
   
   if (!socket) {
     console.log("socket 2 is ", socket);
-    socket = io("https://importexport.udhyog4.co.in/api", {
+    socket = io("https://importexport.udhyog4.co.in", {
+      path: "/api/socket.io",  // Important for matching the API path
+      transports: ["websocket"],  // Ensure websocket transport is used
+      withCredentials: true,      // Support cross-origin cookies if required
       auth: {
-        token: token  // Pass the authentication token when connecting
-      }
+        token: token,  // Pass token for authentication
+      },
     });
     console.log("socket 3 is ", socket);
     socket.on('connect_error', (err) => {
