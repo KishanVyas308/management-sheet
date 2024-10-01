@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
           }
           imageSrc={
-            "http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/process_monitoring.png"
+            "../src/images/process_monitoring.png"
           }
         />
 
@@ -51,7 +51,7 @@ const HomePage: React.FC = () => {
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
           }
           imageSrc={
-            "http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/data_management.png"
+            "../src/images/data_management.png"
           }
         />
       </div>

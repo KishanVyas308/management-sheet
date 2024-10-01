@@ -38,7 +38,7 @@ const user = useRecoilValue(authAtom);
           description={
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
           }
-          imageSrc={"http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/quality_prediction.png"}
+          imageSrc={"../src/images/new_data.png"}
         />
 
         <DetailCard
@@ -48,7 +48,7 @@ const user = useRecoilValue(authAtom);
           description={
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
           }
-          imageSrc={"http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/data_management.png"}
+          imageSrc={"../src/images/data_management.png"}
         />
       </div>
       {/* <div className="flex gap-8 my-8 justify-between">
