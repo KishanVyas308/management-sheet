@@ -8,7 +8,6 @@ import { PrismaClient } from "@prisma/client";
 import { myData } from "./controller/authControler";
 import { verifyToken } from "./middleWare";
 
-
 import authRoute from "./router/authRoute";
 import existingDataRoute from "./router/existingDataRoute";
 import newDataRoute from "./router/newDataRoute";
@@ -19,8 +18,6 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    // origin: "http://localhost:5173",
-    origin: "https://importexport.udhyog4.co.in",
     methods: ["GET", "POST"],
   },
 });
@@ -49,7 +46,6 @@ app.use("/api/v1/manageUser", manageUserRoute);
 //? data analytics api
 app.use("/api/v1/dataAnalytics", dataAnalyticsRoute);
 
-
 //? socket api
 io.use((socket: any, next) => {
   const token = socket.handshake.auth.token;
@@ -73,25 +69,24 @@ io.on("connection", async (socket: any) => {
 
   try {
     const updaedUser = await prisma.user.update({
-      where: {id : socket.user.id},
-      data: {isOnline: true},
-      
-    })
+      where: { id: socket.user.id },
+      data: { isOnline: true },
+    });
     socket.broadcast.emit("userConnected", {
       id: updaedUser.id,
       name: updaedUser.contactPersonName,
       email: updaedUser.email,
-      isOnline: updaedUser.isOnline
+      isOnline: updaedUser.isOnline,
     });
   } catch (error) {
     console.log("Error updating user online status", error);
   }
 
   // Listen for status update from clients
-    socket.on("updateStatus", (statusData: any) => {
-      // Broadcast updated status to all connected clients
-      io.emit("statusChanged", statusData);
-    });
+  socket.on("updateStatus", (statusData: any) => {
+    // Broadcast updated status to all connected clients
+    io.emit("statusChanged", statusData);
+  });
 
   // Handle socket disconnection
   socket.on("disconnect", async () => {
@@ -99,17 +94,16 @@ io.on("connection", async (socket: any) => {
 
     try {
       const updatedUser = await prisma.user.update({
-        where: {id : socket.user.id},   
-        data: {isOnline: false},
-      })
-      socket.broadcast.emit('userDisconnected', {
+        where: { id: socket.user.id },
+        data: { isOnline: false },
+      });
+      socket.broadcast.emit("userDisconnected", {
         id: updatedUser.id,
-        isOnline: updatedUser.isOnline
+        isOnline: updatedUser.isOnline,
       });
     } catch (error) {
-      console.error('Error updating user offline status:', error);
+      console.error("Error updating user offline status:", error);
     }
-   
   });
 });
 
