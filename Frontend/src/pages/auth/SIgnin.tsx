@@ -88,7 +88,7 @@ const Signin: React.FC = () => {
         </div>
         <div className="px-8">
           <img
-            src="http://udhyog4.in/Udhyog-40-Website/assets/img/process_monitoring/overview/logo_adjacent.png"
+            src="../src/images/mani_header_logo_2.png"
             className="h-[100px]"
             alt="logo"
           />
