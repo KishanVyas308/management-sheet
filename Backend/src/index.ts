@@ -12,6 +12,7 @@ import existingDataRoute from "./router/existingDataRoute";
 import newDataRoute from "./router/newDataRoute";
 import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
+import shippingBillRoute from "./router/shippingBillRoute";
 
 const app = express();
 const httpServer = createServer(app);
@@ -40,6 +41,9 @@ app.use("/api/v1/ex", existingDataRoute);
 
 //? new data api
 app.use("/api/v1/newData", newDataRoute);
+
+//? shipping bill
+app.use("/api/v1/shbill", shippingBillRoute)
 
 //? manage user api
 app.use("/api/v1/manageUser", manageUserRoute);
