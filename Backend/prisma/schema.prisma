@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model user {
-  id                Int      @id @default(autoincrement())
+  // id                Int      @id @default(autoincrement())
   // id for mongo db
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
   email             String   @unique
   password          String   @default("")
   contactPersonName String   @default("")
@@ -31,8 +31,8 @@ model user {
 
 model ExcelDataFinal {
   // set id for sql
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                   Int     @id @default(autoincrement())
+  id                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  // id                   Int     @id @default(autoincrement())
   companyName          String
   srNo                 String
   shippingBillNo       String
@@ -56,8 +56,8 @@ model ExcelDataFinal {
 }
 
 model Part1Section1 {
-  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id               Int     @id @default(autoincrement())
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  // id               Int     @id @default(autoincrement())
   exportersName    String?
   exportersAddress String?
   type             String?
@@ -77,8 +77,8 @@ model Part1Section1 {
 }
 
 model Part1Section2 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id            Int     @id @default(autoincrement())
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  // id            Int     @id @default(autoincrement())
   exmn          String?
   jobbing       String?
   meis          String?
@@ -98,8 +98,8 @@ model Part1Section2 {
 }
 
 model Part1Section3 {
-  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id         Int     @id @default(autoincrement())
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  // id         Int     @id @default(autoincrement())
   discount   String?
   commission String?
   deductions String?
@@ -117,8 +117,8 @@ model Part1Section3 {
 }
 
 model Part2Section1 {
-  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id           Int    @id @default(autoincrement())
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  // id           Int    @id @default(autoincrement())
   sNo          String
   invoiceNo    String
   invoiceDt    String
@@ -134,8 +134,8 @@ model Part2Section1 {
 }
 
 model Part2Section2 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                Int    @id @default(autoincrement())
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  // id                Int    @id @default(autoincrement())
   exporterAddress   String
   buyerName         String
   buyerAddress      String
@@ -151,8 +151,8 @@ model Part2Section2 {
 }
 
 model Part2Section3 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id           Int    @id @default(autoincrement())
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  // id           Int    @id @default(autoincrement())
   deduct       String
   pc           String
   exchangeRate String
@@ -166,8 +166,8 @@ model Part2Section3 {
 }
 
 model Part3Section1 {
-  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  // id          Int    @id @default(autoincrement())
   invsn       String
   itemsn      String
   hsCd        String
@@ -181,8 +181,8 @@ model Part3Section1 {
 }
 
 model Part3Section2 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                Int    @id @default(autoincrement())
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  // id                Int    @id @default(autoincrement())
   dutyAmt           String
   cessRt            String
   cesamt            String
@@ -196,8 +196,8 @@ model Part3Section2 {
 }
 
 model Part3Section3 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                Int    @id @default(autoincrement())
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  // id                Int    @id @default(autoincrement())
   sqcUqc            String
   stateOfOrigin     String
   districtOfOrigin  String
@@ -210,8 +210,8 @@ model Part3Section3 {
 }
 
 model Part4Section1 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id              Int    @id @default(autoincrement())
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  // id              Int    @id @default(autoincrement())
   invSno          String
   itemsn          String
   dbkSno          String
@@ -229,8 +229,8 @@ model Part4Section1 {
 }
 
 model Part4Section2 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                 Int    @id @default(autoincrement())
+  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  // id                 Int    @id @default(autoincrement())
   expSno             String
   expqty             String
   uqc                String
@@ -248,8 +248,8 @@ model Part4Section2 {
 }
 
 model Part4Section3 {
-  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id         Int    @id @default(autoincrement())
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  // id         Int    @id @default(autoincrement())
   qtyImp     String
   qtyUsed    String
   invsn      String
@@ -267,8 +267,8 @@ model Part4Section3 {
 }
 
 model Part4Section4 {
-  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  // id          Int    @id @default(autoincrement())
   yieldPct    String
   ing         String
   controlType String
@@ -287,8 +287,8 @@ model Part4Section4 {
 }
 
 model Part4Section5 {
-  //  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id              Int    @id @default(autoincrement())
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  // id              Int    @id @default(autoincrement())
   sno             String
   invoiceNo       String
   invoiceAmount   String
@@ -307,8 +307,8 @@ model Part4Section5 {
 }
 
 model Part4Section6 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  // id          Int    @id @default(autoincrement())
   gstnId      String
   gstnType    String
   type        String
@@ -327,8 +327,8 @@ model Part4Section6 {
 }
 
 model Part5 {
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                   Int    @id @default(autoincrement())
+  id                   String @id @default(auto()) @map("_id") @db.ObjectId
+  // id                   Int    @id @default(autoincrement())
   declarationStatement String
   date                 String
   place                String
@@ -338,8 +338,8 @@ model Part5 {
 
 model BasicSheet {
   // set id for sql
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                           Int      @id @default(autoincrement())
+  id                           String   @id @default(auto()) @map("_id") @db.ObjectId
+  // id                           Int      @id @default(autoincrement())
   companyName                  String
   uploadedDate                 DateTime @default(now())
   srNo                         String
@@ -366,8 +366,8 @@ model BasicSheet {
 
 model Annexure1 {
   // set id for sql
-  // id    String @id @default(auto()) @map("_id") @db.ObjectId
-  id                           Int     @id @default(autoincrement())
+  id                           String  @id @default(auto()) @map("_id") @db.ObjectId
+  // id                           Int     @id @default(autoincrement())
   srNo                         String
   shippingBillNo               String
   shippingBillDate             String?
@@ -383,17 +383,20 @@ model Annexure1 {
 }
 
 model AnnexureA {
-  id                 String @id @default(cuid())
-  productExportered  String
-  shippingBillNumber String
-  shippingBillDate String
-  directExportsInRupees String
-  directExportsInDollars String
-  deemedExports String
-  thirdPartyExportsInRupees String
-  thirdPartyExportsInDollars String
-  byGroupCompany String
-  otherRWseries String
-  totalInRupees String
-  totalInDollars String
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // id                 String @id @default(cuid())
+  srNo                       String
+  productExportered          String
+  shippingBillNumber         String
+  shippingBillDate           String
+  directExportsInRupees      String
+  directExportsInDollars     String
+  deemedExports              String @default("0.00")
+  thirdPartyExportsInRupees  String @default("0.00")
+  thirdPartyExportsInDollars String @default("0.00")
+  byGroupCompany             String @default("0.00")
+  otherRWseries              String @default("0.00")
+  totalInRupees              String
+  totalInDollars             String
 }
