@@ -17,7 +17,7 @@ import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadD
 
 import Admin from "./pages/Home/ProcessMonatring/Admin";
 import NewDataAnalytics from "./pages/Home/DataManagement/newdata/NewDataAnalytics";
-
+import ShippingBillPage from "./pages/Home/DataManagement/ShippingBill/ShippingBillPage";
 
 function App() {
   return (
@@ -48,7 +48,11 @@ function App() {
         />
         <Route
           path="/datamanagement/newdata/dataanalytics"
-          element={<ProtectedRoute element={<NewDataAnalytics/>} />}
+          element={<ProtectedRoute element={<NewDataAnalytics />} />}
+        />
+        <Route
+          path="/datamanagement/shippingbill"
+          element={<ProtectedRoute element={<ShippingBillPage />} />}
         />
         <Route
           path="/datamanagement/existingdata"
@@ -68,13 +72,8 @@ function App() {
           element={<ProtectedRoute element={<DownloadDataPage />} />}
         />
 
-
         {/* //? process monitoring section */}
-        <Route
-          path="/admin"
-          element={<ProtectedRoute element={<Admin />} />}
-        />
-        
+        <Route path="/admin" element={<ProtectedRoute element={<Admin />} />} />
       </Routes>
     </Router>
   );

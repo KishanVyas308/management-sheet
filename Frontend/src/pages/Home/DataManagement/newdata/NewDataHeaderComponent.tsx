@@ -8,7 +8,6 @@ import { authAtom } from "../../../../atoms/authAtom";
 import SignOut from "../../../../services/SignOutButton";
 
 const NewDataHeaderComponent = ({ backLink, nextLink }) => {
-
   const user = useRecoilValue(authAtom);
   return (
     <div className="flex lg:px-6 lg:py-2 px-4 py-1 text-white font-semibold text-[22px] my-4 justify-between items-center bg-[#63d478]">
@@ -18,7 +17,7 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
           className="text-white flex gap-2 hover:text-gray-100  items-center"
         >
           {" "}
-           Dashbord
+          Dashbord
         </Link>
         {/* <Link
           to={backLink}
@@ -40,6 +39,14 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
             <IoMdArrowRoundForward />
           </div>
         </Link> */}
+        <Link
+          to={"/datamanagement/shippingbill"}
+          className="text-white flex gap-2 hover:text-gray-100  items-center"
+        >
+          {" "}
+          Shipping Bill
+        </Link>
+
         <Link
           to={"/datamanagement/newdata/part1"}
           className="text-white flex gap-2 hover:text-gray-100  items-center"
@@ -77,12 +84,17 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
         </Link>
       </div>
       <div className="flex gap-6 items-center">
-        <Link to={"/datamanagement/newdata/dataanalytics"} className="text-white flex gap-2 hover:text-gray-100  items-center">Analytics</Link>
-          <div>{(user.user.name).split(" ")[0]}</div>
-          <div >
-            <SignOut />
-          </div>
+        <Link
+          to={"/datamanagement/newdata/dataanalytics"}
+          className="text-white flex gap-2 hover:text-gray-100  items-center"
+        >
+          Analytics
+        </Link>
+        <div>{user.user.name.split(" ")[0]}</div>
+        <div>
+          <SignOut />
         </div>
+      </div>
     </div>
   );
 };
