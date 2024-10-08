@@ -30,6 +30,6 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "prisma": "^5.18.0"
+    "prisma": "^5.20.0"
   }
 }

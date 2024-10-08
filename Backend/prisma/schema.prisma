@@ -45,6 +45,7 @@ model ExcelDataFinal {
   insurance            String  @default("0.00")
   brc                  String  @default("0.00")
   exchangeRate         String  @default("0.0000")
+  //
   cifValue2            String  @default("0.00")
   freight2             String  @default("0.00")
   insurance2           String  @default("0.00")
@@ -333,4 +334,66 @@ model Part5 {
   place                String
   authorizedSignatory  String
   chaName              String
+}
+
+model BasicSheet {
+  // set id for sql
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
+  id                           Int      @id @default(autoincrement())
+  companyName                  String
+  uploadedDate                 DateTime @default(now())
+  srNo                         String
+  shippingBillNo               String
+  shippingBillDate             String?
+  thirdPartyExporter           String?
+  hsCodeAndDescription         String?
+  epcgLicNo                    String?
+  cifValue                     String   @default("0.00")
+  freight                      String   @default("0.00")
+  insurance                    String   @default("0.00")
+  brc                          String   @default("0.00")
+  exchangeRateOrProprtionRatio String   @default("0.0000")
+  //
+  cifValue2                    String   @default("0.00")
+  freight2                     String   @default("0.00")
+  insurance2                   String   @default("0.00")
+  brc2                         String   @default("0.00")
+  //
+  exchangeRate                 String   @default("0.0000")
+  product                      String?
+  remarks                      String?
+}
+
+model Annexure1 {
+  // set id for sql
+  // id    String @id @default(auto()) @map("_id") @db.ObjectId
+  id                           Int     @id @default(autoincrement())
+  srNo                         String
+  shippingBillNo               String
+  shippingBillDate             String?
+  shippingBillCifValueInDoller String?
+  brcValue                     String?
+  // Lower of SB and BRC 
+  lowerOfSbAndBrc              String?
+  shippingBillFreight          String?
+  shippingBillInsurance        String?
+  fobValueInDoller             String?
+  ExchangeRatePerShippingBill  String?
+  fobValueInRupees             String?
+}
+
+model AnnexureA {
+  id                 String @id @default(cuid())
+  productExportered  String
+  shippingBillNumber String
+  shippingBillDate String
+  directExportsInRupees String
+  directExportsInDollars String
+  deemedExports String
+  thirdPartyExportsInRupees String
+  thirdPartyExportsInDollars String
+  byGroupCompany String
+  otherRWseries String
+  totalInRupees String
+  totalInDollars String
 }
