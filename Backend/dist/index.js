@@ -49,6 +49,7 @@ const existingDataRoute_1 = __importDefault(require("./router/existingDataRoute"
 const newDataRoute_1 = __importDefault(require("./router/newDataRoute"));
 const manageUser_1 = __importDefault(require("./router/manageUser"));
 const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRoute"));
+const shippingBillRoute_1 = __importDefault(require("./router/shippingBillRoute"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 app.use((0, cors_1.default)({
@@ -66,6 +67,8 @@ app.use(middleWare_1.verifyToken);
 app.use("/api/v1/ex", existingDataRoute_1.default);
 //? new data api
 app.use("/api/v1/newData", newDataRoute_1.default);
+//? shipping bill
+app.use("/api/v1/shbill", shippingBillRoute_1.default);
 //? manage user api
 app.use("/api/v1/manageUser", manageUser_1.default);
 //? data analytics api
