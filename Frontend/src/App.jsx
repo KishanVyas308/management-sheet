@@ -2,11 +2,11 @@ import { useState } from "react";
 import FileUpload from "./pages/Home/DataManagement/existingdata/FileUpload";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Part1 from "./pages/Home/DataManagement/newdata/Part1";
-import Part2 from "./pages/Home/DataManagement/newdata/Part2";
-import Part3 from "./pages/Home/DataManagement/newdata/Part3";
-import Part4 from "./pages/Home/DataManagement/newdata/Part4";
-import Part5 from "./pages/Home/DataManagement/newdata/Part5";
+import Part1 from "./pages/Home/DataManagement/newdata/ShippingBill/Part1";
+import Part2 from "./pages/Home/DataManagement/newdata/ShippingBill/Part2";
+import Part3 from "./pages/Home/DataManagement/newdata/ShippingBill/Part3";
+import Part4 from "./pages/Home/DataManagement/newdata/ShippingBill/Part4";
+import Part5 from "./pages/Home/DataManagement/newdata/ShippingBill/Part5";
 
 import HomePage from "./pages/Home/HomPage";
 import Signin from "./pages/auth/SIgnin";
@@ -17,7 +17,7 @@ import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadD
 
 import Admin from "./pages/Home/ProcessMonatring/Admin";
 import NewDataAnalytics from "./pages/Home/DataManagement/newdata/NewDataAnalytics";
-import ShippingBillPage from "./pages/Home/DataManagement/ShippingBill/ShippingBillPage";
+import DirectExport from "./pages/Home/DataManagement/newdata/DirectExport/DirectExport";
 
 function App() {
   return (
@@ -51,8 +51,8 @@ function App() {
           element={<ProtectedRoute element={<NewDataAnalytics />} />}
         />
         <Route
-          path="/datamanagement/shippingbill"
-          element={<ProtectedRoute element={<ShippingBillPage />} />}
+          path="/datamanagement/DirectExport"
+          element={<DirectExport element={<DirectExport />} />}
         />
         <Route
           path="/datamanagement/existingdata"

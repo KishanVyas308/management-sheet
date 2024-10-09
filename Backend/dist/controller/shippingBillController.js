@@ -14,8 +14,10 @@ const __1 = require("..");
 function addBasicSheet(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { companyName, srNo, shippingBillNo, shippingBillDate, thirdPartyExporter, hsCodeAndDescription, epcgLicNo, cifValue, freight, insurance, brc, exchangeRateOrProprtionRatio, exchangeRate, product, remarks, } = req.body;
-            const basicSheet = yield __1.prisma.basicSheet.create({
+            const { basicSheet } = req.body;
+            console.log(basicSheet);
+            const { companyName, srNo, shippingBillNo, shippingBillDate, thirdPartyExporter, hsCodeAndDescription, epcgLicNo, cifValue, freight, insurance, brc, exchangeRateOrProprtionRatio, exchangeRate, product, remarks, } = basicSheet;
+            const basicSheet1 = yield __1.prisma.basicSheet.create({
                 data: {
                     companyName: companyName,
                     srNo: srNo,

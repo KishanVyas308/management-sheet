@@ -384,7 +384,6 @@ model Annexure1 {
 
 model AnnexureA {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-
   // id                 String @id @default(cuid())
   srNo                       String
   productExportered          String

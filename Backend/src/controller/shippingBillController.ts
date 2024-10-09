@@ -2,6 +2,9 @@ import { prisma } from "..";
 
 export async function addBasicSheet(req: any, res: any) {
   try {
+    const { basicSheet } = req.body;
+    console.log(basicSheet);
+    
     const {
       companyName,
       srNo,
@@ -18,9 +21,9 @@ export async function addBasicSheet(req: any, res: any) {
       exchangeRate,
       product,
       remarks,
-    } = req.body;
+    } = basicSheet;
 
-    const basicSheet = await prisma.basicSheet.create({
+    const basicSheet1 = await prisma.basicSheet.create({
       data: {
         companyName: companyName,
         srNo: srNo,

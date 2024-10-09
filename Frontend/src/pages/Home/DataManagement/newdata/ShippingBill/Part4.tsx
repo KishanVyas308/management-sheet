@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../components/Loading";
-import { BACKEND_URL } from "../../../../Globle";
+import Loading from "../../../../components/Loading";
+import { BACKEND_URL } from "../../../../../Globle";
 import { useCookies } from "react-cookie";
-import NewDataHeaderComponent from "./NewDataHeaderComponent";
-import NewDataButtons from "./NewDataButtons";
-import InputField from "../../../components/InputField";
+import NewDataHeaderComponent from "../NewDataHeaderComponent";
+import NewDataButtons from "../NewDataButtons";
+import InputField from "../../../../components/InputField";
+import ShippingBillHeader from "./ShippingBillHeader";
 
 const Part4 = () => {
   const [invSno, setInvSno] = useState("");
@@ -313,8 +314,10 @@ const Part4 = () => {
           nextLink={"/datamanagement/newdata/part5"}
         />
 
+<ShippingBillHeader />
+
         <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
-          Part 4
+        Shipping Bill - Part 4
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
           <div className="bg-white p-4 rounded-md">
