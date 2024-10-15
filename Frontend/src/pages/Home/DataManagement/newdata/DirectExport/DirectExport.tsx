@@ -60,6 +60,17 @@ const ShippingBillPage = () => {
     totalInDollars: annexure1.fobValueInDoller,
   });
 
+  const [blockwiseSummary, setBlockwiseSummary] = useState({
+    EOImposed: "2681564",
+    ExcessofPreviousblock: "0",
+    DirectExport: "2348208",
+    IndirectExport: "0",
+    Total: "2348208",
+    Excess: "-333356",
+    EOFulfilled: "87.57",
+    ExcessEo: "-12.43",
+  });
+
   const [loading, setLoading] = useState(false);
 
   const [cookies, setCookie] = useCookies(["token"]);
@@ -399,6 +410,75 @@ const ShippingBillPage = () => {
               }
               type="number"
             />
+
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              Summary
+            </div>
+         
+          <InputField
+            label="EO Imposed"
+            value={blockwiseSummary.EOImposed}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, EOImposed: e.target.value })
+          }
+            type="number"
+          />
+          <InputField
+            label="Excess of Previous Block"
+            value={blockwiseSummary.ExcessofPreviousblock}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, ExcessofPreviousblock: e.target.value })
+          }
+            type="number"
+          />
+          <InputField
+            label="Direct Export"
+            value={blockwiseSummary.DirectExport}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, DirectExport: e.target.value })
+          }
+            type="number"
+          />
+          <InputField
+            label="Indirect Export"
+            value={blockwiseSummary.IndirectExport}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, IndirectExport: e.target.value })
+          }
+            type="number"
+          />
+          <InputField
+            label="Total"
+            value={blockwiseSummary.Total}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, Total: e.target.value })
+          }
+            type="number"
+          />
+          <InputField
+            label="Excess"
+            value={blockwiseSummary.Excess}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, Excess: e.target.value })
+          }
+            type="number"
+          />
+          <InputField
+            label="EO Fulfilled"
+            value={blockwiseSummary.EOFulfilled}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, EOFulfilled: e.target.value })
+          }
+            type="number"
+          />
+          <InputField
+            label="Excess EO"
+            value={blockwiseSummary.ExcessEo}
+            onChange={(e) =>
+              setBlockwiseSummary({ ...blockwiseSummary, ExcessEo: e.target.value })
+          }
+            type="number"
+          />
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
