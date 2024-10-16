@@ -47,6 +47,8 @@ const Signin: React.FC = () => {
     });
     if (res.data.token) {
       const user = jwtDecode<User>(res.data.token);
+      user.name = user.name.charAt(0).toUpperCase() + user.name.slice(1);
+
       setAuth({
         isAuthenticated: true,
         user: user,
