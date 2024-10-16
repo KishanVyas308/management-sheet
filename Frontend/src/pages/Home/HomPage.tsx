@@ -33,10 +33,10 @@ const HomePage: React.FC = () => {
       <div className="flex gap-8 justify-between">
         <DetailCard
           link={"/admin"}
-          title={"Process Monatring"}
+          title={"Process Monitoring"}
           color={"bg-[#faaa55]"}
           description={
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
+            "Track, measure and monitor entire process, purchase to dispatch and from production to management level."
           }
           imageSrc={
             "../src/images/process_monitoring.png"
@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
           title={"Data Management"}
           color="bg-[#f5874f]"
           description={
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
+            "Connect, and manage the data collected from systems, sensors, machines and people like never before"
           }
           imageSrc={
             "../src/images/data_management.png"

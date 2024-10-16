@@ -4,6 +4,7 @@ import * as XLSX from "xlsx";
 import Loading from "../../../components/Loading";
 import { BACKEND_URL } from "../../../../Globle";
 import { Cookies, useCookies } from "react-cookie";
+import ExistingDataHeader from "./ExistingDataHeader";
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -162,13 +163,13 @@ const FileUpload = () => {
 
 
     return (
-      <div className="file-upload-container mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
+      <div className="file-upload-container mx-auto min-h-screen p-8 bg-gray-100 rounded-lg shadow-md">
         {loading && <Loading />}
-        <h1 className="text-2xl font-semibold text-center mb-6 text-gray-800">
-          Upload Excel File
-        </h1>
-        <div className="space-y-6">
-          <div>
+        <ExistingDataHeader  backLink={""} nextLink={""} />
+
+      
+        <div className="space-y-6 p-6">
+          <div className="">
             <label className="block text-gray-700 font-medium mb-2">
               Excel File:
             </label>
@@ -180,8 +181,8 @@ const FileUpload = () => {
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-md file:border-0
                   file:text-sm file:font-semibold
-                  file:bg-blue-50 file:text-blue-700
-                  hover:file:bg-blue-100
+                  file:bg-green-500 file:text-white
+                  hover:file:bg-green-600 cursor-pointer
                 "
             />
           </div>
@@ -197,7 +198,7 @@ const FileUpload = () => {
                     key={sheetName}
                     type="button"
                     onClick={() => handleSheetSelection(sheetName)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
                   >
                     {sheetName}
                   </button>
@@ -214,7 +215,7 @@ const FileUpload = () => {
               type="checkbox"
               checked={uploadAll}
               onChange={handleToggleChange}
-              className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded"
             />
           </div>
 
@@ -249,13 +250,13 @@ const FileUpload = () => {
 
           <button
             onClick={handleSubmit}
-            className="w-[200px] bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+            className="w-[200px] bg-green-500 text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
           >
             Upload
           </button>
 
           {selectedSheetName && (
-            <div className="mt-6 overflow-auto">
+            <div className="mt-6 overflow-auto bg-white p-2 rounded-lg">
               <h2 className="text-lg font-medium text-gray-700 mb-2">
                 Data from {selectedSheetName}
               </h2>

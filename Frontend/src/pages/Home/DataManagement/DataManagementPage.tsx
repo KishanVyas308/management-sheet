@@ -36,7 +36,7 @@ const user = useRecoilValue(authAtom);
           title={"New Data"}
           color="bg-[#faaa55]"
           description={
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
+            ""
           }
           imageSrc={"../src/images/new_data.png"}
         />
@@ -46,7 +46,7 @@ const user = useRecoilValue(authAtom);
           title={"Existing Data"}
           color="bg-[#f6874f]"
           description={
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cumque velit eum voluptates, necessitatibus aliquid rem"
+            ""
           }
           imageSrc={"../src/images/data_management.png"}
         />
