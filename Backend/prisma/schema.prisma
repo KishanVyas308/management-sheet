@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 model user {
   id                Int      @id @default(autoincrement())
   // id for mongo db
@@ -28,6 +33,7 @@ model user {
   isOnline          Boolean  @default(false)
   lastOnline        DateTime @default(now())
   ManageUserShippingBill ManageUserShippingBill[]
+  role              Role     @default(USER)
 }
 
 model ExcelDataFinal {
@@ -75,6 +81,8 @@ model Part1Section1 {
   ifscNo           String?
   mode             String?
   assess           String?
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part1Section2 {
@@ -96,6 +104,8 @@ model Part1Section2 {
   fobValue      String?
   freight       String?
   insurance     String?
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part1Section3 {
@@ -115,6 +125,8 @@ model Part1Section3 {
   rosctlAmt  String?
   mawbNo     String?
   hawbNo     String?
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part2Section1 {
@@ -132,6 +144,8 @@ model Part2Section1 {
   adCode       String
   invTerm      String
   exporterName String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part2Section2 {
@@ -149,6 +163,8 @@ model Part2Section2 {
   insurance         String
   discount          String
   commission        String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part2Section3 {
@@ -164,6 +180,8 @@ model Part2Section3 {
   uqc          String
   rate         String
   valueFc      String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part3Section1 {
@@ -179,6 +197,8 @@ model Part3Section1 {
   valueFc     String
   fobInr      String
   pmv         String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part3Section2 {
@@ -194,6 +214,8 @@ model Part3Section2 {
   schcod            String
   schemeDescription String
   sqcMsr            String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part3Section3 {
@@ -208,6 +230,8 @@ model Part3Section3 {
   ftaBenefitAvailed String
   rewardBenefit     String
   thirdPartyItem    String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part4Section1 {
@@ -227,6 +251,8 @@ model Part4Section1 {
   itemSnoB        String
   licenseNo       String
   descnExportItem String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part4Section2 {
@@ -246,6 +272,8 @@ model Part4Section2 {
   beDate             String
   portCode           String
   descnImportedGoods String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part4Section3 {
@@ -265,6 +293,8 @@ model Part4Section3 {
   name       String
   code       String
   percentage String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part4Section4 {
@@ -285,6 +315,8 @@ model Part4Section4 {
   issuePla    String
   issDt       String
   expDt       String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part4Section5 {
@@ -305,6 +337,8 @@ model Part4Section5 {
   iec             String
   exporterName    String
   address         String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part4Section6 {
@@ -325,6 +359,8 @@ model Part4Section6 {
   beItemS     String
   beQty       String
   beUqc       String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model Part5 {
@@ -335,6 +371,8 @@ model Part5 {
   place                String
   authorizedSignatory  String
   chaName              String
+  //! change if it is mongo db
+  addedByUserId   Int
 }
 
 model BasicSheet {
