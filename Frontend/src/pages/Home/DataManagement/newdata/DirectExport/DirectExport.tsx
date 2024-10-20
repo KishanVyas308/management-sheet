@@ -80,7 +80,7 @@ const ShippingBillPage = () => {
       basicSheet,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/shbill/basicsheet`,
+      `${BACKEND_URL}/directexport/basicsheet`,
       jsonData,
       {
         headers: {
