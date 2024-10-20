@@ -18,6 +18,7 @@ export const signup = async (req: any, res: any) => {
     phoneNumber,
     gstNo,
     companyLogo,
+    role,
   } = req.body;
   try {
     const user = await prisma.user.create({
@@ -36,6 +37,7 @@ export const signup = async (req: any, res: any) => {
         phoneNumber,
         gstNo,
         companyLogo,
+        role
       },
     });
 
@@ -52,7 +54,7 @@ export const signup = async (req: any, res: any) => {
       token,
     });
   } catch (error) {
-    return res.json({ message: "Please try again later" });
+    return res.json({ message: "Please try again later" + error});
   }
 };
 
