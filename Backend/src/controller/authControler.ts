@@ -70,6 +70,7 @@ export const login = async (req: any, res: any) => {
         email: true,
         password: true,
         contactPersonName: true,
+        role: true,
       },
     });
 
@@ -88,6 +89,7 @@ export const login = async (req: any, res: any) => {
         id: user.id,
         email: user.email,
         name: user.contactPersonName,
+        role: user.role,
       },
       process.env.JWT_SECRET as string
     );
