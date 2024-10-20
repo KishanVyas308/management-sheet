@@ -8,6 +8,8 @@ import NewDataHeaderComponent from "../NewDataHeaderComponent";
 import NewDataButtons from "../NewDataButtons";
 import InputField from "../../../../components/InputField";
 import ShippingBillHeader from "./ShippingBillHeader";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "../../../../../atoms/authAtom";
 
 const Part3 = () => {
   const [invsn, setInvsn] = useState("");
@@ -42,6 +44,7 @@ const Part3 = () => {
   const navigate = useNavigate();
 
   const [cookies, setCookie] = useCookies(["token"]);
+  const { user } = useRecoilValue(authAtom);
 
   const [loading, setLoading] = useState(false);
 
@@ -59,9 +62,10 @@ const Part3 = () => {
       valueFc: valueFc,
       fobInr: fobInr,
       pmv: pmv,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part3section1`,
+      `${BACKEND_URL}/shippingbill/part3section1`,
       jsonData,
       {
         headers: {
@@ -87,9 +91,10 @@ const Part3 = () => {
       schcod: schcod,
       schemeDescription: schemeDescription,
       sqcMsr: sqcMsr,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part3section2`,
+      `${BACKEND_URL}/shippingbill/part3section2`,
       jsonData,
       {
         headers: {
@@ -114,9 +119,10 @@ const Part3 = () => {
       ftaBenefitAvailed: ftaBenefitAvailed,
       rewardBenefit: rewardBenefit,
       thirdPartyItem: thirdPartyItem,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part3section3`,
+      `${BACKEND_URL}/shippingbill/part3section3`,
       jsonData,
       {
         headers: {

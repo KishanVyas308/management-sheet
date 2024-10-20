@@ -8,6 +8,8 @@ import InputField from "../../../../components/InputField";
 import NewDataHeaderComponent from "../NewDataHeaderComponent";
 import NewDataButtons from "../NewDataButtons";
 import ShippingBillHeader from "./ShippingBillHeader";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "../../../../../atoms/authAtom";
 
 const Part1 = () => {
   const [exportersName, setExportersName] = useState("");
@@ -59,6 +61,7 @@ const Part1 = () => {
   const [loading, setLoading] = useState(false);
 
   const [cookies, setCookie] = useCookies(["token"]);
+  const { user } = useRecoilValue(authAtom);
 
   const navigate = useNavigate();
 
@@ -86,14 +89,18 @@ const Part1 = () => {
       ifscNo: ifscNo,
       mode: mode,
       assess: assess,
+      addedByUserId: user.id,
     };
 
+    console.log(jsonData);
+    
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part1section1`,
+      `${BACKEND_URL}/shippingbill/part1section1`,
       jsonData,
       {
         headers: {
           Authorization: cookies.token,
+          
         },
       }
     );
@@ -121,19 +128,27 @@ const Part1 = () => {
       fobValue: fobValue,
       freight: freight,
       insurance: insurance,
+      addedByUserId: user.id,
     };
 
-    const response = await axios.post(
-      `${BACKEND_URL}/newData/part1section2`,
-      jsonData,
-      {
-        headers: {
-          Authorization: cookies.token,
-        },
-      }
-    );
+    try {
+      
+      const response = await axios.post(
+        `${BACKEND_URL}/shippingbill/part1section2`,
+        jsonData,
+        {
+          headers: {
+            Authorization: cookies.token,
+          },
+        }
+      );
+      
+      alert(response.data.message);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
     setLoading(false);
-    alert(response.data.message);
+   
   }
 
   async function handleSubmitSection3(e) {
@@ -154,11 +169,11 @@ const Part1 = () => {
       rosctlAmt: rosctlAmt,
       mawbNo: mawbNo,
       hawbNo: hawbNo,
-      
+      addedByUserId: user.id,
     };
 
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part1section3`,
+      `${BACKEND_URL}/shippingbill/part1section3`,
       jsonData,
       {
         headers: {
@@ -183,7 +198,7 @@ const Part1 = () => {
         <ShippingBillHeader />
 
         <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
-        Shipping Bill - Part 1
+          Shipping Bill - Part 1
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
@@ -361,7 +376,7 @@ const Part1 = () => {
               value={insurance}
               onChange={(e) => setInsurance(e.target.value)}
             />
-              <NewDataButtons
+            <NewDataButtons
               backLink={""}
               nextLink={""}
               handleSubmit={handleSubmitSection2}

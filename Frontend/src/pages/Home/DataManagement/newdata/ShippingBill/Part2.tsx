@@ -8,6 +8,8 @@ import NewDataHeaderComponent from "../NewDataHeaderComponent";
 import InputField from "../../../../components/InputField";
 import NewDataButtons from "../NewDataButtons";
 import ShippingBillHeader from "./ShippingBillHeader";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "../../../../../atoms/authAtom";
 
 const Part2 = () => {
   const [sNo, setSNo] = useState("");
@@ -47,6 +49,7 @@ const Part2 = () => {
   const [loading, setLoading] = useState(false);
 
   const [cookies, setCookie] = useCookies(["token"]);
+  const { user } = useRecoilValue(authAtom);
   const navigate = useNavigate();
 
   const handleSubmitSection1 = async (e: any) => {
@@ -65,9 +68,10 @@ const Part2 = () => {
       adCode: adCode,
       invTerm: invTerm,
       exporterName: exporterName,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part2section1`,
+      `${BACKEND_URL}/shippingbill/part2section1`,
       jsonData,
       {
         headers: {
@@ -95,9 +99,10 @@ const Part2 = () => {
       insurance: insurance,
       discount: discount,
       commission: commission,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part2section2`,
+      `${BACKEND_URL}/shippingbill/part2section2`,
       jsonData,
       {
         headers: {
@@ -122,10 +127,11 @@ const Part2 = () => {
       quantity: quantity,
       uqc: uqc,
       rate: rate,
-      valueFc: valueFc
+      valueFc: valueFc,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part2section3`,
+      `${BACKEND_URL}/shippingbill/part2section3`,
       jsonData,
       {
         headers: {

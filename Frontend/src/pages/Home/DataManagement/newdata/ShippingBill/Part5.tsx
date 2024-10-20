@@ -8,6 +8,8 @@ import NewDataHeaderComponent from "../NewDataHeaderComponent";
 import InputField from "../../../../components/InputField";
 import NewDataButtons from "../NewDataButtons";
 import ShippingBillHeader from "./ShippingBillHeader";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "../../../../../atoms/authAtom";
 
 const Part5 = () => {
   const [declarationStatement, setDeclarationStatement] = useState("");
@@ -17,6 +19,7 @@ const Part5 = () => {
   const [chaName, setChaName] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const { user } = useRecoilValue(authAtom);
 
   const navigate = useNavigate();
 
@@ -30,9 +33,10 @@ const Part5 = () => {
       place: place,
       authorizedSignatory: authorizedSignatory,
       chaName: chaName,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      "${BACKEND_URL}/newdata/part4",
+      "${BACKEND_URL}/shippingbill/part5",
       jsonData,
       {
         headers: {

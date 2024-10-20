@@ -8,6 +8,8 @@ import NewDataHeaderComponent from "../NewDataHeaderComponent";
 import NewDataButtons from "../NewDataButtons";
 import InputField from "../../../../components/InputField";
 import ShippingBillHeader from "./ShippingBillHeader";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "../../../../../atoms/authAtom";
 
 const Part4 = () => {
   const [invSno, setInvSno] = useState("");
@@ -103,6 +105,7 @@ const Part4 = () => {
   const [loading, setLoading] = useState(false);
 
   const [cookies, setCookie] = useCookies(["token"]);
+  const { user } = useRecoilValue(authAtom);
 
   const handleSubmitSection1 = async (e: any) => {
     e.preventDefault();
@@ -122,9 +125,10 @@ const Part4 = () => {
       itemSnoB: itemSnoB,
       licenseNo: licenseNo,
       descnExportItem: descnExportItem,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part4section1`,
+      `${BACKEND_URL}/shippingbill/part4section1`,
       jsonData,
       {
         headers: {
@@ -154,9 +158,10 @@ const Part4 = () => {
       beDate: beDate,
       portCode: portCode,
       descnImportedGoods: descnImportedGoods,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part4section2`,
+      `${BACKEND_URL}/shippingbill/part4section2`,
       jsonData,
       {
         headers: {
@@ -186,9 +191,10 @@ const Part4 = () => {
       name: name,
       code: code,
       percentage: percentage,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part4section3`,
+      `${BACKEND_URL}/shippingbill/part4section3`,
       jsonData,
       {
         headers: {
@@ -219,9 +225,10 @@ const Part4 = () => {
       issuePla: issuePla,
       issDt: issDt,
       expDt: expDt,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part4section4`,
+      `${BACKEND_URL}/shippingbill/part4section4`,
       jsonData,
       {
         headers: {
@@ -252,10 +259,11 @@ const Part4 = () => {
       iec: iec,
       exporterName: exporterName,
       address: address,
+      addedByUserId: user.id,
       
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part4section5`,
+      `${BACKEND_URL}/shippingbill/part4section5`,
       jsonData,
       {
         headers: {
@@ -286,9 +294,10 @@ const Part4 = () => {
       beItemS: beItemS,
       beQty: beQty,
       beUqc: beUqc,
+      addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/newData/part4section6`,
+      `${BACKEND_URL}/shippingbill/part4section6`,
       jsonData,
       {
         headers: {
