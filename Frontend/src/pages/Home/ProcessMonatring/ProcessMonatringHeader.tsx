@@ -20,7 +20,7 @@ const ProcessMonatringHeader = () => {
       <div className="flex flex-col justify-between   w-full ">
         <div className="flex justify-between w-full px-4 bg-[#faa954] text-white text-[20px] font-semibold  p-2 items-center">
           {" "}
-          <div>Turbo Cast (India) Private Limited - Rajkot</div>
+          <div>XYZ Private Limited - Rajkot</div>
           <div className="flex gap-6 items-center">
           <div>{(user.user.name).split(" ")[0]}</div>
           <div className="text-[28px]">
