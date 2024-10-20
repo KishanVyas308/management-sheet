@@ -12,7 +12,7 @@ import existingDataRoute from "./router/existingDataRoute";
 import newDataRoute from "./router/newDataRoute";
 import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
-import shippingBillRoute from "./router/shippingBillRoute";
+import directexportRoute from "./router/directexportRoute";
 
 const app = express();
 const httpServer = createServer(app);
@@ -43,7 +43,7 @@ app.use("/api/v1/ex", existingDataRoute);
 app.use("/api/v1/newData", newDataRoute);
 
 //? shipping bill
-app.use("/api/v1/shbill", shippingBillRoute)
+app.use("/api/v1/directexport", directexportRoute)
 
 //? manage user api
 app.use("/api/v1/manageUser", manageUserRoute);

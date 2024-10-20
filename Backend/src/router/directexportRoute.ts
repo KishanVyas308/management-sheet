@@ -1,5 +1,5 @@
 import express from "express";
-import { addBasicSheet } from "../controller/shippingBillController";
+import { addBasicSheet } from "../controller/directexportController";
 
 
 const router = express.Router();
