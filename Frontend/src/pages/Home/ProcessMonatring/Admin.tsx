@@ -130,7 +130,7 @@ const App: React.FC = () => {
                     <div key={shippingBill.id} className="mt-4">
                       <p className="text-gray-700 text-base">
                         Total Shipping Bills: {shippingBill.totalShippingBill}
-                      </p>
+                      </p>  
                       <div className="flex space-x-1 mt-2">
                         {Array.from({
                           length: shippingBill.totalShippingBill,
@@ -143,7 +143,12 @@ const App: React.FC = () => {
                         ))}
                       </div>
                       <p className="text-gray-700 text-base mt-2">
-                        shippingBill Detail
+                        shippingBill Detail  -- {" "}
+                        <span className="text-black font-semibold">
+
+                         {shippingBill.currentExportersName}
+                        </span>
+                      
                       </p>
                         <div className="flex space-x-1 mt-2">
                         <GreenGrayBar
