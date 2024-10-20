@@ -50,6 +50,7 @@ const shippingBillRoute_1 = __importDefault(require("./router/shippingBillRoute"
 const manageUser_1 = __importDefault(require("./router/manageUser"));
 const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRoute"));
 const directexportRoute_1 = __importDefault(require("./router/directexportRoute"));
+const manageUserShippingBillRoute_1 = __importDefault(require("./router/manageUserShippingBillRoute"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 app.use((0, cors_1.default)({
@@ -73,6 +74,8 @@ app.use("/api/v1/directexport", directexportRoute_1.default);
 app.use("/api/v1/manageUser", manageUser_1.default);
 //? data analytics api
 app.use("/api/v1/dataAnalytics", dataAnalyticsRoute_1.default);
+//? manage user shipping bill api
+app.use("/api/v1/manageUserShippingBill", middleWare_1.isAdmin, manageUserShippingBillRoute_1.default);
 // Initialize WebSocket server on the same HTTP server
 const wss = new ws_1.WebSocketServer({ server: httpServer, path: "/api/socket" });
 // Authenticate WebSocket connections

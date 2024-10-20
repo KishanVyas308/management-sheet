@@ -64,6 +64,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 email: true,
                 password: true,
                 contactPersonName: true,
+                role: true,
             },
         });
         if (!user) {
@@ -77,6 +78,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             id: user.id,
             email: user.email,
             name: user.contactPersonName,
+            role: user.role,
         }, process.env.JWT_SECRET);
         res.status(200).json({
             token,
