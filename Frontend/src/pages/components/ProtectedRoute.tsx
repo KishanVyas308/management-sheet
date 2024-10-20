@@ -1,10 +1,10 @@
 // src/components/ProtectedRoute.tsx
-import React, { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { Navigate } from 'react-router-dom';
-import { authAtom } from '../../atoms/authAtom';
-import { useCookies } from 'react-cookie';
-import { BACKEND_URL } from '../../Globle';
+import React, { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Navigate } from "react-router-dom";
+import { authAtom } from "../../atoms/authAtom";
+import { useCookies } from "react-cookie";
+import { Websocket_URL } from "../../Globle";
 
 interface ProtectedRouteProps {
   element: JSX.Element;
@@ -15,28 +15,28 @@ export let socket: WebSocket | null = null;
 function connectSocket(token: string) {
   // Ensure that socket isn't already connected
   console.log("Current socket:", socket);
-  
+
   if (!socket || socket.readyState === WebSocket.CLOSED) {
     console.log("Connecting to WebSocket...");
-    
+
     // Create a new WebSocket connection
-    socket = new WebSocket(`wss://importexport.udhyog4.co.in/api/socket?token=${token}`);
+    socket = new WebSocket(`${Websocket_URL}?token=${token}`);
 
     // WebSocket event handlers
     socket.onopen = () => {
-      console.log('WebSocket connected');
+      console.log("WebSocket connected");
     };
 
     socket.onmessage = (event) => {
-      console.log('WebSocket message received:', event.data);
+      console.log("WebSocket message received:", event.data);
     };
 
     socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
+      console.error("WebSocket error:", error);
     };
 
     socket.onclose = () => {
-      console.log('WebSocket disconnected');
+      console.log("WebSocket disconnected");
       socket = null; // Reset the socket when closed
     };
   }
@@ -44,7 +44,7 @@ function connectSocket(token: string) {
 
 function disconnectSocket() {
   if (socket && socket.readyState !== WebSocket.CLOSED) {
-    console.log('Disconnecting WebSocket...');
+    console.log("Disconnecting WebSocket...");
     socket.close(); // Close the WebSocket connection
     socket = null;
   }
@@ -52,7 +52,7 @@ function disconnectSocket() {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   const auth = useRecoilValue(authAtom);
-  const [cookies, setCookie] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(["token"]);
 
   useEffect(() => {
     if (auth.isAuthenticated) {
