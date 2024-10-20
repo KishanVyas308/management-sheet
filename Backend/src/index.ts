@@ -9,7 +9,7 @@ import { verifyToken } from "./middleWare";
 
 import authRoute from "./router/authRoute";
 import existingDataRoute from "./router/existingDataRoute";
-import newDataRoute from "./router/newDataRoute";
+import shippingBillRoute from "./router/shippingBillRoute";
 import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
 import directexportRoute from "./router/directexportRoute";
@@ -40,7 +40,7 @@ app.use(verifyToken);
 app.use("/api/v1/ex", existingDataRoute);
 
 //? new data api
-app.use("/api/v1/newData", newDataRoute);
+app.use("/api/v1/shippingbill", shippingBillRoute);
 
 //? shipping bill
 app.use("/api/v1/directexport", directexportRoute)
