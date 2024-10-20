@@ -9,84 +9,266 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addBasicSheet = addBasicSheet;
+exports.part1section1 = part1section1;
+exports.part1section2 = part1section2;
+exports.part1section3 = part1section3;
+exports.part2section1 = part2section1;
+exports.part2section2 = part2section2;
+exports.part2section3 = part2section3;
+exports.part3section1 = part3section1;
+exports.part3section2 = part3section2;
+exports.part3section3 = part3section3;
+exports.part4section1 = part4section1;
+exports.part4section2 = part4section2;
+exports.part4section3 = part4section3;
+exports.part4section4 = part4section4;
+exports.part4section5 = part4section5;
+exports.part4section6 = part4section6;
+exports.part5 = part5;
 const __1 = require("..");
-function addBasicSheet(req, res) {
+function part1section1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const { basicSheet } = req.body;
-            console.log(basicSheet);
-            const { companyName, srNo, shippingBillNo, shippingBillDate, thirdPartyExporter, hsCodeAndDescription, epcgLicNo, cifValue, freight, insurance, brc, exchangeRateOrProprtionRatio, exchangeRate, product, remarks, } = basicSheet;
-            const basicSheet1 = yield __1.prisma.basicSheet.create({
-                data: {
-                    companyName: companyName,
-                    srNo: srNo,
-                    shippingBillNo: shippingBillNo,
-                    shippingBillDate: shippingBillDate,
-                    thirdPartyExporter: thirdPartyExporter,
-                    hsCodeAndDescription: hsCodeAndDescription,
-                    epcgLicNo: epcgLicNo,
-                    cifValue: cifValue,
-                    freight: freight,
-                    insurance: insurance,
-                    brc: brc,
-                    exchangeRateOrProprtionRatio: exchangeRateOrProprtionRatio,
-                    cifValue2: (Number(cifValue) * Number(exchangeRateOrProprtionRatio)).toString(),
-                    freight2: (Number(freight) * Number(exchangeRateOrProprtionRatio)).toString(),
-                    insurance2: (Number(insurance) * Number(exchangeRateOrProprtionRatio)).toString(),
-                    brc2: (Number(brc) * Number(exchangeRateOrProprtionRatio)).toString(),
-                    exchangeRate: exchangeRate,
-                    product: product,
-                    remarks: remarks,
-                },
+            const upload = yield __1.prisma.part1Section1.create({
+                data: data,
             });
-            const shippingBillCifValueInDoller = (Number(cifValue) * Number(exchangeRateOrProprtionRatio)).toString();
-            const brcValue = (Number(brc) * Number(exchangeRateOrProprtionRatio)).toString();
-            const lowerOfSbAndBrc = Math.min(Number(cifValue) * Number(exchangeRateOrProprtionRatio), Number(brc) * Number(exchangeRateOrProprtionRatio)).toString();
-            const shippingBillFreight = (Number(freight) * Number(exchangeRateOrProprtionRatio)).toString();
-            const shippingBillInsurance = (Number(insurance) * Number(exchangeRateOrProprtionRatio)).toString();
-            const fobValueInDoller = (Number(lowerOfSbAndBrc) -
-                (Number(shippingBillFreight) + Number(shippingBillInsurance))).toString();
-            const ExchangeRatePerShippingBill = exchangeRate;
-            const fobValueInRupees = ((Number(lowerOfSbAndBrc) -
-                (Number(shippingBillFreight) + Number(shippingBillInsurance))) *
-                Number(ExchangeRatePerShippingBill)).toString();
-            const Annexure1 = yield __1.prisma.annexure1.create({
-                data: {
-                    srNo: srNo,
-                    shippingBillNo: shippingBillNo,
-                    shippingBillDate: shippingBillDate,
-                    shippingBillCifValueInDoller: shippingBillCifValueInDoller,
-                    brcValue: brcValue,
-                    lowerOfSbAndBrc: lowerOfSbAndBrc,
-                    shippingBillFreight: shippingBillFreight,
-                    shippingBillInsurance: shippingBillInsurance,
-                    fobValueInDoller: fobValueInDoller,
-                    ExchangeRatePerShippingBill: ExchangeRatePerShippingBill,
-                    fobValueInRupees: fobValueInRupees,
-                },
-            });
-            const AnnexureA = yield __1.prisma.annexureA.create({
-                data: {
-                    srNo: srNo,
-                    productExportered: product,
-                    shippingBillNumber: shippingBillNo,
-                    shippingBillDate: shippingBillDate,
-                    directExportsInRupees: fobValueInRupees,
-                    directExportsInDollars: fobValueInDoller,
-                    deemedExports: "0",
-                    thirdPartyExportsInRupees: "0",
-                    thirdPartyExportsInDollars: "0",
-                    byGroupCompany: "0",
-                    otherRWseries: "0",
-                    totalInRupees: fobValueInRupees,
-                    totalInDollars: fobValueInDoller,
-                },
-            });
-            return res.status(200).json({ message: "Added data successfully" });
+            return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
-            return res.status(500).json({ message: "Error adding basic sheet" });
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part1section2(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
+        try {
+            const upload = yield __1.prisma.part1Section2.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part1section3(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
+        try {
+            const upload = yield __1.prisma.part1Section3.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part2section1(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            console.log(data);
+            const upload = yield __1.prisma.part2Section1.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part2section2(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            console.log(data);
+            const upload = yield __1.prisma.part2Section2.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part2section3(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            console.log(data);
+            const upload = yield __1.prisma.part2Section3.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part3section1(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            console.log(data);
+            const upload = yield __1.prisma.part3Section1.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part3section2(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            console.log(data);
+            const upload = yield __1.prisma.part3Section2.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part3section3(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            console.log(data);
+            const upload = yield __1.prisma.part3Section3.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part4section1(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            const upload = yield __1.prisma.part4Section1.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part4section2(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            const upload = yield __1.prisma.part4Section2.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part4section3(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            const upload = yield __1.prisma.part4Section3.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part4section4(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            const upload = yield __1.prisma.part4Section4.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part4section5(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            const upload = yield __1.prisma.part4Section5.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part4section6(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            const upload = yield __1.prisma.part4Section6.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
+        }
+    });
+}
+function part5(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const data = req.body;
+            const upload = yield __1.prisma.part5.create({
+                data: data,
+            });
+            return res.json({ message: "Data imported successfully" });
+        }
+        catch (error) {
+            console.error("Error importing data:", error);
+            return res.json({ message: "Error importing data" });
         }
     });
 }

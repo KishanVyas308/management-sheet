@@ -46,7 +46,7 @@ const authControler_1 = require("./controller/authControler");
 const middleWare_1 = require("./middleWare");
 const authRoute_1 = __importDefault(require("./router/authRoute"));
 const existingDataRoute_1 = __importDefault(require("./router/existingDataRoute"));
-const newDataRoute_1 = __importDefault(require("./router/newDataRoute"));
+const shippingBillRoute_1 = __importDefault(require("./router/shippingBillRoute"));
 const manageUser_1 = __importDefault(require("./router/manageUser"));
 const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRoute"));
 const directexportRoute_1 = __importDefault(require("./router/directexportRoute"));
@@ -66,7 +66,7 @@ app.use(middleWare_1.verifyToken);
 //? existing data api
 app.use("/api/v1/ex", existingDataRoute_1.default);
 //? new data api
-app.use("/api/v1/newData", newDataRoute_1.default);
+app.use("/api/v1/shippingbill", shippingBillRoute_1.default);
 //? shipping bill
 app.use("/api/v1/directexport", directexportRoute_1.default);
 //? manage user api

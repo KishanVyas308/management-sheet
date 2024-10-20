@@ -17,7 +17,7 @@ const __1 = require("..");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password, contactPersonName, companyName, addressLine1, addressLine2, city, state, country, pin, webpage, phoneNumber, gstNo, companyLogo, } = req.body;
+    const { email, password, contactPersonName, companyName, addressLine1, addressLine2, city, state, country, pin, webpage, phoneNumber, gstNo, companyLogo, role, } = req.body;
     try {
         const user = yield __1.prisma.user.create({
             data: {
@@ -35,6 +35,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 phoneNumber,
                 gstNo,
                 companyLogo,
+                role
             },
         });
         const token = jsonwebtoken_1.default.sign({
@@ -47,7 +48,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        return res.json({ message: "Please try again later" });
+        return res.json({ message: "Please try again later" + error });
     }
 });
 exports.signup = signup;
