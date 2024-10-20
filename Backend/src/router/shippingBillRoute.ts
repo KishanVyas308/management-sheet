@@ -16,7 +16,7 @@ import {
   part4section5,
   part4section6,
   part5,
-} from "../controller/newDataController";
+} from "../controller/shippingBillController";
 
 const router = express.Router();
 
