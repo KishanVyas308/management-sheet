@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import { myData } from "./controller/authControler";
-import { verifyToken } from "./middleWare";
+import { isAdmin, verifyToken } from "./middleWare";
 
 import authRoute from "./router/authRoute";
 import existingDataRoute from "./router/existingDataRoute";
@@ -13,6 +13,7 @@ import shippingBillRoute from "./router/shippingBillRoute";
 import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
 import directexportRoute from "./router/directexportRoute";
+import manageUserShippingBillRoute from "./router/manageUserShippingBillRoute";
 
 const app = express();
 const httpServer = createServer(app);
@@ -51,6 +52,9 @@ app.use("/api/v1/manageUser", manageUserRoute);
 //? data analytics api
 app.use("/api/v1/dataAnalytics", dataAnalyticsRoute);
 
+//? manage user shipping bill api
+app.use("/api/v1/manageUserShippingBill", isAdmin ,manageUserShippingBillRoute);
+
 // Initialize WebSocket server on the same HTTP server
 const wss = new WebSocketServer({ server: httpServer, path: "/api/socket" });
 
@@ -58,7 +62,7 @@ const wss = new WebSocketServer({ server: httpServer, path: "/api/socket" });
 wss.on("connection", async (ws : any, req : any) => {
   const params = new URLSearchParams(req.url?.split("?")[1]);
   const token = params.get("token");
-
+  
   if (!token) {
     ws.close(1008, "Missing authentication token");
     return;
