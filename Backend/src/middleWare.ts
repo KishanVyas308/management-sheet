@@ -16,5 +16,12 @@ export const verifyToken = (req: any, res: any, next: any) => {
     }
 };
 
+export const isAdmin = (req: any, res: any, next: any) => {
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ message: 'You are not authorized' });
+    }
+    next();
+}
+
 
 
