@@ -13,28 +13,44 @@ enum Role {
 }
 
 model user {
-  id                Int      @id @default(autoincrement())
+  id                     Int                      @id @default(autoincrement())
   // id for mongo db
   // id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  email             String   @unique
-  password          String   @default("")
-  contactPersonName String   @default("")
-  companyName       String   @default("")
-  addressLine1      String   @default("")
-  addressLine2      String   @default("")
-  city              String   @default("")
-  state             String   @default("")
-  country           String   @default("")
-  pin               String   @default("")
-  webpage           String   @default("")
-  phoneNumber       String   @default("")
-  gstNo             String   @default("")
-  companyLogo       String   @default("")
-  isOnline          Boolean  @default(false)
-  lastOnline        DateTime @default(now())
+  email                  String                   @unique
+  password               String                   @default("")
+  contactPersonName      String                   @default("")
+  companyName            String                   @default("")
+  addressLine1           String                   @default("")
+  addressLine2           String                   @default("")
+  city                   String                   @default("")
+  state                  String                   @default("")
+  country                String                   @default("")
+  pin                    String                   @default("")
+  webpage                String                   @default("")
+  phoneNumber            String                   @default("")
+  gstNo                  String                   @default("")
+  companyLogo            String                   @default("")
+  isOnline               Boolean                  @default(false)
+  lastOnline             DateTime                 @default(now())
   ManageUserShippingBill ManageUserShippingBill[]
-  role              Role     @default(USER)
-  currentShippingBillId String @default("")
+  role                   Role                     @default(USER)
+  currentShippingBillId  String                   @default("")
+  part1Section1          Part1Section1[]
+  part1Section2          Part1Section2[]
+  part1Section3          Part1Section3[]
+  part2Section1          Part2Section1[]
+  part2Section2          Part2Section2[]
+  part2Section3          Part2Section3[]
+  part3Section1          Part3Section1[]
+  part3Section2          Part3Section2[]
+  part3Section3          Part3Section3[]
+  part4Section1          Part4Section1[]
+  part4Section2          Part4Section2[]
+  part4Section3          Part4Section3[]
+  part4Section4          Part4Section4[]
+  part4Section5          Part4Section5[]
+  part4Section6          Part4Section6[]
+  part5                  Part5[]
 }
 
 model ExcelDataFinal {
@@ -53,7 +69,6 @@ model ExcelDataFinal {
   insurance            String  @default("0.00")
   brc                  String  @default("0.00")
   exchangeRate         String  @default("0.0000")
-  //
   cifValue2            String  @default("0.00")
   freight2             String  @default("0.00")
   insurance2           String  @default("0.00")
@@ -83,7 +98,8 @@ model Part1Section1 {
   mode             String?
   assess           String?
   //! change if it is mongo db
-  addedByUserId   Int
+  user             user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId    Int
 }
 
 model Part1Section2 {
@@ -106,47 +122,50 @@ model Part1Section2 {
   freight       String?
   insurance     String?
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part1Section3 {
   // id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  id         Int     @id @default(autoincrement())
-  discount   String?
-  commission String?
-  deductions String?
-  pc         String?
-  duty       String?
-  cess       String?
-  dbkClaim   String?
-  igstAmt    String?
-  cessAmt    String?
-  igstValue  String?
-  rodtepAmt  String?
-  rosctlAmt  String?
-  mawbNo     String?
-  hawbNo     String?
+  id            Int     @id @default(autoincrement())
+  discount      String?
+  commission    String?
+  deductions    String?
+  pc            String?
+  duty          String?
+  cess          String?
+  dbkClaim      String?
+  igstAmt       String?
+  cessAmt       String?
+  igstValue     String?
+  rodtepAmt     String?
+  rosctlAmt     String?
+  mawbNo        String?
+  hawbNo        String?
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part2Section1 {
   // id           String @id @default(auto()) @map("_id") @db.ObjectId
-  id           Int    @id @default(autoincrement())
-  sNo          String
-  invoiceNo    String
-  invoiceDt    String
-  poNo         String
-  poDt         String
-  locNo        String
-  locDt        String
-  contractNo   String
-  contractDt   String
-  adCode       String
-  invTerm      String
-  exporterName String
+  id            Int    @id @default(autoincrement())
+  sNo           String
+  invoiceNo     String
+  invoiceDt     String
+  poNo          String
+  poDt          String
+  locNo         String
+  locDt         String
+  contractNo    String
+  contractDt    String
+  adCode        String
+  invTerm       String
+  exporterName  String
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part2Section2 {
@@ -165,41 +184,44 @@ model Part2Section2 {
   discount          String
   commission        String
   //! change if it is mongo db
-  addedByUserId   Int
+  user              user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId     Int
 }
 
 model Part2Section3 {
   // id           String @id @default(auto()) @map("_id") @db.ObjectId
-  id           Int    @id @default(autoincrement())
-  deduct       String
-  pc           String
-  exchangeRate String
-  itemSno      String
-  hsCd         String
-  description  String
-  quantity     String
-  uqc          String
-  rate         String
-  valueFc      String
+  id            Int    @id @default(autoincrement())
+  deduct        String
+  pc            String
+  exchangeRate  String
+  itemSno       String
+  hsCd          String
+  description   String
+  quantity      String
+  uqc           String
+  rate          String
+  valueFc       String
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part3Section1 {
   // id          String @id @default(auto()) @map("_id") @db.ObjectId
-  id          Int    @id @default(autoincrement())
-  invsn       String
-  itemsn      String
-  hsCd        String
-  description String
-  quantity    String
-  uqc         String
-  rate        String
-  valueFc     String
-  fobInr      String
-  pmv         String
+  id            Int    @id @default(autoincrement())
+  invsn         String
+  itemsn        String
+  hsCd          String
+  description   String
+  quantity      String
+  uqc           String
+  rate          String
+  valueFc       String
+  fobInr        String
+  pmv           String
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part3Section2 {
@@ -216,7 +238,8 @@ model Part3Section2 {
   schemeDescription String
   sqcMsr            String
   //! change if it is mongo db
-  addedByUserId   Int
+  user              user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId     Int
 }
 
 model Part3Section3 {
@@ -232,7 +255,8 @@ model Part3Section3 {
   rewardBenefit     String
   thirdPartyItem    String
   //! change if it is mongo db
-  addedByUserId   Int
+  user              user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId     Int
 }
 
 model Part4Section1 {
@@ -253,6 +277,7 @@ model Part4Section1 {
   licenseNo       String
   descnExportItem String
   //! change if it is mongo db
+  user            user   @relation(fields: [addedByUserId], references: [id])
   addedByUserId   Int
 }
 
@@ -274,50 +299,53 @@ model Part4Section2 {
   portCode           String
   descnImportedGoods String
   //! change if it is mongo db
-  addedByUserId   Int
+  user               user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId      Int
 }
 
 model Part4Section3 {
   // id         String @id @default(auto()) @map("_id") @db.ObjectId
-  id         Int    @id @default(autoincrement())
-  qtyImp     String
-  qtyUsed    String
-  invsn      String
-  itmsn      String
-  info       String
-  qualifier  String
-  infoCd     String
-  infoText   String
-  infoMsr    String
-  itmsno     String
-  cSno       String
-  name       String
-  code       String
-  percentage String
+  id            Int    @id @default(autoincrement())
+  qtyImp        String
+  qtyUsed       String
+  invsn         String
+  itmsn         String
+  info          String
+  qualifier     String
+  infoCd        String
+  infoText      String
+  infoMsr       String
+  itmsno        String
+  cSno          String
+  name          String
+  code          String
+  percentage    String
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part4Section4 {
   // id          String @id @default(auto()) @map("_id") @db.ObjectId
-  id          Int    @id @default(autoincrement())
-  yieldPct    String
-  ing         String
-  controlType String
-  location    String
-  stDt        String
-  endDt       String
-  resCd       String
-  resText     String
-  docypcd     String
-  icegateId   String
-  irn         String
-  partyCd     String
-  issuePla    String
-  issDt       String
-  expDt       String
+  id            Int    @id @default(autoincrement())
+  yieldPct      String
+  ing           String
+  controlType   String
+  location      String
+  stDt          String
+  endDt         String
+  resCd         String
+  resText       String
+  docypcd       String
+  icegateId     String
+  irn           String
+  partyCd       String
+  issuePla      String
+  issDt         String
+  expDt         String
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part4Section5 {
@@ -339,29 +367,31 @@ model Part4Section5 {
   exporterName    String
   address         String
   //! change if it is mongo db
+  user            user   @relation(fields: [addedByUserId], references: [id])
   addedByUserId   Int
 }
 
 model Part4Section6 {
   // id          String @id @default(auto()) @map("_id") @db.ObjectId
-  id          Int    @id @default(autoincrement())
-  gstnId      String
-  gstnType    String
-  type        String
-  manufactCd  String
-  sourceState String
-  transCy     String
-  invs        String
-  quantity    String
-  noOfUnits   String
-  beSiteId    String
-  beNumber    String
-  beInvSno    String
-  beItemS     String
-  beQty       String
-  beUqc       String
+  id            Int    @id @default(autoincrement())
+  gstnId        String
+  gstnType      String
+  type          String
+  manufactCd    String
+  sourceState   String
+  transCy       String
+  invs          String
+  quantity      String
+  noOfUnits     String
+  beSiteId      String
+  beNumber      String
+  beInvSno      String
+  beItemS       String
+  beQty         String
+  beUqc         String
   //! change if it is mongo db
-  addedByUserId   Int
+  user          user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
 }
 
 model Part5 {
@@ -373,7 +403,8 @@ model Part5 {
   authorizedSignatory  String
   chaName              String
   //! change if it is mongo db
-  addedByUserId   Int
+  user                 user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId        Int
 }
 
 model BasicSheet {
@@ -424,7 +455,7 @@ model Annexure1 {
 
 model AnnexureA {
   // id String @id @default(auto()) @map("_id") @db.ObjectId
-  id                 String @id @default(cuid())
+  id                         String @id @default(cuid())
   srNo                       String
   productExportered          String
   shippingBillNumber         String
@@ -440,30 +471,36 @@ model AnnexureA {
   totalInDollars             String
 }
 
+enum AddedDataType {
+  ShippingBill
+  DirectExport
+}
 
 model ManageUserShippingBill {
   // id String @id @default(auto()) @map("_id") @db.ObjectId
-  id     String @id @default(cuid())
-  user   user   @relation(fields: [userId], references: [id])
-  userId Int
-  currentExportersName String  @default("")
-  totalShippingBill Int 
-  completedShippingBill Int @default(0)
-  isCompleted Boolean @default(false) 
-  isPart1Section1Completed Boolean @default(false)
-  isPart1Section2Completed Boolean @default(false)
-  isPart1Section3Completed Boolean @default(false)
-  isPart2Section1Completed Boolean @default(false)
-  isPart2Section2Completed Boolean @default(false)
-  isPart2Section3Completed Boolean @default(false)
-  isPart3Section1Completed Boolean @default(false)
-  isPart3Section2Completed Boolean @default(false)
-  isPart3Section3Completed Boolean @default(false)
-  isPart4Section1Completed Boolean @default(false)
-  isPart4Section2Completed Boolean @default(false)
-  isPart4Section3Completed Boolean @default(false)
-  isPart4Section4Completed Boolean @default(false)
-  isPart4Section5Completed Boolean @default(false)
-  isPart4Section6Completed Boolean @default(false)
-  isPart5Completed Boolean @default(false)
+  id            String @id @default(cuid())
+  user          user   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int
+
+  currentExportersName     String        @default("")
+  isCompleted              Boolean       @default(false)
+  isPart1Section1Completed Boolean       @default(false)
+  isPart1Section2Completed Boolean       @default(false)
+  isPart1Section3Completed Boolean       @default(false)
+  isPart2Section1Completed Boolean       @default(false)
+  isPart2Section2Completed Boolean       @default(false)
+  isPart2Section3Completed Boolean       @default(false)
+  isPart3Section1Completed Boolean       @default(false)
+  isPart3Section2Completed Boolean       @default(false)
+  isPart3Section3Completed Boolean       @default(false)
+  isPart4Section1Completed Boolean       @default(false)
+  isPart4Section2Completed Boolean       @default(false)
+  isPart4Section3Completed Boolean       @default(false)
+  isPart4Section4Completed Boolean       @default(false)
+  isPart4Section5Completed Boolean       @default(false)
+  isPart4Section6Completed Boolean       @default(false)
+  isPart5Completed         Boolean       @default(false)
+  addedDataType            AddedDataType
+
+  @@index([addedByUserId], name: "userId")
 }

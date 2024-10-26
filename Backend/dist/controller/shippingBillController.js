@@ -30,29 +30,29 @@ function part1section1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = req.body;
         try {
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            console.log("added by userid ", data.addedByUserId);
+            console.log("shippingBill", shippingBill);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 1 section 1 is completed
+            if (shippingBill.isPart1Section1Completed) {
+                return res.json({ message: "This part is aleard added" });
+            }
+            // add part 1 section 1
             const upload = yield __1.prisma.part1Section1.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart1Section1Completed: true,
-                        currentExportersName: data.exportersName,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    currentExportersName: data.exportersName,
+                    isPart1Section1Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -65,28 +65,26 @@ function part1section2(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = req.body;
         try {
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 1 section 2 is completed
+            if (shippingBill.isPart1Section2Completed) {
+                return res.json({ message: "This part is aleard added" });
+            }
+            // add part 1 section 2
             const upload = yield __1.prisma.part1Section2.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart1Section2Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart1Section2Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -99,28 +97,26 @@ function part1section3(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = req.body;
         try {
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 1 section 3 is completed
+            if (shippingBill.isPart1Section3Completed) {
+                return res.json({ message: "This part is aleard added" });
+            }
+            // add part 1 section 3
             const upload = yield __1.prisma.part1Section3.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart1Section3Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart1Section3Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -131,30 +127,28 @@ function part1section3(req, res) {
 }
 function part2section1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 2 section 1 is completed
+            if (shippingBill.isPart2Section1Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 2 section 1
             const upload = yield __1.prisma.part2Section1.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart2Section1Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart2Section1Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -165,30 +159,28 @@ function part2section1(req, res) {
 }
 function part2section2(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 2 section 2 is completed
+            if (shippingBill.isPart2Section2Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 2 section 2
             const upload = yield __1.prisma.part2Section2.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart2Section2Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart2Section2Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -199,30 +191,28 @@ function part2section2(req, res) {
 }
 function part2section3(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 2 section 3 is completed
+            if (shippingBill.isPart2Section3Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 2 section 3
             const upload = yield __1.prisma.part2Section3.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart2Section3Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart2Section3Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -233,30 +223,28 @@ function part2section3(req, res) {
 }
 function part3section1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 3 section 1 is completed
+            if (shippingBill.isPart3Section1Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 3 section 1
             const upload = yield __1.prisma.part3Section1.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart3Section1Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart3Section1Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -267,30 +255,28 @@ function part3section1(req, res) {
 }
 function part3section2(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 3 section 2 is completed
+            if (shippingBill.isPart3Section2Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 3 section 2
             const upload = yield __1.prisma.part3Section2.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart3Section2Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart3Section2Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -301,30 +287,28 @@ function part3section2(req, res) {
 }
 function part3section3(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 3 section 3 is completed
+            if (shippingBill.isPart3Section3Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 3 section 3
             const upload = yield __1.prisma.part3Section3.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart3Section3Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart3Section3Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -335,30 +319,28 @@ function part3section3(req, res) {
 }
 function part4section1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 4 section 1 is completed
+            if (shippingBill.isPart4Section1Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 4 section 1
             const upload = yield __1.prisma.part4Section1.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart4Section1Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart4Section1Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -369,30 +351,28 @@ function part4section1(req, res) {
 }
 function part4section2(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 4 section 2 is completed
+            if (shippingBill.isPart4Section2Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 4 section 2
             const upload = yield __1.prisma.part4Section2.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart4Section2Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart4Section2Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -403,30 +383,28 @@ function part4section2(req, res) {
 }
 function part4section3(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 4 section 3 is completed
+            if (shippingBill.isPart4Section3Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 4 section 3
             const upload = yield __1.prisma.part4Section3.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart4Section3Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart4Section3Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -437,30 +415,28 @@ function part4section3(req, res) {
 }
 function part4section4(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 4 section 4 is completed
+            if (shippingBill.isPart4Section4Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 4 section 4
             const upload = yield __1.prisma.part4Section4.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart4Section4Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart4Section4Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -471,30 +447,28 @@ function part4section4(req, res) {
 }
 function part4section5(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 4 section 5 is completed
+            if (shippingBill.isPart4Section5Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 4 section 5
             const upload = yield __1.prisma.part4Section5.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart4Section5Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart4Section5Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -505,30 +479,28 @@ function part4section5(req, res) {
 }
 function part4section6(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 4 section 6 is completed
+            if (shippingBill.isPart4Section6Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 4 section 6
             const upload = yield __1.prisma.part4Section6.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart4Section6Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart4Section6Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -539,30 +511,28 @@ function part4section6(req, res) {
 }
 function part5(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const data = req.body;
         try {
-            const data = req.body;
-            const user = yield __1.prisma.user.findUnique({
-                where: {
-                    id: data.addedByUserId,
-                },
-                select: {
-                    currentShippingBillId: true,
-                },
-            });
+            // check if current sheet is completed
+            const shippingBill = yield checkIsCurrentSheetIsCompleted(data.addedByUserId);
+            if (!shippingBill)
+                return res.json({ message: "User not found" });
+            // check if part 5 is completed
+            if (shippingBill.isPart5Completed) {
+                return res.json({ message: "This part is already added" });
+            }
+            // add part 5
             const upload = yield __1.prisma.part5.create({
                 data: data,
             });
-            if (user && user.currentShippingBillId != "") {
-                const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
-                    where: {
-                        id: user.currentShippingBillId,
-                    },
-                    data: {
-                        isPart5Completed: true,
-                    },
-                });
-                checkIfAllTaskTakCompleted(updateManageUserShippingBill);
-            }
+            const updateManageUserShippingBill = yield __1.prisma.manageUserShippingBill.update({
+                where: {
+                    id: shippingBill === null || shippingBill === void 0 ? void 0 : shippingBill.id,
+                },
+                data: {
+                    isPart5Completed: true,
+                },
+            });
             return res.json({ message: "Data imported successfully" });
         }
         catch (error) {
@@ -571,50 +541,93 @@ function part5(req, res) {
         }
     });
 }
-function checkIfAllTaskTakCompleted(shippingBill) {
+// fetch user
+// fetch current shipping bill
+// check if current shipping bill is completed
+// if completed create new shipping bill
+// update current user shipping bill id
+function checkIsCurrentSheetIsCompleted(addedByUserId) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (shippingBill.isPart1Section1Completed &&
-            shippingBill.isPart1Section2Completed &&
-            shippingBill.isPart1Section3Completed &&
-            shippingBill.isPart2Section1Completed &&
-            shippingBill.isPart2Section2Completed &&
-            shippingBill.isPart2Section3Completed &&
-            shippingBill.isPart3Section1Completed &&
-            shippingBill.isPart3Section2Completed &&
-            shippingBill.isPart3Section3Completed &&
-            shippingBill.isPart4Section1Completed &&
-            shippingBill.isPart4Section2Completed &&
-            shippingBill.isPart4Section3Completed &&
-            shippingBill.isPart4Section4Completed &&
-            shippingBill.isPart4Section5Completed &&
-            shippingBill.isPart4Section6Completed &&
-            shippingBill.isPart5Completed) {
-            if (shippingBill.completedShippingBill < shippingBill.totalShippingBill) {
-                const updatedShippingBill = yield __1.prisma.manageUserShippingBill.update({
+        // fetch current user from its id
+        const user = yield __1.prisma.user.findUnique({
+            where: {
+                id: addedByUserId,
+            },
+        });
+        console.log("user", user);
+        if (!user) {
+            return null;
+        }
+        if (!user.currentShippingBillId) {
+            const newShippingBill = yield __1.prisma.manageUserShippingBill.create({
+                data: {
+                    addedDataType: "ShippingBill",
+                    user: {
+                        connect: { id: user.id },
+                    },
+                },
+            });
+            // update current user shipping bill id
+            const updatedUser = yield __1.prisma.user.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    currentShippingBillId: newShippingBill.id,
+                },
+            });
+            return newShippingBill;
+        }
+        const manageUserShippingBill = yield __1.prisma.manageUserShippingBill.findUnique({
+            where: {
+                id: user.currentShippingBillId,
+            },
+        });
+        if (manageUserShippingBill) {
+            if (manageUserShippingBill.isPart1Section1Completed &&
+                manageUserShippingBill.isPart1Section2Completed &&
+                manageUserShippingBill.isPart1Section3Completed &&
+                manageUserShippingBill.isPart2Section1Completed &&
+                manageUserShippingBill.isPart2Section2Completed &&
+                manageUserShippingBill.isPart2Section3Completed &&
+                manageUserShippingBill.isPart3Section1Completed &&
+                manageUserShippingBill.isPart3Section2Completed &&
+                manageUserShippingBill.isPart3Section3Completed &&
+                manageUserShippingBill.isPart4Section1Completed &&
+                manageUserShippingBill.isPart4Section2Completed &&
+                manageUserShippingBill.isPart4Section3Completed &&
+                manageUserShippingBill.isPart4Section4Completed &&
+                manageUserShippingBill.isPart4Section5Completed &&
+                manageUserShippingBill.isPart4Section6Completed &&
+                manageUserShippingBill.isPart5Completed) {
+                yield __1.prisma.manageUserShippingBill.update({
                     where: {
-                        id: shippingBill.id,
+                        id: manageUserShippingBill.id,
                     },
                     data: {
-                        completedShippingBill: shippingBill.completedShippingBill + 1,
-                        isPart1Section1Completed: false,
-                        isPart1Section2Completed: false,
-                        isPart1Section3Completed: false,
-                        isPart2Section1Completed: false,
-                        isPart2Section2Completed: false,
-                        isPart2Section3Completed: false,
-                        isPart3Section1Completed: false,
-                        isPart3Section2Completed: false,
-                        isPart3Section3Completed: false,
-                        isPart4Section1Completed: false,
-                        isPart4Section2Completed: false,
-                        isPart4Section3Completed: false,
-                        isPart4Section4Completed: false,
-                        isPart4Section5Completed: false,
-                        isPart4Section6Completed: false,
-                        isPart5Completed: false,
+                        isCompleted: true,
                     },
                 });
+                const newShippingBill = yield __1.prisma.manageUserShippingBill.create({
+                    data: {
+                        addedDataType: "ShippingBill",
+                        user: {
+                            connect: { id: user.id },
+                        },
+                    },
+                });
+                // update current user shipping bill id
+                yield __1.prisma.user.update({
+                    where: {
+                        id: user.id,
+                    },
+                    data: {
+                        currentShippingBillId: newShippingBill.id,
+                    },
+                });
+                return newShippingBill;
             }
         }
+        return manageUserShippingBill;
     });
 }
