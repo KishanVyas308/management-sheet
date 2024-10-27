@@ -6,6 +6,9 @@ import ProcessMonatringHeader from "./ProcessMonatringHeader";
 import InputField from "../../components/InputField";
 import Loading from "../../components/Loading";
 import Tooltip from "@mui/material/Tooltip";
+import { useRecoilValue } from "recoil";
+import { authAtom, Role } from "../../../atoms/authAtom";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: string;
@@ -22,8 +25,15 @@ const App: React.FC = () => {
   const [allUsersShippingBill, setAllUsersShippingBill] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const currentUser = useRecoilValue(authAtom);
+  const navigate = useNavigate();
+
   // Fetch all users initially
   useEffect(() => {
+    if(currentUser.user.role !== Role.ADMIN) {
+      alert("You are not authorized to view this page");
+      navigate("/");
+    }
     const fetchUsers = async () => {
       setIsLoading(true);
       try {
@@ -46,7 +56,6 @@ const App: React.FC = () => {
             },
           }
         );
-        console.log(shippingBillResponse.data);
 
         setAllUsersShippingBill(shippingBillResponse.data);
         setIsLoading(false);
@@ -59,36 +68,13 @@ const App: React.FC = () => {
     fetchUsers();
   }, [cookies.token]);
 
-  useEffect(() => {
-    // Initialize WebSocket connection
-    const ws = new WebSocket(
-      `https://importexport.udhyog4.co.in/api/socket?token=${cookies.token}`
-    );
-
-    // Set WebSocket instance to state
-    setSocket(ws);
-
-    // Handle incoming messages
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.event === "statusChanged") {
-        // Handle status update event if needed
-      }
-    };
-
-
-
-    // Clean up on component unmount
-    return () => {
-      ws.close();
-    };
-  }, [cookies.token]);
 
   return (
     <div className="bg-[#e6e7e8] min-h-screen h-full">
       <ProcessMonatringHeader />
       <div className="grid p-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 items-center justify-center mt-10">
-        {users.map((user) => (
+        {users.map((user : any) => (
+        user.role == "USER" &&
           <div
             key={user.id}
             className="m-auto w-[300px] h-[320px] rounded-lg shadow-lg bg-white p-4 flex flex-col justify-between"
@@ -99,7 +85,7 @@ const App: React.FC = () => {
                 userEmail={user.email}
                 isActive={user.isOnline}
               />
-              {allUsersShippingBill.map((shippingBill) => {
+              {allUsersShippingBill && allUsersShippingBill?.map((shippingBill) => {
                 if (shippingBill.addedByUserId === user.id) {
                   return (
                     <div key={shippingBill.id} className="mt-4">

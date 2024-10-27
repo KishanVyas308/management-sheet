@@ -12,11 +12,19 @@ import { useRecoilValue } from "recoil";
 import { authAtom } from "../../../../../atoms/authAtom";
 
 const Part5 = () => {
-  const [declarationStatement, setDeclarationStatement] = useState("");
-  const [date, setDate] = useState("");
-  const [place, setPlace] = useState("");
-  const [authorizedSignatory, setAuthorizedSignatory] = useState("");
-  const [chaName, setChaName] = useState("");
+  const [declarationStatement, setDeclarationStatement] = useState(localStorage.getItem("part5declarationStatement") || "");
+  const [date, setDate] = useState(localStorage.getItem("part5date") || "");
+  const [place, setPlace] = useState(localStorage.getItem("part5place") || "");
+  const [authorizedSignatory, setAuthorizedSignatory] = useState(localStorage.getItem("part5authorizedSignatory") || "");
+  const [chaName, setChaName] = useState(localStorage.getItem("part5chaName") || "");
+
+  useEffect(() => {
+    localStorage.setItem("part5declarationStatement", declarationStatement);
+    localStorage.setItem("part5date", date);
+    localStorage.setItem("part5place", place);
+    localStorage.setItem("part5authorizedSignatory", authorizedSignatory);
+    localStorage.setItem("part5chaName", chaName);
+  }, [declarationStatement, date, place, authorizedSignatory, chaName]);
 
   const [loading, setLoading] = useState(false);
   const { user } = useRecoilValue(authAtom);
@@ -46,6 +54,18 @@ const Part5 = () => {
     );
     setLoading(false);
     alert(response.data.message);
+
+    localStorage.removeItem("part5declarationStatement");
+    localStorage.removeItem("part5date");
+    localStorage.removeItem("part5place");
+    localStorage.removeItem("part5authorizedSignatory");
+    localStorage.removeItem("part5chaName");
+    setDeclarationStatement("");
+    setDate("");
+    setPlace("");
+    setAuthorizedSignatory("");
+    setChaName("");
+    
   };
 
   useEffect(() => {

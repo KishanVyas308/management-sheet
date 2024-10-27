@@ -31,6 +31,7 @@ const getAllUsersShippingBill = (req, res) => __awaiter(void 0, void 0, void 0, 
         return res.status(200).json(shippingBill);
     }
     catch (error) {
+        console.log("Failed to fetch shipping bill", error);
         return res.json({ message: "Please try again later" });
     }
 });

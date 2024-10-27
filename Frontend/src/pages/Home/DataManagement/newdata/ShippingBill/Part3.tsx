@@ -12,36 +12,98 @@ import { useRecoilValue } from "recoil";
 import { authAtom } from "../../../../../atoms/authAtom";
 
 const Part3 = () => {
-  const [invsn, setInvsn] = useState("");
-  const [itemsn, setItemsn] = useState("");
-  const [hsCd, setHsCd] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [uqc, setUqc] = useState("");
-  const [rate, setRate] = useState("");
-  const [valueFc, setValueFc] = useState("");
-  const [fobInr, setFobInr] = useState("");
-  const [pmv, setPmv] = useState("");
-  const [dutyAmt, setDutyAmt] = useState("");
-  const [cessRt, setCessRt] = useState("");
-  const [cesamt, setCesamt] = useState("");
-  const [dbkclmd, setDbkclmd] = useState("");
-  const [igststat, setIgststat] = useState("");
-  const [igstValue, setIgstValue] = useState("");
-  const [igstAmount, setIgstAmount] = useState("");
-  const [schcod, setSchcod] = useState("");
-  const [schemeDescription, setSchemeDescription] = useState("");
-  const [sqcMsr, setSqcMsr] = useState("");
-  const [sqcUqc, setSqcUqc] = useState("");
-  const [stateOfOrigin, setStateOfOrigin] = useState("");
-  const [districtOfOrigin, setDistrictOfOrigin] = useState("");
-  const [ptAbroad, setPtAbroad] = useState("");
-  const [compCess, setCompCess] = useState("");
-  const [endUse, setEndUse] = useState("");
-  const [ftaBenefitAvailed, setFtaBenefitAvailed] = useState("");
-  const [rewardBenefit, setRewardBenefit] = useState("");
-  const [thirdPartyItem, setThirdPartyItem] = useState("");
+  const [invsn, setInvsn] = useState(localStorage.getItem("part3invsn") || "");
+  const [itemsn, setItemsn] = useState(localStorage.getItem("part3itemsn") || "");
+  const [hsCd, setHsCd] = useState(localStorage.getItem("part3hsCd") || "");
+  const [description, setDescription] = useState(localStorage.getItem("part3description") || "");
+  const [quantity, setQuantity] = useState(localStorage.getItem("part3quantity") || "");
+  const [uqc, setUqc] = useState(localStorage.getItem("part3uqc") || "");
+  const [rate, setRate] = useState(localStorage.getItem("part3rate") || "");
+  const [valueFc, setValueFc] = useState(localStorage.getItem("part3valueFc") || "");
+  const [fobInr, setFobInr] = useState(localStorage.getItem("part3fobInr") || "");
+  const [pmv, setPmv] = useState(localStorage.getItem("part3pmv") || "");
+  const [dutyAmt, setDutyAmt] = useState(localStorage.getItem("part3dutyAmt") || "");
+  const [cessRt, setCessRt] = useState(localStorage.getItem("part3cessRt") || "");
+  const [cesamt, setCesamt] = useState(localStorage.getItem("part3cesamt") || "");
+  const [dbkclmd, setDbkclmd] = useState(localStorage.getItem("part3dbkclmd") || "");
+  const [igststat, setIgststat] = useState(localStorage.getItem("part3igststat") || "");
+  const [igstValue, setIgstValue] = useState(localStorage.getItem("part3igstValue") || "");
+  const [igstAmount, setIgstAmount] = useState(localStorage.getItem("part3igstAmount") || "");
+  const [schcod, setSchcod] = useState(localStorage.getItem("part3schcod") || "");
+  const [schemeDescription, setSchemeDescription] = useState(localStorage.getItem("part3schemeDescription") || "");
+  const [sqcMsr, setSqcMsr] = useState(localStorage.getItem("part3sqcMsr") || "");
+  const [sqcUqc, setSqcUqc] = useState(localStorage.getItem("part3sqcUqc") || "");
+  const [stateOfOrigin, setStateOfOrigin] = useState(localStorage.getItem("part3stateOfOrigin") || "");
+  const [districtOfOrigin, setDistrictOfOrigin] = useState(localStorage.getItem("part3districtOfOrigin") || "");
+  const [ptAbroad, setPtAbroad] = useState(localStorage.getItem("part3ptAbroad") || "");
+  const [compCess, setCompCess] = useState(localStorage.getItem("part3compCess") || "");
+  const [endUse, setEndUse] = useState(localStorage.getItem("part3endUse") || "");
+  const [ftaBenefitAvailed, setFtaBenefitAvailed] = useState(localStorage.getItem("part3ftaBenefitAvailed") || "");
+  const [rewardBenefit, setRewardBenefit] = useState(localStorage.getItem("part3rewardBenefit") || "");
+  const [thirdPartyItem, setThirdPartyItem] = useState(localStorage.getItem("part3thirdPartyItem") || "");
   const navigate = useNavigate();
+
+  useEffect(() => { 
+    localStorage.setItem("part3invsn", invsn);
+    localStorage.setItem("part3itemsn", itemsn);
+    localStorage.setItem("part3hsCd", hsCd);
+    localStorage.setItem("part3description", description);
+    localStorage.setItem("part3quantity", quantity);
+    localStorage.setItem("part3uqc", uqc);
+    localStorage.setItem("part3rate", rate);
+    localStorage.setItem("part3valueFc", valueFc);
+    localStorage.setItem("part3fobInr", fobInr);
+    localStorage.setItem("part3pmv", pmv);
+    localStorage.setItem("part3dutyAmt", dutyAmt);
+    localStorage.setItem("part3cessRt", cessRt);
+    localStorage.setItem("part3cesamt", cesamt);
+    localStorage.setItem("part3dbkclmd", dbkclmd);
+    localStorage.setItem("part3igststat", igststat);
+    localStorage.setItem("part3igstValue", igstValue);
+    localStorage.setItem("part3igstAmount", igstAmount);
+    localStorage.setItem("part3schcod", schcod);
+    localStorage.setItem("part3schemeDescription", schemeDescription);
+    localStorage.setItem("part3sqcMsr", sqcMsr);
+    localStorage.setItem("part3sqcUqc", sqcUqc);
+    localStorage.setItem("part3stateOfOrigin", stateOfOrigin);
+    localStorage.setItem("part3districtOfOrigin", districtOfOrigin);
+    localStorage.setItem("part3ptAbroad", ptAbroad);
+    localStorage.setItem("part3compCess", compCess);
+    localStorage.setItem("part3endUse", endUse);
+    localStorage.setItem("part3ftaBenefitAvailed", ftaBenefitAvailed);
+    localStorage.setItem("part3rewardBenefit", rewardBenefit);
+    localStorage.setItem("part3thirdPartyItem", thirdPartyItem);
+  }, [
+    invsn,
+    itemsn,
+    hsCd,
+    description,
+    quantity,
+    uqc,
+    rate,
+    valueFc,
+    fobInr,
+    pmv,
+    dutyAmt,
+    cessRt,
+    cesamt,
+    dbkclmd,
+    igststat,
+    igstValue,
+    igstAmount,
+    schcod,
+    schemeDescription,
+    sqcMsr,
+    sqcUqc,
+    stateOfOrigin,
+    districtOfOrigin,
+    ptAbroad,
+    compCess,
+    endUse,
+    ftaBenefitAvailed,
+    rewardBenefit,
+    thirdPartyItem,
+  ]);
 
   const [cookies, setCookie] = useCookies(["token"]);
   const { user } = useRecoilValue(authAtom);
@@ -75,6 +137,29 @@ const Part3 = () => {
     );
     setLoading(false);
     alert(response.data.message);
+
+    // Remove from local storage and reset state
+    localStorage.removeItem("part3invsn");
+    localStorage.removeItem("part3itemsn");
+    localStorage.removeItem("part3hsCd");
+    localStorage.removeItem("part3description");
+    localStorage.removeItem("part3quantity");
+    localStorage.removeItem("part3uqc");
+    localStorage.removeItem("part3rate");
+    localStorage.removeItem("part3valueFc");
+    localStorage.removeItem("part3fobInr");
+    localStorage.removeItem("part3pmv");
+
+    setInvsn("");
+    setItemsn("");
+    setHsCd("");
+    setDescription("");
+    setQuantity("");
+    setUqc("");
+    setRate("");
+    setValueFc("");
+    setFobInr("");
+    setPmv("");
   };
 
   const handleSubmitSection2 = async (e: any) => {
@@ -104,6 +189,29 @@ const Part3 = () => {
     );
     setLoading(false);
     alert(response.data.message);
+
+    // Remove from local storage and reset state
+    localStorage.removeItem("part3dutyAmt");
+    localStorage.removeItem("part3cessRt");
+    localStorage.removeItem("part3cesamt");
+    localStorage.removeItem("part3dbkclmd");
+    localStorage.removeItem("part3igststat");
+    localStorage.removeItem("part3igstValue");
+    localStorage.removeItem("part3igstAmount");
+    localStorage.removeItem("part3schcod");
+    localStorage.removeItem("part3schemeDescription");
+    localStorage.removeItem("part3sqcMsr");
+
+    setDutyAmt("");
+    setCessRt("");
+    setCesamt("");
+    setDbkclmd("");
+    setIgststat("");
+    setIgstValue("");
+    setIgstAmount("");
+    setSchcod("");
+    setSchemeDescription("");
+    setSqcMsr("");
   };
 
   const handleSubmitSection3 = async (e: any) => {
@@ -132,6 +240,27 @@ const Part3 = () => {
     );
     setLoading(false);
     alert(response.data.message);
+
+    // Remove from local storage and reset state
+    localStorage.removeItem("part3sqcUqc");
+    localStorage.removeItem("part3stateOfOrigin");
+    localStorage.removeItem("part3districtOfOrigin");
+    localStorage.removeItem("part3ptAbroad");
+    localStorage.removeItem("part3compCess");
+    localStorage.removeItem("part3endUse");
+    localStorage.removeItem("part3ftaBenefitAvailed");
+    localStorage.removeItem("part3rewardBenefit");
+    localStorage.removeItem("part3thirdPartyItem");
+
+    setSqcUqc("");
+    setStateOfOrigin("");
+    setDistrictOfOrigin("");
+    setPtAbroad("");
+    setCompCess("");
+    setEndUse("");
+    setFtaBenefitAvailed("");
+    setRewardBenefit("");
+    setThirdPartyItem("");
   };
 
 

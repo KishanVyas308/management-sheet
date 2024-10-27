@@ -6,11 +6,9 @@ import { RecoilRoot } from "recoil";
 import { CookiesProvider } from "react-cookie";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
-    </RecoilRoot>
-  </React.StrictMode>
+  <RecoilRoot>
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
+  </RecoilRoot>
 );

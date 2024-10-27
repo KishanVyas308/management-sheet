@@ -21,6 +21,8 @@ export const getAllUsersShippingBill = async (req: any, res: any) => {
     });
     return res.status(200).json(shippingBill);
   } catch (error) {
+    console.log("Failed to fetch shipping bill", error);
+    
     return res.json({ message: "Please try again later" });
   }
 };

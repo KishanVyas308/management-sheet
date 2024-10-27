@@ -43,11 +43,11 @@ function connectSocket(token: string) {
 }
 
 function disconnectSocket() {
-  if (socket && socket.readyState !== WebSocket.CLOSED) {
-    console.log("Disconnecting WebSocket...");
-    socket.close(); // Close the WebSocket connection
-    socket = null;
-  }
+
+  console.log("Disconnecting WebSocket...");
+  socket?.close(); // Close the WebSocket connection
+  socket = null;
+
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
