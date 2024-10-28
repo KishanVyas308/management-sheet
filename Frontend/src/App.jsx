@@ -52,7 +52,7 @@ function App() {
         />
         <Route
           path="/datamanagement/DirectExport"
-          element={<DirectExport element={<DirectExport />} />}
+          element={<ProtectedRoute element={<DirectExport />} />}
         />
         <Route
           path="/datamanagement/existingdata"
