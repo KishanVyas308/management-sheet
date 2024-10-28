@@ -4,13 +4,13 @@ export async function addBasicSheet(req: any, res: any) {
   try {
     const { basicSheet } = req.body;
     console.log(basicSheet);
-    
+
     const {
       companyName,
       srNo,
       shippingBillNo,
       shippingBillDate,
-      thirdPartyExporter,
+      exportersName,
       hsCodeAndDescription,
       epcgLicNo,
       cifValue,
@@ -29,7 +29,7 @@ export async function addBasicSheet(req: any, res: any) {
         srNo: srNo,
         shippingBillNo: shippingBillNo,
         shippingBillDate: shippingBillDate,
-        thirdPartyExporter: thirdPartyExporter,
+        exportersName: exportersName,
         hsCodeAndDescription: hsCodeAndDescription,
         epcgLicNo: epcgLicNo,
         cifValue: cifValue,
@@ -53,34 +53,29 @@ export async function addBasicSheet(req: any, res: any) {
       },
     });
 
-    const shippingBillCifValueInDoller = (
-      Number(cifValue) * Number(exchangeRateOrProprtionRatio)
-    ).toString();
-    const brcValue = (
-      Number(brc) * Number(exchangeRateOrProprtionRatio)
-    ).toString();
-    const lowerOfSbAndBrc = Math.min(
-      Number(cifValue) * Number(exchangeRateOrProprtionRatio),
-      Number(brc) * Number(exchangeRateOrProprtionRatio)
-    ).toString();
+    return res.status(200).json({ message: "Added data successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Error adding basic sheet" });
+  }
+}
 
-    const shippingBillFreight = (
-      Number(freight) * Number(exchangeRateOrProprtionRatio)
-    ).toString();
-
-    const shippingBillInsurance = (
-      Number(insurance) * Number(exchangeRateOrProprtionRatio)
-    ).toString();
-    const fobValueInDoller = (
-      Number(lowerOfSbAndBrc) -
-      (Number(shippingBillFreight) + Number(shippingBillInsurance))
-    ).toString();
-    const ExchangeRatePerShippingBill = exchangeRate;
-    const fobValueInRupees = (
-      (Number(lowerOfSbAndBrc) -
-        (Number(shippingBillFreight) + Number(shippingBillInsurance))) *
-      Number(ExchangeRatePerShippingBill)
-    ).toString();
+export async function addAnnexure1(req: any, res: any) {
+  try {
+    const { annexure1 } = req.body;
+    const {
+      srNo,
+      shippingBillNo,
+      shippingBillDate,
+      shippingBillCifValueInDoller,
+      brcValue,
+      // Lower of SB and BRC
+      lowerOfSbAndBrc,
+      shippingBillFreight,
+      shippingBillInsurance,
+      fobValueInDoller,
+      ExchangeRatePerShippingBill,
+      fobValueInRupees,
+    } = annexure1;
 
     const Annexure1 = await prisma.annexure1.create({
       data: {
@@ -98,26 +93,103 @@ export async function addBasicSheet(req: any, res: any) {
       },
     });
 
+    return res.status(200).json({ message: "Added data successfully" });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ message: "Error adding annexure 1" });
+  }
+}
+
+export async function addAnnexureA(req: any, res: any) {
+  try {
+    const { annexureA } = req.body;
+    const {
+      srNo,
+      productExportered,
+      shippingBillNumber,
+      shippingBillDate,
+      directExportsInRupees,
+      directExportsInDollars,
+      deemedExports,
+      thirdPartyExportsInRupees,
+      thirdPartyExportsInDollars,
+      byGroupCompany,
+      otherRWseries,
+      totalInRupees,
+      totalInDollars,
+    } = annexureA;
+
     const AnnexureA = await prisma.annexureA.create({
       data: {
-        srNo: srNo,
-        productExportered: product,
-        shippingBillNumber: shippingBillNo,
-        shippingBillDate: shippingBillDate,
-        directExportsInRupees: fobValueInRupees,
-        directExportsInDollars: fobValueInDoller,
-        deemedExports: "0",
-        thirdPartyExportsInRupees: "0",
-        thirdPartyExportsInDollars: "0",
-        byGroupCompany: "0",
-        otherRWseries: "0",
-        totalInRupees: fobValueInRupees,
-        totalInDollars: fobValueInDoller,
+        srNo,
+        productExportered,
+        shippingBillNumber,
+        shippingBillDate,
+        directExportsInRupees,
+        directExportsInDollars,
+        deemedExports,
+        thirdPartyExportsInRupees,
+        thirdPartyExportsInDollars,
+        byGroupCompany,
+        otherRWseries,
+        totalInRupees,
+        totalInDollars,
       },
     });
 
     return res.status(200).json({ message: "Added data successfully" });
   } catch (error) {
-    return res.status(500).json({ message: "Error adding basic sheet" });
+    return res.status(500).json({ message: "Error adding annexure A" });
+  }
+}
+
+export async function getSummary(req: any, res: any) {
+  try {
+    const annexureA = await prisma.annexureA.findMany({
+      select: {
+        directExportsInDollars: true,
+      },
+    });
+
+    console.log(annexureA);
+
+    // const totalDirectExportsInDollars = annexureA.reduce((sum, record) => {
+    //   return sum + parseFloat(record.directExportsInDollars);
+    // }, 0);
+    let totalDirectExportsInDollars = 0;
+    annexureA.forEach((record) => {
+      if (record.directExportsInDollars.trim() != "")
+        totalDirectExportsInDollars += parseFloat(
+          record.directExportsInDollars
+        );
+    });
+    console.log(totalDirectExportsInDollars);
+    
+
+    const EOImposed = "1340782";
+    const DirectExport = totalDirectExportsInDollars;
+    const IndirectExport = "0";
+    const Total = Number(DirectExport) + Number(IndirectExport);
+    const Excess = Number(Total) - Number(EOImposed);
+    const EOFulfilled = (Number(Total) / Number(EOImposed)) * 100;
+    const ExcessEo = (Number(Excess) / Number(EOImposed)) * 100;
+
+    const summary = {
+      EOImposed,
+      DirectExport,
+      IndirectExport,
+      Total,
+      Excess,
+      EOFulfilled,
+      ExcessEo,
+    };
+
+    return res.status(200).json({
+      message: "Fetched summary successfully",
+      summary,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching summary" });
   }
 }

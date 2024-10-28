@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Loading from "../../../../components/Loading";
 import NewDataHeaderComponent from "../NewDataHeaderComponent";
 import InputField from "../../../../components/InputField";
@@ -8,12 +8,13 @@ import axios from "axios";
 import { BACKEND_URL } from "../../../../../Globle";
 
 const ShippingBillPage = () => {
+  const [usdPrice, setUsdPrice] = useState("");
   const [basicSheet, setBasicSheet] = useState({
     companyName: "",
     srNo: "0",
     shippingBillNo: "0",
     shippingBillDate: "",
-    thirdPartyExporter: "",
+    exportersName: "",
     hsCodeAndDescription: "",
     epcgLicNo: "",
     cifValue: "0",
@@ -61,14 +62,13 @@ const ShippingBillPage = () => {
   });
 
   const [blockwiseSummary, setBlockwiseSummary] = useState({
-    EOImposed: "2681564",
-    ExcessofPreviousblock: "0",
-    DirectExport: "2348208",
+    EOImposed: "0",
+    DirectExport: "0",
     IndirectExport: "0",
-    Total: "2348208",
-    Excess: "-333356",
-    EOFulfilled: "87.57",
-    ExcessEo: "-12.43",
+    Total: "0",
+    Excess: "0",
+    EOFulfilled: "0",
+    ExcessEo: "0",
   });
 
   const [loading, setLoading] = useState(false);
@@ -79,7 +79,9 @@ const ShippingBillPage = () => {
     const jsonData = {
       basicSheet,
     };
-    const response = await axios.post(
+    console.log(jsonData);
+
+    const res1 = await axios.post(
       `${BACKEND_URL}/directexport/basicsheet`,
       jsonData,
       {
@@ -88,29 +90,99 @@ const ShippingBillPage = () => {
         },
       }
     );
-    alert(response.data.message);
+    if (res1.status !== 200) {
+      alert("Error in saving data");
+      setLoading(false);
+      return;
+    }
+
+    const annexure1Data = {
+      annexure1,
+    }
+    console.log(annexure1Data);
+
+    const res2 = await axios.post(
+      `${BACKEND_URL}/directexport/annexure1`,
+      annexure1Data,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    if (res2.status !== 200) {
+      alert("Error in saving data");
+      setLoading(false);
+      return;
+    }
+
+    const annexureAData = {
+      annexureA,
+    }
+    console.log(annexureAData);
+
+    const res3 = await axios.post(
+      `${BACKEND_URL}/directexport/annexureA`,
+      annexureAData,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+
+    if (res3.status !== 200) {
+      alert("Error in saving data");
+      setLoading(false);
+      return;
+    }
+    alert("Data saved successfully");
+
     setLoading(false);
   };
 
+  const getSummary = async () => {
+    setLoading(true);
+    const res = await axios.get(
+      `${BACKEND_URL}/directexport/summary`,
+      {
+        headers: {
+          Authorization: cookies.token,
+        },
+      }
+    );
+    if (res.status !== 200) {
+      alert("Error in fetching data");
+      setLoading(false);
+      return;
+    }
+    console.log(res.data);
+
+    setBlockwiseSummary(res.data.summary);
+    setLoading(false);
+  }
+
+
+
   // UseMemo to update both basicSheet and annexure1 values based on basicSheet inputs
   useMemo(() => {
-    const updatedBasicSheet = {
-      cifValue2: (
-        Number(basicSheet.cifValue) *
-        Number(basicSheet.exchangeRateOrProprtionRatio)
-      ).toString(),
-      freight2: (
-        Number(basicSheet.freight) *
-        Number(basicSheet.exchangeRateOrProprtionRatio)
-      ).toString(),
-      insurance2: (
-        Number(basicSheet.insurance) *
-        Number(basicSheet.exchangeRateOrProprtionRatio)
-      ).toString(),
-      brc2: (
-        Number(basicSheet.brc) * Number(basicSheet.exchangeRateOrProprtionRatio)
-      ).toString(),
-    };
+    // const updatedBasicSheet = {
+    //   cifValue2: (
+    //     Number(basicSheet.cifValue) *
+    //     Number(basicSheet.exchangeRateOrProprtionRatio)
+    //   ).toString(),
+    //   freight2: (
+    //     Number(basicSheet.freight) *
+    //     Number(basicSheet.exchangeRateOrProprtionRatio)
+    //   ).toString(),
+    //   insurance2: (
+    //     Number(basicSheet.insurance) *
+    //     Number(basicSheet.exchangeRateOrProprtionRatio)
+    //   ).toString(),
+    //   brc2: (
+    //     Number(basicSheet.brc) * Number(basicSheet.exchangeRateOrProprtionRatio)
+    //   ).toString(),
+    // };
 
     const cifValue2 =
       Number(basicSheet.cifValue) *
@@ -133,6 +205,9 @@ const ShippingBillPage = () => {
     ).toString();
 
     const updatedAnnexure1 = {
+      srNo: basicSheet.srNo,
+      shippingBillNo: basicSheet.shippingBillNo,
+      shippingBillDate: basicSheet.shippingBillDate,
       shippingBillCifValueInDoller: cifValue2.toString(),
       brcValue: brcValue.toString(),
       lowerOfSbAndBrc: lowerOfSbAndBrc,
@@ -143,15 +218,33 @@ const ShippingBillPage = () => {
       fobValueInRupees: fobValueInRupees,
     };
 
-    setBasicSheet((prevSheet) => ({
-      ...prevSheet,
-      ...updatedBasicSheet,
-    }));
+    const updatedAnnexureA = {
+      srNo: basicSheet.srNo,
+      productExportered: basicSheet.product,
+      shippingBillNumber: basicSheet.shippingBillNo,
+      shippingBillDate: basicSheet.shippingBillDate,
+      directExportsInRupees: fobValueInRupees,
+      directExportsInDollars: fobValueInDoller,
+      deemedExports: "0",
+      thirdPartyExportsInRupees: "0",
+      thirdPartyExportsInDollars: "0",
+      byGroupCompany: "0",
+      otherRWseries: "0",
+      totalInRupees: fobValueInRupees,
+      totalInDollars: fobValueInDoller,
+    };
+
+    // setBasicSheet((prevSheet) => ({
+    //   ...prevSheet,
+    //   ...updatedBasicSheet,
+    // }));
 
     setAnnexure1((prevAnnexure) => ({
       ...prevAnnexure,
       ...updatedAnnexure1,
     }));
+
+
   }, [
     basicSheet.cifValue,
     basicSheet.freight,
@@ -159,8 +252,25 @@ const ShippingBillPage = () => {
     basicSheet.brc,
     basicSheet.exchangeRateOrProprtionRatio,
     basicSheet.exchangeRate,
+    basicSheet.srNo,
+    basicSheet.shippingBillNo,
+    basicSheet.shippingBillDate,
+    basicSheet.exportersName,
+    basicSheet.hsCodeAndDescription,
+    basicSheet.epcgLicNo,
+    basicSheet.product,
+    basicSheet.srNo
   ]);
+  const getUsdPrice = async () => {
+    const res = await axios.get("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json")
 
+    console.log(res.data.usd.inr);
+    setUsdPrice(res.data.usd.inr);
+  }
+  useEffect(() => {
+    getUsdPrice();
+
+  }, [])
   return (
     <div className="bg-[#e6e7e9] w-full h-full min-h-screen">
       <div className="container mx-auto px-4 py-8 ">
@@ -174,6 +284,10 @@ const ShippingBillPage = () => {
         <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
           Direct Export
         </div>
+
+        <div>{
+          usdPrice && <div className="text-center text-green-700 font-sans font-semibold text-[px]">USD Price: {usdPrice}</div>
+        }</div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
           <div className="bg-white p-4 rounded-md">
@@ -215,12 +329,12 @@ const ShippingBillPage = () => {
               type="date"
             />
             <InputField
-              label="Third Party Exporter"
-              value={basicSheet.thirdPartyExporter}
+              label="Exporter's Name"
+              value={basicSheet.exportersName}
               onChange={(e) =>
                 setBasicSheet({
                   ...basicSheet,
-                  thirdPartyExporter: e.target.value,
+                  exportersName: e.target.value,
                 })
               }
             />
@@ -411,74 +525,7 @@ const ShippingBillPage = () => {
               type="number"
             />
 
-            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
-              Summary
-            </div>
-         
-          <InputField
-            label="EO Imposed"
-            value={blockwiseSummary.EOImposed}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, EOImposed: e.target.value })
-          }
-            type="number"
-          />
-          <InputField
-            label="Excess of Previous Block"
-            value={blockwiseSummary.ExcessofPreviousblock}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, ExcessofPreviousblock: e.target.value })
-          }
-            type="number"
-          />
-          <InputField
-            label="Direct Export"
-            value={blockwiseSummary.DirectExport}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, DirectExport: e.target.value })
-          }
-            type="number"
-          />
-          <InputField
-            label="Indirect Export"
-            value={blockwiseSummary.IndirectExport}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, IndirectExport: e.target.value })
-          }
-            type="number"
-          />
-          <InputField
-            label="Total"
-            value={blockwiseSummary.Total}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, Total: e.target.value })
-          }
-            type="number"
-          />
-          <InputField
-            label="Excess"
-            value={blockwiseSummary.Excess}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, Excess: e.target.value })
-          }
-            type="number"
-          />
-          <InputField
-            label="EO Fulfilled"
-            value={blockwiseSummary.EOFulfilled}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, EOFulfilled: e.target.value })
-          }
-            type="number"
-          />
-          <InputField
-            label="Excess EO"
-            value={blockwiseSummary.ExcessEo}
-            onChange={(e) =>
-              setBlockwiseSummary({ ...blockwiseSummary, ExcessEo: e.target.value })
-          }
-            type="number"
-          />
+
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
@@ -486,7 +533,7 @@ const ShippingBillPage = () => {
             </div>
             <InputField
               label="Sr No"
-              value={basicSheet.srNo}
+              value={annexureA.srNo}
               onChange={(e) =>
                 setAnnexureA({ ...annexureA, srNo: e.target.value })
               }
@@ -494,7 +541,7 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Product Exported"
-              value={basicSheet.product}
+              value={annexureA.productExportered}
               onChange={(e) =>
                 setAnnexureA({
                   ...annexureA,
@@ -505,7 +552,7 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Shipping Bill Number"
-              value={basicSheet.shippingBillNo}
+              value={annexureA.shippingBillNumber}
               onChange={(e) =>
                 setAnnexureA({
                   ...annexureA,
@@ -516,7 +563,7 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Shipping Bill Date"
-              value={basicSheet.shippingBillDate}
+              value={annexureA.shippingBillDate}
               onChange={(e) =>
                 setAnnexureA({
                   ...annexureA,
@@ -527,7 +574,7 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Direct Exports in Rupees"
-              value={annexure1.fobValueInRupees}
+              value={annexureA.directExportsInRupees}
               onChange={(e) =>
                 setAnnexureA({
                   ...annexureA,
@@ -538,7 +585,7 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Direct Exports in Dollars"
-              value={annexure1.fobValueInDoller}
+              value={annexureA.directExportsInDollars}
               onChange={(e) =>
                 setAnnexureA({
                   ...annexureA,
@@ -604,7 +651,7 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Total in Rupees"
-              value={annexure1.fobValueInRupees}
+              value={annexureA.totalInRupees}
               onChange={(e) =>
                 setAnnexureA({
                   ...annexureA,
@@ -615,7 +662,7 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Total in Dollars"
-              value={annexure1.fobValueInDoller}
+              value={annexureA.totalInDollars}
               onChange={(e) =>
                 setAnnexureA({
                   ...annexureA,
@@ -630,6 +677,78 @@ const ShippingBillPage = () => {
               nextLink={""}
               handleSubmit={handleSubmit}
             />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              Summary
+            </div>
+
+            <InputField
+              label="EO Imposed"
+              value={blockwiseSummary.EOImposed}
+              onChange={(e) =>
+                setBlockwiseSummary({ ...blockwiseSummary, EOImposed: e.target.value })
+              }
+
+              type="number"
+            />
+
+            <InputField
+              label="Direct Export"
+              value={blockwiseSummary.DirectExport}
+              onChange={(e) =>
+                setBlockwiseSummary({ ...blockwiseSummary, DirectExport: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Indirect Export"
+              value={blockwiseSummary.IndirectExport}
+              onChange={(e) =>
+                setBlockwiseSummary({ ...blockwiseSummary, IndirectExport: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Total"
+              value={blockwiseSummary.Total}
+              onChange={(e) =>
+                setBlockwiseSummary({ ...blockwiseSummary, Total: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Excess"
+              value={blockwiseSummary.Excess}
+              onChange={(e) =>
+                setBlockwiseSummary({ ...blockwiseSummary, Excess: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="EO Fulfilled"
+              value={blockwiseSummary.EOFulfilled}
+              onChange={(e) =>
+                setBlockwiseSummary({ ...blockwiseSummary, EOFulfilled: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Excess EO"
+              value={blockwiseSummary.ExcessEo}
+              onChange={(e) =>
+                setBlockwiseSummary({ ...blockwiseSummary, ExcessEo: e.target.value })
+              }
+              type="number"
+            />
+            <button
+              onClick={getSummary}
+              className="bg-green-500 text-white p-2 rounded-md"
+            >
+              Get Summary
+            </button>
           </div>
         </div>
       </div>

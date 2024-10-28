@@ -417,7 +417,7 @@ model BasicSheet {
   srNo                         String
   shippingBillNo               String
   shippingBillDate             String?
-  thirdPartyExporter           String?
+  exportersName           String?
   hsCodeAndDescription         String?
   epcgLicNo                    String?
   cifValue                     String   @default("0.00")
