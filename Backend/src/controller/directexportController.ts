@@ -55,6 +55,8 @@ export async function addBasicSheet(req: any, res: any) {
 
     return res.status(200).json({ message: "Added data successfully" });
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).json({ message: "Error adding basic sheet" });
   }
 }
@@ -140,6 +142,8 @@ export async function addAnnexureA(req: any, res: any) {
 
     return res.status(200).json({ message: "Added data successfully" });
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).json({ message: "Error adding annexure A" });
   }
 }
