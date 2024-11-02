@@ -32,6 +32,8 @@ Visit This - [Proof](https://importexport.udhyog4.co.in/api)
    # For backend
    cd Backend
    npm install
+   docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_USER=myuser -e MYSQL_PASSWORD=mypassword -e MYSQL_DATABASE=mydatabase -p 3306:3306 mysql:latest
+
 
    # For frontend
    cd Frontend

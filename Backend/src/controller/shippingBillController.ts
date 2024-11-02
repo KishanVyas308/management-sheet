@@ -620,7 +620,7 @@ async function checkIsCurrentSheetIsCompleted(addedByUserId: any) {
   if (!user.currentShippingBillId) {
     const newShippingBill = await prisma.manageUserShippingBill.create({
       data: {
-        addedDataType: "ShippingBill",
+
         user: {
           connect: { id: user.id },
         },
@@ -674,7 +674,6 @@ async function checkIsCurrentSheetIsCompleted(addedByUserId: any) {
       });
       const newShippingBill = await prisma.manageUserShippingBill.create({
         data: {
-          addedDataType: "ShippingBill",
           user: {
             connect: { id: user.id },
           },

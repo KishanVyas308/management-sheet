@@ -6,12 +6,9 @@ import NewDataButtons from "../NewDataButtons";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { BACKEND_URL } from "../../../../../Globle";
-import { useRecoilValue } from "recoil";
-import { authAtom } from "../../../../../atoms/authAtom";
 
-const ShippingBillPage = () => {
+const IndirectExport = () => {
   const [usdPrice, setUsdPrice] = useState("USD Price: -cant able to fetch-");
-  const {user} = useRecoilValue(authAtom);
   const [basicSheet, setBasicSheet] = useState({
     companyName: "",
     srNo: "0",
@@ -81,7 +78,6 @@ const ShippingBillPage = () => {
     setLoading(true);
     const jsonData = {
       basicSheet,
-      addedByUserId : user.id
     };
     console.log(jsonData);
 
@@ -102,7 +98,6 @@ const ShippingBillPage = () => {
 
     const annexure1Data = {
       annexure1,
-      addedByUserId : user.id
     }
     console.log(annexure1Data);
 
@@ -123,7 +118,6 @@ const ShippingBillPage = () => {
 
     const annexureAData = {
       annexureA,
-      addedByUserId : user.id
     }
     console.log(annexureAData);
 
@@ -240,15 +234,19 @@ const ShippingBillPage = () => {
       totalInDollars: fobValueInDoller,
     };
 
-    
+    // setBasicSheet((prevSheet) => ({
+    //   ...prevSheet,
+    //   ...updatedBasicSheet,
+    // }));
 
     setAnnexure1((prevAnnexure) => ({
       ...prevAnnexure,
-      ...updatedAnnexure1
+      ...updatedAnnexure1,
     }));
-    setAnnexureA((prevAnnexure) => ({
-      ...prevAnnexure,
-      ...updatedAnnexureA
+
+    setAnnexureA((prevAnnexureA) => ({
+      ...prevAnnexureA,
+      ...updatedAnnexureA,
     }));
 
 
@@ -289,7 +287,7 @@ const ShippingBillPage = () => {
         />
 
         <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
-          Direct Export
+          Indirect Export
         </div>
 
         <div>{
@@ -763,4 +761,4 @@ const ShippingBillPage = () => {
   );
 };
 
-export default ShippingBillPage;
+export default IndirectExport;

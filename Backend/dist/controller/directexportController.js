@@ -17,9 +17,8 @@ const __1 = require("..");
 function addBasicSheet(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { basicSheet } = req.body;
-            console.log(basicSheet);
-            const { companyName, srNo, shippingBillNo, shippingBillDate, exportersName, hsCodeAndDescription, epcgLicNo, cifValue, freight, insurance, brc, exchangeRateOrProprtionRatio, exchangeRate, product, remarks, } = basicSheet;
+            const { basicSheet, addedByUserId } = req.body;
+            const { companyName, srNo, shippingBillNo, shippingBillDate, exportersName, hsCodeAndDescription, epcgLicNo, cifValue, freight, insurance, brc, exchangeRateOrProprtionRatio, exchangeRate, product, remarks, cifValue2, freight2, insurance2, brc2, } = basicSheet;
             const basicSheet1 = yield __1.prisma.basicSheet.create({
                 data: {
                     companyName: companyName,
@@ -34,13 +33,14 @@ function addBasicSheet(req, res) {
                     insurance: insurance,
                     brc: brc,
                     exchangeRateOrProprtionRatio: exchangeRateOrProprtionRatio,
-                    cifValue2: (Number(cifValue) * Number(exchangeRateOrProprtionRatio)).toString(),
-                    freight2: (Number(freight) * Number(exchangeRateOrProprtionRatio)).toString(),
-                    insurance2: (Number(insurance) * Number(exchangeRateOrProprtionRatio)).toString(),
-                    brc2: (Number(brc) * Number(exchangeRateOrProprtionRatio)).toString(),
+                    cifValue2: cifValue2,
+                    freight2: freight2,
+                    insurance2: insurance2,
+                    brc2: brc2,
                     exchangeRate: exchangeRate,
                     product: product,
                     remarks: remarks,
+                    addedByUserId: addedByUserId,
                 },
             });
             return res.status(200).json({ message: "Added data successfully" });
@@ -54,7 +54,7 @@ function addBasicSheet(req, res) {
 function addAnnexure1(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { annexure1 } = req.body;
+            const { annexure1, addedByUserId } = req.body;
             const { srNo, shippingBillNo, shippingBillDate, shippingBillCifValueInDoller, brcValue, 
             // Lower of SB and BRC
             lowerOfSbAndBrc, shippingBillFreight, shippingBillInsurance, fobValueInDoller, ExchangeRatePerShippingBill, fobValueInRupees, } = annexure1;
@@ -71,6 +71,7 @@ function addAnnexure1(req, res) {
                     fobValueInDoller: fobValueInDoller,
                     ExchangeRatePerShippingBill: ExchangeRatePerShippingBill,
                     fobValueInRupees: fobValueInRupees,
+                    addedByUserId: addedByUserId,
                 },
             });
             return res.status(200).json({ message: "Added data successfully" });
@@ -84,7 +85,7 @@ function addAnnexure1(req, res) {
 function addAnnexureA(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { annexureA } = req.body;
+            const { annexureA, addedByUserId } = req.body;
             const { srNo, productExportered, shippingBillNumber, shippingBillDate, directExportsInRupees, directExportsInDollars, deemedExports, thirdPartyExportsInRupees, thirdPartyExportsInDollars, byGroupCompany, otherRWseries, totalInRupees, totalInDollars, } = annexureA;
             const AnnexureA = yield __1.prisma.annexureA.create({
                 data: {
@@ -101,6 +102,7 @@ function addAnnexureA(req, res) {
                     otherRWseries,
                     totalInRupees,
                     totalInDollars,
+                    addedByUserId: addedByUserId,
                 },
             });
             return res.status(200).json({ message: "Added data successfully" });

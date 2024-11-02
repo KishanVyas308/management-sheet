@@ -34,6 +34,12 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
         >
           Direct Export
         </Link>
+        <Link
+          to={"/datamanagement/indirectexport"}
+          className="text-white flex gap-2 hover:text-gray-100  items-center"
+        >
+          Indirect Export
+        </Link>
       </div>
       <div className="flex gap-6 items-center">
         <Link

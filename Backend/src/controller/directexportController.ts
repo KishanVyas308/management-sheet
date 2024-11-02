@@ -2,8 +2,7 @@ import { prisma } from "..";
 
 export async function addBasicSheet(req: any, res: any) {
   try {
-    const { basicSheet } = req.body;
-    console.log(basicSheet);
+    const { basicSheet, addedByUserId } = req.body;
 
     const {
       companyName,
@@ -21,6 +20,10 @@ export async function addBasicSheet(req: any, res: any) {
       exchangeRate,
       product,
       remarks,
+      cifValue2,
+      freight2,
+      insurance2,
+      brc2,
     } = basicSheet;
 
     const basicSheet1 = await prisma.basicSheet.create({
@@ -37,19 +40,14 @@ export async function addBasicSheet(req: any, res: any) {
         insurance: insurance,
         brc: brc,
         exchangeRateOrProprtionRatio: exchangeRateOrProprtionRatio,
-        cifValue2: (
-          Number(cifValue) * Number(exchangeRateOrProprtionRatio)
-        ).toString(),
-        freight2: (
-          Number(freight) * Number(exchangeRateOrProprtionRatio)
-        ).toString(),
-        insurance2: (
-          Number(insurance) * Number(exchangeRateOrProprtionRatio)
-        ).toString(),
-        brc2: (Number(brc) * Number(exchangeRateOrProprtionRatio)).toString(),
+        cifValue2: cifValue2,
+        freight2: freight2,
+        insurance2: insurance2,
+        brc2: brc2,
         exchangeRate: exchangeRate,
         product: product,
         remarks: remarks,
+        addedByUserId: addedByUserId,
       },
     });
 
@@ -63,7 +61,7 @@ export async function addBasicSheet(req: any, res: any) {
 
 export async function addAnnexure1(req: any, res: any) {
   try {
-    const { annexure1 } = req.body;
+    const { annexure1, addedByUserId } = req.body;
     const {
       srNo,
       shippingBillNo,
@@ -77,6 +75,7 @@ export async function addAnnexure1(req: any, res: any) {
       fobValueInDoller,
       ExchangeRatePerShippingBill,
       fobValueInRupees,
+      
     } = annexure1;
 
     const Annexure1 = await prisma.annexure1.create({
@@ -92,6 +91,7 @@ export async function addAnnexure1(req: any, res: any) {
         fobValueInDoller: fobValueInDoller,
         ExchangeRatePerShippingBill: ExchangeRatePerShippingBill,
         fobValueInRupees: fobValueInRupees,
+        addedByUserId: addedByUserId,
       },
     });
 
@@ -105,7 +105,7 @@ export async function addAnnexure1(req: any, res: any) {
 
 export async function addAnnexureA(req: any, res: any) {
   try {
-    const { annexureA } = req.body;
+    const { annexureA, addedByUserId } = req.body;
     const {
       srNo,
       productExportered,
@@ -137,6 +137,7 @@ export async function addAnnexureA(req: any, res: any) {
         otherRWseries,
         totalInRupees,
         totalInDollars,
+        addedByUserId: addedByUserId,
       },
     });
 

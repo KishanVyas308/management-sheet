@@ -7,4 +7,6 @@ const express_1 = __importDefault(require("express"));
 const manageUserController_1 = require("../controller/manageUserController");
 const router = express_1.default.Router();
 router.get("/getallusers", manageUserController_1.getAllUsers);
+router.get("/usercompleteddirectexports/:userId", manageUserController_1.getUserCompletedDirectExports);
+router.get("/usercompletedshippingbills/:userId", manageUserController_1.getUserCompletedShippingBill);
 exports.default = router;

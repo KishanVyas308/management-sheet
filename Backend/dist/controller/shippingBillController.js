@@ -561,7 +561,6 @@ function checkIsCurrentSheetIsCompleted(addedByUserId) {
         if (!user.currentShippingBillId) {
             const newShippingBill = yield __1.prisma.manageUserShippingBill.create({
                 data: {
-                    addedDataType: "ShippingBill",
                     user: {
                         connect: { id: user.id },
                     },
@@ -610,7 +609,6 @@ function checkIsCurrentSheetIsCompleted(addedByUserId) {
                 });
                 const newShippingBill = yield __1.prisma.manageUserShippingBill.create({
                     data: {
-                        addedDataType: "ShippingBill",
                         user: {
                             connect: { id: user.id },
                         },

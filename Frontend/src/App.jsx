@@ -18,6 +18,7 @@ import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadD
 import Admin from "./pages/Home/ProcessMonatring/Admin";
 import NewDataAnalytics from "./pages/Home/DataManagement/newdata/NewDataAnalytics";
 import DirectExport from "./pages/Home/DataManagement/newdata/DirectExport/DirectExport";
+import IndirectExport from "./pages/Home/DataManagement/newdata/IndirectExport/IndirectExport";
 
 function App() {
   return (
@@ -51,8 +52,12 @@ function App() {
           element={<ProtectedRoute element={<NewDataAnalytics />} />}
         />
         <Route
-          path="/datamanagement/DirectExport"
+          path="/datamanagement/directExport"
           element={<ProtectedRoute element={<DirectExport />} />}
+        />
+        <Route
+          path="/datamanagement/indirectExport"
+          element={<ProtectedRoute element={<IndirectExport />} />}
         />
         <Route
           path="/datamanagement/existingdata"
