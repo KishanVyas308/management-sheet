@@ -55,6 +55,12 @@ model user {
   BasicSheet             BasicSheet[]
   Annexure1              Annexure1[]
   AnnexureA              AnnexureA[]
+  IndirectExportBasicSheet IndirectExportBasicSheet[]
+  IndirectExportAnneuxure1 IndirectExportAnneuxure1[]
+  IndirectExportAnneuxure2 IndirectExportAnneuxure2[]
+  IndirectExportCalculationSheet IndirectExportCalculationSheet[]
+  IndirectExportNewDeptSheet IndirectExportNewDeptSheet[]
+  IndirectExportAnneuxureA IndirectExportAnneuxureA[]
 }
 
 model ExcelDataFinal {
@@ -591,6 +597,147 @@ model ManageUserShippingBill {
   Part4Section5            Part4Section5[]
   Part4Section6            Part4Section6[]
   Part5                    Part5[]
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model IndirectExportBasicSheet {
+  id                       String  @id @default(cuid())
+  companyName              String
+  srNo                     String
+  shippingBillNo           String
+  shippingBillDate         String?
+  thirdPartyExporter       String
+  hsCodeAndDescription     String
+  epcgLicNo                String?
+  cifValue                 String  @default("0.00")
+  freight                  String  @default("0.00")
+  insurance                String  @default("0.00")
+  brc                      String  @default("0.00")
+  exchangeRate             String  @default("0.0000")
+  cifValue2                String  @default("0.00")
+  freight2                 String  @default("0.00")
+  insurance2               String  @default("0.00")
+  brc2                     String  @default("0.00")
+  exchangeRate2            String  @default("0.0000")
+  invoiceNo                String
+  invoiceDate              String
+  basicAmount              String
+  invoiceValue             String
+  bankPaymentReceivedDate  String
+  amountReceived           String
+  amountRealised           String
+  qtyAsPerInvoiceAndSbMatch String
+  epcgLicNoInTaxInvoice    String
+  lorryReceiptOrEwayBill   String
+  bankStatement            String
+  product                  String?
+  remarks                  String?
+  user                     user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId            String
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model IndirectExportAnneuxure1 {
+  id                       String  @id @default(cuid())
+  srNo                     String
+  shippingBillNo           String
+  shippingBillDate         String?
+  shippingBillCifValue     String?
+  brcValue                 String?
+  lowerOfSbAndBrc          String?
+  shippingBillFreight      String?
+  shippingBillInsurance    String?
+  fobValueInDollars        String?
+  exchangeRatePerShippingBill String?
+  fobValueInRupees         String?
+  user                     user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId            String
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model IndirectExportAnneuxure2 {
+  id                       String  @id @default(cuid())
+  srNo                     String
+  shippingBillNo           String
+  shippingBillDate         String?
+  taxInvoiceBillNo         String
+  taxInvoiceDate           String
+  taxInvoiceBasicAmount    String
+  taxInvoiceTax            String
+  taxInvoiceInvoiceValue   String
+  paymentDetailsDate       String
+  paymentDetailsAmountReceived String
+  paymentDetailsAmountRealised String
+  lowerOfInvoiceAndBankStatement String
+  proportionateAmountOf6ForInRs String
+  exchangeRatePerShippingBill String
+  forInUsd                 String
+  user                     user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId            String
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model IndirectExportCalculationSheet {
+  id                       String  @id @default(cuid())
+  srNo                     String
+  sameProductOrService     String
+  alternativeProductOrService String
+  shippingBillNo           String
+  shippingBillDate         String?
+  fobValueRealizationProceedsRs String
+  fobValueRealizationProceedsUs String
+  fobValueAnnexure1Rs      String
+  fobValueAnnexure1Us      String
+  fobValueAnnexure2Rs      String
+  fobValueAnnexure2Us      String
+  fobValueLowerOf5_6_7Rs   String
+  fobValueLowerOf5_6_7Us   String
+  user                     user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId            String
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model IndirectExportNewDeptSheet {
+  id                       String  @id @default(cuid())
+  srNo                     String
+  shippingBillNo           String
+  shippingBillDate         String?
+  invoiceNo                String
+  invoiceDate              String
+  amountRealisedAsPerBrcUs String
+  amountRealisedAsPerBrcExchRate String
+  amountRealisedAsPerBrcRs String
+  amountRealisedInBankRs   String
+  amountLessOfCol6And7Rs   String
+  convertedIntoUsd         String
+  user                     user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId            String
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model IndirectExportAnneuxureA {
+  id                       String  @id @default(cuid())
+  srNo                     String
+  sameProductOrService     String
+  shippingBillNo           String
+  shippingBillDate         String?
+  directExportsRs          String
+  directExportsUs          String
+  deemedExports            String  @default("0.00")
+  thirdPartyExportsRs      String  @default("0.00")
+  thirdPartyExportsUs      String  @default("0.00")
+  byGroupCompany           String  @default("0.00")
+  otherRnDServicesOrRoyalty String  @default("0.00")
+  totalRs                  String
+  totalUs                  String
+  user                     user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId            String
 
   @@index([addedByUserId], name: "userId")
 }

@@ -6,60 +6,164 @@ import NewDataButtons from "../NewDataButtons";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { BACKEND_URL } from "../../../../../Globle";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "../../../../../atoms/authAtom";
 
 const IndirectExport = () => {
   const [usdPrice, setUsdPrice] = useState("USD Price: -cant able to fetch-");
-  const [basicSheet, setBasicSheet] = useState({
-    companyName: "",
-    srNo: "0",
-    shippingBillNo: "0",
-    shippingBillDate: "",
-    exportersName: "",
-    hsCodeAndDescription: "",
-    epcgLicNo: "",
-    cifValue: "0",
-    freight: "0",
-    insurance: "0",
-    brc: "0",
-    exchangeRateOrProprtionRatio: "1",
-    cifValue2: "0",
-    freight2: "0",
-    insurance2: "0",
-    brc2: "0",
-    exchangeRate: "",
-    product: "",
-    remarks: "",
+  const { user } = useRecoilValue(authAtom);
+  const [basicSheet, setBasicSheet] = useState(() => {
+    const saved = localStorage.getItem("indirectexport_basicSheet");
+    return saved ? JSON.parse(saved) : {
+      companyName: "",
+      srNo: "0",
+      shippingBillNo: "0",
+      shippingBillDate: "",
+      thirdPartyExporter: "",
+      hsCodeAndDescription: "",
+      epcgLicNo: "",
+      cifValue: "0",
+      freight: "0",
+      insurance: "0",
+      brc: "0",
+      exchangeRate: "0.0000",
+      cifValue2: "0",
+      freight2: "0",
+      insurance2: "0",
+      brc2: "0",
+      exchangeRate2: "0.0000",
+      invoiceNo: "",
+      invoiceDate: "",
+      basicAmount: "",
+      invoiceValue: "",
+      bankPaymentReceivedDate: "",
+      amountReceived: "",
+      amountRealised: "",
+      qtyAsPerInvoiceAndSbMatch: "",
+      epcgLicNoInTaxInvoice: "",
+      lorryReceiptOrEwayBill: "",
+      bankStatement: "",
+      product: "",
+      remarks: "",
+    };
   });
 
-  const [annexure1, setAnnexure1] = useState({
-    srNo: "",
-    shippingBillNo: "",
-    shippingBillDate: "",
-    shippingBillCifValueInDoller: "",
-    brcValue: "",
-    lowerOfSbAndBrc: "",
-    shippingBillFreight: "",
-    shippingBillInsurance: "",
-    fobValueInDoller: "",
-    ExchangeRatePerShippingBill: "",
-    fobValueInRupees: "",
+  const [annexure1, setAnnexure1] = useState(() => {
+    const saved = localStorage.getItem("indirectexport_annexure1");
+    return saved ? JSON.parse(saved) : {
+      srNo: "",
+      shippingBillNo: "",
+      shippingBillDate: "",
+      shippingBillCifValue: "",
+      brcValue: "",
+      lowerOfSbAndBrc: "",
+      shippingBillFreight: "",
+      shippingBillInsurance: "",
+      fobValueInDollars: "",
+      exchangeRatePerShippingBill: "",
+      fobValueInRupees: "",
+    };
   });
 
-  const [annexureA, setAnnexureA] = useState({
-    srNo: basicSheet.srNo,
-    productExportered: basicSheet.product, // Assuming product is in basicSheet
-    shippingBillNumber: basicSheet.shippingBillNo,
-    shippingBillDate: basicSheet.shippingBillDate,
-    directExportsInRupees: annexure1.fobValueInRupees, // Assuming fobValueInRupees is in annexure1
-    directExportsInDollars: annexure1.fobValueInDoller, // Assuming fobValueInDoller is in annexure1
-    deemedExports: "0", // Default value
-    thirdPartyExportsInRupees: "0", // Default value
-    thirdPartyExportsInDollars: "0", // Default value
-    byGroupCompany: "0", // Default value
-    otherRWseries: "0", // Default value
-    totalInRupees: annexure1.fobValueInRupees, // Using the same value from annexure1
-    totalInDollars: annexure1.fobValueInDoller,
+  const [annexure2, setAnnexure2] = useState(() => {
+    const saved = localStorage.getItem("indirectexport_annexure2");
+    return saved ? JSON.parse(saved) : {
+      srNo: "",
+      shippingBillNo: "",
+      shippingBillDate: "",
+      taxInvoiceBillNo: "",
+      taxInvoiceDate: "",
+      taxInvoiceBasicAmount: "",
+      taxInvoiceTax: "",
+      taxInvoiceInvoiceValue: "",
+      paymentDetailsDate: "",
+      paymentDetailsAmountReceived: "",
+      paymentDetailsAmountRealised: "",
+      lowerOfInvoiceAndBankStatement: "",
+      proportionateAmountOf6ForInRs: "",
+      exchangeRatePerShippingBill: "",
+      forInUsd: "",
+    };
   });
+
+  const [calculationSheet, setCalculationSheet] = useState(() => {
+    const saved = localStorage.getItem("indirectexport_calculationSheet");
+    return saved ? JSON.parse(saved) : {
+      srNo: "",
+      sameProductOrService: "",
+      alternativeProductOrService: "",
+      shippingBillNo: "",
+      shippingBillDate: "",
+      fobValueRealizationProceedsRs: "",
+      fobValueRealizationProceedsUs: "",
+      fobValueAnnexure1Rs: "",
+      fobValueAnnexure1Us: "",
+      fobValueAnnexure2Rs: "",
+      fobValueAnnexure2Us: "",
+      fobValueLowerOf5_6_7Rs: "",
+      fobValueLowerOf5_6_7Us: "",
+    };
+  });
+
+  const [newDeptSheet, setNewDeptSheet] = useState(() => {
+    const saved = localStorage.getItem("indirectexport_newDeptSheet");
+    return saved ? JSON.parse(saved) : {
+      srNo: "",
+      shippingBillNo: "",
+      shippingBillDate: "",
+      invoiceNo: "",
+      invoiceDate: "",
+      amountRealisedAsPerBrcUs: "",
+      amountRealisedAsPerBrcExchRate: "",
+      amountRealisedAsPerBrcRs: "",
+      amountRealisedInBankRs: "",
+      amountLessOfCol6And7Rs: "",
+      convertedIntoUsd: "",
+    };
+  });
+
+  const [annexureA, setAnnexureA] = useState(() => {
+    const saved = localStorage.getItem("indirectexport_annexureA");
+    return saved ? JSON.parse(saved) : {
+      srNo: "",
+      sameProductOrService: "",
+      shippingBillNo: "",
+      shippingBillDate: "",
+      directExportsRs: "",
+      directExportsUs: "",
+      deemedExports: "0.00",
+      thirdPartyExportsRs: "0.00",
+      thirdPartyExportsUs: "0.00",
+      byGroupCompany: "0.00",
+      otherRnDServicesOrRoyalty: "0.00",
+      totalRs: "",
+      totalUs: "",
+    };
+  });
+
+  useEffect(() => {
+    localStorage.setItem("indirectexport_basicSheet", JSON.stringify(basicSheet));
+  }, [basicSheet]);
+
+  useEffect(() => {
+    localStorage.setItem("indirectexport_annexure1", JSON.stringify(annexure1));
+  }, [annexure1]);
+
+  useEffect(() => {
+    localStorage.setItem("indirectexport_annexure2", JSON.stringify(annexure2));
+  }, [annexure2]);
+
+  useEffect(() => {
+    localStorage.setItem("indirectexport_calculationSheet", JSON.stringify(calculationSheet));
+  }, [calculationSheet]);
+
+  useEffect(() => {
+    localStorage.setItem("indirectexport_newDeptSheet", JSON.stringify(newDeptSheet));
+  }, [newDeptSheet]);
+
+  useEffect(() => {
+    localStorage.setItem("indirectexport_annexureA", JSON.stringify(annexureA));
+  }, [annexureA]);
 
   const [blockwiseSummary, setBlockwiseSummary] = useState({
     EOImposed: "0",
@@ -78,11 +182,19 @@ const IndirectExport = () => {
     setLoading(true);
     const jsonData = {
       basicSheet,
+      annexure1,
+      annexureA,
+      annexure2,
+      calculationSheet,
+      newDeptSheet,
+      addedByUserId: user.id
     };
     console.log(jsonData);
 
-    const res1 = await axios.post(
-      `${BACKEND_URL}/directexport/basicsheet`,
+
+
+    const res = await axios.post(
+      `${BACKEND_URL}/indirectexport/alldata`,
       jsonData,
       {
         headers: {
@@ -90,54 +202,127 @@ const IndirectExport = () => {
         },
       }
     );
-    if (res1.status !== 200) {
-      alert("Error in saving data");
-      setLoading(false);
-      return;
+    alert(res.data.message);
+    if (res.status === 200) {
+
+      setBasicSheet({
+        companyName: "",
+        srNo: "0",
+        shippingBillNo: "0",
+        shippingBillDate: "",
+        thirdPartyExporter: "",
+        hsCodeAndDescription: "",
+        epcgLicNo: "",
+        cifValue: "0",
+        freight: "0",
+        insurance: "0",
+        brc: "0",
+        exchangeRate: "0.0000",
+        cifValue2: "0",
+        freight2: "0",
+        insurance2: "0",
+        brc2: "0",
+        exchangeRate2: "0.0000",
+        invoiceNo: "",
+        invoiceDate: "",
+        basicAmount: "",
+        invoiceValue: "",
+        bankPaymentReceivedDate: "",
+        amountReceived: "",
+        amountRealised: "",
+        qtyAsPerInvoiceAndSbMatch: "",
+        epcgLicNoInTaxInvoice: "",
+        lorryReceiptOrEwayBill: "",
+        bankStatement: "",
+        product: "",
+        remarks: "",
+      });
+
+      setAnnexure1({
+        srNo: "",
+        shippingBillNo: "",
+        shippingBillDate: "",
+        shippingBillCifValue: "",
+        brcValue: "",
+        lowerOfSbAndBrc: "",
+        shippingBillFreight: "",
+        shippingBillInsurance: "",
+        fobValueInDollars: "",
+        exchangeRatePerShippingBill: "",
+        fobValueInRupees: "",
+      });
+
+      setAnnexure2({
+        srNo: "",
+        shippingBillNo: "",
+        shippingBillDate: "",
+        taxInvoiceBillNo: "",
+        taxInvoiceDate: "",
+        taxInvoiceBasicAmount: "",
+        taxInvoiceTax: "",
+        taxInvoiceInvoiceValue: "",
+        paymentDetailsDate: "",
+        paymentDetailsAmountReceived: "",
+        paymentDetailsAmountRealised: "",
+        lowerOfInvoiceAndBankStatement: "",
+        proportionateAmountOf6ForInRs: "",
+        exchangeRatePerShippingBill: "",
+        forInUsd: "",
+      });
+
+      setCalculationSheet({
+        srNo: "",
+        sameProductOrService: "",
+        shippingBillNo: "",
+        shippingBillDate: "",
+        fobValueRealizationProceedsRs: "",
+        fobValueRealizationProceedsUs: "",
+        fobValueAnnexure1Rs: "",
+        fobValueAnnexure1Us: "",
+        fobValueAnnexure2Rs: "",
+        fobValueAnnexure2Us: "",
+        fobValueLowerOf5_6_7Rs: "",
+        fobValueLowerOf5_6_7Us: "",
+      });
+
+      setNewDeptSheet({
+        srNo: "",
+        shippingBillNo: "",
+        shippingBillDate: "",
+        invoiceNo: "",
+        invoiceDate: "",
+        amountRealisedAsPerBrcUs: "",
+        amountRealisedAsPerBrcExchRate: "",
+        amountRealisedAsPerBrcRs: "",
+        amountRealisedInBankRs: "",
+        amountLessOfCol6And7Rs: "",
+        convertedIntoUsd: "",
+      });
+
+      setAnnexureA({
+        srNo: "",
+        sameProductOrService: "",
+        shippingBillNo: "",
+        shippingBillDate: "",
+        directExportsRs: "",
+        directExportsUs: "",
+        deemedExports: "0.00",
+        thirdPartyExportsRs: "0.00",
+        thirdPartyExportsUs: "0.00",
+        byGroupCompany: "0.00",
+        otherRnDServicesOrRoyalty: "0.00",
+        totalRs: "",
+        totalUs: "",
+      });
+
+      // remove all state from local storage
+      localStorage.removeItem("indirectexport_basicSheet");
+      localStorage.removeItem("indirectexport_annexure1");
+      localStorage.removeItem("indirectexport_annexure2");
+      localStorage.removeItem("indirectexport_calculationSheet");
+      localStorage.removeItem("indirectexport_newDeptSheet");
+      localStorage.removeItem("indirectexport_annexureA");
     }
-
-    const annexure1Data = {
-      annexure1,
-    }
-    console.log(annexure1Data);
-
-    const res2 = await axios.post(
-      `${BACKEND_URL}/directexport/annexure1`,
-      annexure1Data,
-      {
-        headers: {
-          Authorization: cookies.token,
-        },
-      }
-    );
-    if (res2.status !== 200) {
-      alert("Error in saving data");
-      setLoading(false);
-      return;
-    }
-
-    const annexureAData = {
-      annexureA,
-    }
-    console.log(annexureAData);
-
-    const res3 = await axios.post(
-      `${BACKEND_URL}/directexport/annexureA`,
-      annexureAData,
-      {
-        headers: {
-          Authorization: cookies.token,
-        },
-      }
-    );
-
-    if (res3.status !== 200) {
-      alert("Error in saving data");
-      setLoading(false);
-      return;
-    }
-    alert("Data saved successfully");
-
     setLoading(false);
   };
 
@@ -164,32 +349,15 @@ const IndirectExport = () => {
 
 
 
-  // UseMemo to update both basicSheet and annexure1 values based on basicSheet inputs
   useMemo(() => {
-    // const updatedBasicSheet = {
-    //   cifValue2: (
-    //     Number(basicSheet.cifValue) *
-    //     Number(basicSheet.exchangeRateOrProprtionRatio)
-    //   ).toString(),
-    //   freight2: (
-    //     Number(basicSheet.freight) *
-    //     Number(basicSheet.exchangeRateOrProprtionRatio)
-    //   ).toString(),
-    //   insurance2: (
-    //     Number(basicSheet.insurance) *
-    //     Number(basicSheet.exchangeRateOrProprtionRatio)
-    //   ).toString(),
-    //   brc2: (
-    //     Number(basicSheet.brc) * Number(basicSheet.exchangeRateOrProprtionRatio)
-    //   ).toString(),
-    // };
+    
 
     const cifValue2 =
       Number(basicSheet.cifValue) *
       Number(basicSheet.exchangeRateOrProprtionRatio);
     const brcValue =
       Number(basicSheet.brc) * Number(basicSheet.exchangeRateOrProprtionRatio);
-    const lowerOfSbAndBrc = Math.min(cifValue2, brcValue).toString();
+    const lowerOfSbAndBrc = Math.min(Number(basicSheet.cifValue2), Number(basicSheet.brc2)).toString();
     const shippingBillFreight =
       Number(basicSheet.freight) *
       Number(basicSheet.exchangeRateOrProprtionRatio);
@@ -208,31 +376,93 @@ const IndirectExport = () => {
       srNo: basicSheet.srNo,
       shippingBillNo: basicSheet.shippingBillNo,
       shippingBillDate: basicSheet.shippingBillDate,
-      shippingBillCifValueInDoller: cifValue2.toString(),
-      brcValue: brcValue.toString(),
+      shippingBillCifValue: basicSheet.cifValue2,
+      brcValue: basicSheet.brc2,
       lowerOfSbAndBrc: lowerOfSbAndBrc,
       shippingBillFreight: shippingBillFreight.toString(),
       shippingBillInsurance: shippingBillInsurance.toString(),
-      fobValueInDoller: fobValueInDoller,
-      ExchangeRatePerShippingBill: basicSheet.exchangeRate,
+      fobValueInDollars: fobValueInDoller,
+      exchangeRatePerShippingBill: basicSheet.exchangeRate,
       fobValueInRupees: fobValueInRupees,
+
     };
+
+
+
+    const taxInvoiceTax = Number(basicSheet.invoiceValue) - Number(basicSheet.basicAmount);
+    const lowerOfInvoiceAndBankStatement = (Math.min(Number(basicSheet.invoiceValue), Number(basicSheet.amountRealised))).toString();
+    const proportionateAmountOf6ForInRs = ((Number(lowerOfInvoiceAndBankStatement) * Number(basicSheet.basicAmount)) / Number(basicSheet.invoiceValue)).toString();
+
+    const updatedAnnexure2 = {
+      srNo: basicSheet.srNo,
+      shippingBillNo: basicSheet.shippingBillNo,
+      shippingBillDate: basicSheet.shippingBillDate,
+      taxInvoiceBillNo: basicSheet.invoiceNo,
+      taxInvoiceDate: basicSheet.invoiceDate,
+      taxInvoiceBasicAmount: basicSheet.basicAmount,
+      taxInvoiceTax: taxInvoiceTax,
+      taxInvoiceInvoiceValue: basicSheet.invoiceValue,
+      paymentDetailsDate: basicSheet.bankPaymentReceivedDate,
+      paymentDetailsAmountReceived: basicSheet.amountReceived,
+      paymentDetailsAmountRealised: basicSheet.amountRealised,
+      lowerOfInvoiceAndBankStatement: lowerOfInvoiceAndBankStatement,
+      proportionateAmountOf6ForInRs: proportionateAmountOf6ForInRs,
+      exchangeRatePerShippingBill: basicSheet.exchangeRate,
+      forInUsd: (Number(proportionateAmountOf6ForInRs) / Number(basicSheet.exchangeRate)).toString(),
+    }
+
+
+
+    const updatedCalculationSheet = {
+      srNo: basicSheet.srNo,
+      sameProductOrService: basicSheet.product,
+      shippingBillNo: basicSheet.shippingBillNo,
+      shippingBillDate: basicSheet.shippingBillDate,
+      fobValueRealizationProceedsRs: newDeptSheet.amountLessOfCol6And7Rs,
+      fobValueRealizationProceedsUs: newDeptSheet.convertedIntoUsd,
+      fobValueAnnexure1Rs: fobValueInRupees,
+      fobValueAnnexure1Us: fobValueInDoller,
+      fobValueAnnexure2Rs: proportionateAmountOf6ForInRs,
+      fobValueAnnexure2Us: (Number(proportionateAmountOf6ForInRs) / Number(basicSheet.exchangeRate)).toString(),
+      fobValueLowerOf5_6_7Rs: Math.min(Number(newDeptSheet.amountLessOfCol6And7Rs), Number(fobValueInRupees), Number(proportionateAmountOf6ForInRs)),
+      fobValueLowerOf5_6_7Us: Math.min(Number(newDeptSheet.convertedIntoUsd), Number(fobValueInDoller), (Number(proportionateAmountOf6ForInRs) / Number(basicSheet.exchangeRate))),
+    }
+
+    const amountLessOfCol6And7Rs = Math.min(Number(basicSheet.brc) * Number(basicSheet.exchangeRate), Number(basicSheet.amountRealised));
+
+    const updatedNewDeptSheet = {
+      srNo: basicSheet.srNo,
+      shippingBillNo: basicSheet.shippingBillNo,
+      shippingBillDate: basicSheet.shippingBillDate,
+      invoiceNo: basicSheet.invoiceNo,
+      invoiceDate: basicSheet.invoiceDate,
+      amountRealisedAsPerBrcUs: basicSheet.brc,
+      amountRealisedAsPerBrcExchRate: (Number(basicSheet.exchangeRate)).toString(),
+      amountRealisedAsPerBrcRs: (Number(basicSheet.brc) * Number(basicSheet.exchangeRate)).toString(),
+      amountRealisedInBankRs: basicSheet.amountRealised,
+      amountLessOfCol6And7Rs: amountLessOfCol6And7Rs,
+      convertedIntoUsd: amountLessOfCol6And7Rs / Number(basicSheet.exchangeRate),
+    }
+
 
     const updatedAnnexureA = {
       srNo: basicSheet.srNo,
       productExportered: basicSheet.product,
       shippingBillNumber: basicSheet.shippingBillNo,
       shippingBillDate: basicSheet.shippingBillDate,
-      directExportsInRupees: fobValueInRupees,
-      directExportsInDollars: fobValueInDoller,
+      directExportsInRupees: updatedCalculationSheet.fobValueLowerOf5_6_7Rs,
+      directExportsInDollars: updatedCalculationSheet.fobValueLowerOf5_6_7Us,
       deemedExports: "0",
-      thirdPartyExportsInRupees: "0",
-      thirdPartyExportsInDollars: "0",
+      thirdPartyExportsInRupees: updatedCalculationSheet.fobValueLowerOf5_6_7Rs,
+      thirdPartyExportsInDollars: updatedCalculationSheet.fobValueLowerOf5_6_7Us,
       byGroupCompany: "0",
       otherRWseries: "0",
-      totalInRupees: fobValueInRupees,
-      totalInDollars: fobValueInDoller,
+      totalInRupees: (updatedCalculationSheet.fobValueLowerOf5_6_7Rs),
+      totalInDollars: updatedCalculationSheet.fobValueLowerOf5_6_7Us,
     };
+
+
+
 
     // setBasicSheet((prevSheet) => ({
     //   ...prevSheet,
@@ -244,6 +474,21 @@ const IndirectExport = () => {
       ...updatedAnnexure1,
     }));
 
+    setAnnexure2((prevAnnexure2) => ({
+      ...prevAnnexure2,
+      ...updatedAnnexure2,
+    }));
+
+    setCalculationSheet((prevCalculationSheet) => ({
+      ...prevCalculationSheet,
+      ...updatedCalculationSheet,
+    }));
+
+    setNewDeptSheet((prevNewDeptSheet) => ({
+      ...prevNewDeptSheet,
+      ...updatedNewDeptSheet,
+    }));
+
     setAnnexureA((prevAnnexureA) => ({
       ...prevAnnexureA,
       ...updatedAnnexureA,
@@ -252,20 +497,71 @@ const IndirectExport = () => {
 
   }, [
     basicSheet.cifValue,
+    basicSheet.exchangeRateOrProprtionRatio,
+    basicSheet.brc,
+    basicSheet.cifValue2,
+    basicSheet.brc2,
     basicSheet.freight,
     basicSheet.insurance,
-    basicSheet.brc,
-    basicSheet.exchangeRateOrProprtionRatio,
     basicSheet.exchangeRate,
-    basicSheet.srNo,
-    basicSheet.shippingBillNo,
-    basicSheet.shippingBillDate,
-    basicSheet.exportersName,
-    basicSheet.hsCodeAndDescription,
-    basicSheet.epcgLicNo,
+    basicSheet.invoiceValue,
+    basicSheet.basicAmount,
+    basicSheet.amountRealised,
+    basicSheet.amountReceived,
+    basicSheet.bankPaymentReceivedDate,
+    basicSheet.invoiceDate,
+    basicSheet.invoiceNo,
     basicSheet.product,
-    basicSheet.srNo
+    basicSheet.remarks,
+    basicSheet.srNo,
+    basicSheet.shippingBillDate,
+    basicSheet.shippingBillNo,
+    newDeptSheet.amountLessOfCol6And7Rs,
+    newDeptSheet.convertedIntoUsd,
+    newDeptSheet.amountRealisedInBankRs,
+    newDeptSheet.amountRealisedAsPerBrcExchRate,
+    newDeptSheet.amountRealisedAsPerBrcRs,
+    newDeptSheet.amountRealisedAsPerBrcUs,
+    newDeptSheet.invoiceDate,
+    newDeptSheet.invoiceNo,
+    newDeptSheet.shippingBillDate,
+    newDeptSheet.shippingBillNo,
+    calculationSheet.fobValueAnnexure1Rs,
+    calculationSheet.fobValueAnnexure1Us,
+    calculationSheet.fobValueAnnexure2Rs,
+    calculationSheet.fobValueAnnexure2Us,
+    calculationSheet.fobValueLowerOf5_6_7Rs,
+    calculationSheet.fobValueLowerOf5_6_7Us,
+    calculationSheet.fobValueRealizationProceedsRs,
+    calculationSheet.fobValueRealizationProceedsUs,
+    calculationSheet.sameProductOrService,
+    calculationSheet.shippingBillDate,
+    calculationSheet.shippingBillNo,
+    annexure1.brcValue,
+    annexure1.exchangeRatePerShippingBill,
+    annexure1.fobValueInDollars,
+    annexure1.fobValueInRupees,
+    annexure1.lowerOfSbAndBrc,
+    annexure1.shippingBillCifValue,
+    annexure1.shippingBillDate,
+    annexure1.shippingBillFreight,
+    annexure1.shippingBillInsurance,
+    annexure1.shippingBillNo,
+    annexure1.srNo,
+    annexure2.exchangeRatePerShippingBill,
+    annexure2.forInUsd,
+    annexure2.lowerOfInvoiceAndBankStatement,
+    annexure2.paymentDetailsAmountReceived,
+    annexure2.paymentDetailsAmountRealised,
+    annexure2.paymentDetailsDate,
+    annexure2.proportionateAmountOf6ForInRs,
+    annexure2.srNo,
+    annexure2.taxInvoiceBasicAmount,
+
+    
   ]);
+
+
   const getUsdPrice = async () => {
     const res = await axios.get("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json")
 
@@ -326,20 +622,17 @@ const IndirectExport = () => {
               label="Shipping Bill Date"
               value={basicSheet.shippingBillDate}
               onChange={(e) =>
-                setBasicSheet({
-                  ...basicSheet,
-                  shippingBillDate: e.target.value,
-                })
+                setBasicSheet({ ...basicSheet, shippingBillDate: e.target.value })
               }
               type="date"
             />
             <InputField
-              label="Exporter's Name"
-              value={basicSheet.exportersName}
+              label="Third Party Exporter"
+              value={basicSheet.thirdPartyExporter}
               onChange={(e) =>
                 setBasicSheet({
                   ...basicSheet,
-                  exportersName: e.target.value,
+                  thirdPartyExporter: e.target.value,
                 })
               }
             />
@@ -393,17 +686,13 @@ const IndirectExport = () => {
               type="number"
             />
             <InputField
-              label="Exchange Rate or Proprtion Ratio"
-              value={basicSheet.exchangeRateOrProprtionRatio}
+              label="Exchange Rate"
+              value={basicSheet.exchangeRate}
               onChange={(e) =>
-                setBasicSheet({
-                  ...basicSheet,
-                  exchangeRateOrProprtionRatio: e.target.value,
-                })
+                setBasicSheet({ ...basicSheet, exchangeRate: e.target.value })
               }
               type="number"
             />
-
             <InputField
               label="CIF Value 2"
               value={basicSheet.cifValue2}
@@ -436,14 +725,113 @@ const IndirectExport = () => {
               }
               type="number"
             />
-
             <InputField
-              label="Exchange Rate"
-              value={basicSheet.exchangeRate}
+              label="Exchange Rate 2"
+              value={basicSheet.exchangeRate2}
               onChange={(e) =>
-                setBasicSheet({ ...basicSheet, exchangeRate: e.target.value })
+                setBasicSheet({ ...basicSheet, exchangeRate2: e.target.value })
               }
               type="number"
+            />
+            <InputField
+              label="Invoice No"
+              value={basicSheet.invoiceNo}
+              onChange={(e) =>
+                setBasicSheet({ ...basicSheet, invoiceNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Invoice Date"
+              value={basicSheet.invoiceDate}
+              onChange={(e) =>
+                setBasicSheet({ ...basicSheet, invoiceDate: e.target.value })
+              }
+              type="date"
+            />
+            <InputField
+              label="Basic Amount"
+              value={basicSheet.basicAmount}
+              onChange={(e) =>
+                setBasicSheet({ ...basicSheet, basicAmount: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Invoice Value"
+              value={basicSheet.invoiceValue}
+              onChange={(e) =>
+                setBasicSheet({ ...basicSheet, invoiceValue: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Bank Payment Received Date"
+              value={basicSheet.bankPaymentReceivedDate}
+              onChange={(e) =>
+                setBasicSheet({
+                  ...basicSheet,
+                  bankPaymentReceivedDate: e.target.value,
+                })
+              }
+              type="date"
+            />
+            <InputField
+              label="Amount Received"
+              value={basicSheet.amountReceived}
+              onChange={(e) =>
+                setBasicSheet({ ...basicSheet, amountReceived: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Amount Realised"
+              value={basicSheet.amountRealised}
+              onChange={(e) =>
+                setBasicSheet({ ...basicSheet, amountRealised: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Qty as per Invoice and SB Match"
+              value={basicSheet.qtyAsPerInvoiceAndSbMatch}
+              onChange={(e) =>
+                setBasicSheet({
+                  ...basicSheet,
+                  qtyAsPerInvoiceAndSbMatch: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="EPCG Lic No in Tax Invoice"
+              value={basicSheet.epcgLicNoInTaxInvoice}
+              onChange={(e) =>
+                setBasicSheet({
+                  ...basicSheet,
+                  epcgLicNoInTaxInvoice: e.target.value,
+                })
+              }
+              type="text"
+            />
+            <InputField
+              label="Lorry Receipt or Eway Bill"
+              value={basicSheet.lorryReceiptOrEwayBill}
+              onChange={(e) =>
+                setBasicSheet({
+                  ...basicSheet,
+                  lorryReceiptOrEwayBill: e.target.value,
+                })
+              }
+              type="text"
+            />
+            <InputField
+              label="Bank Statement"
+              value={basicSheet.bankStatement}
+              onChange={(e) =>
+                setBasicSheet({ ...basicSheet, bankStatement: e.target.value })
+              }
+              type="text"
             />
             <InputField
               label="Product"
@@ -451,6 +839,7 @@ const IndirectExport = () => {
               onChange={(e) =>
                 setBasicSheet({ ...basicSheet, product: e.target.value })
               }
+              type="text"
             />
             <InputField
               label="Remarks"
@@ -458,19 +847,46 @@ const IndirectExport = () => {
               onChange={(e) =>
                 setBasicSheet({ ...basicSheet, remarks: e.target.value })
               }
+              type="text"
             />
+
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
               Annexure1
             </div>
             <InputField
-              label="Shipping Bill CIF Value (in Dollar)"
-              value={annexure1.shippingBillCifValueInDoller}
+              label="Sr No"
+              value={annexure1.srNo}
+              onChange={(e) =>
+                setAnnexure1({ ...annexure1, srNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill No"
+              value={annexure1.shippingBillNo}
+              onChange={(e) =>
+                setAnnexure1({ ...annexure1, shippingBillNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill Date"
+              value={annexure1.shippingBillDate}
+              onChange={(e) =>
+                setAnnexure1({ ...annexure1, shippingBillDate: e.target.value })
+              }
+              type="date"
+
+            />
+            <InputField
+              label="Shipping Bill CIF Value"
+              value={annexure1.shippingBillCifValue}
               onChange={(e) =>
                 setAnnexure1({
                   ...annexure1,
-                  shippingBillCifValueInDoller: e.target.value,
+                  shippingBillCifValue: e.target.value,
                 })
               }
               type="number"
@@ -487,7 +903,10 @@ const IndirectExport = () => {
               label="Lower of SB and BRC"
               value={annexure1.lowerOfSbAndBrc}
               onChange={(e) =>
-                setAnnexure1({ ...annexure1, lowerOfSbAndBrc: e.target.value })
+                setAnnexure1({
+                  ...annexure1,
+                  lowerOfSbAndBrc: e.target.value,
+                })
               }
               type="number"
             />
@@ -514,27 +933,401 @@ const IndirectExport = () => {
               type="number"
             />
             <InputField
-              label="FOB Value (in Dollar)"
-              value={annexure1.fobValueInDoller}
+              label="FOB Value in Dollars"
+              value={annexure1.fobValueInDollars}
               onChange={(e) =>
-                setAnnexure1({ ...annexure1, fobValueInDoller: e.target.value })
+                setAnnexure1({
+                  ...annexure1,
+                  fobValueInDollars: e.target.value,
+                })
               }
               type="number"
             />
             <InputField
-              label="FOB Value (in Rupees)"
+              label="Exchange Rate per Shipping Bill"
+              value={annexure1.exchangeRatePerShippingBill}
+              onChange={(e) =>
+                setAnnexure1({
+                  ...annexure1,
+                  exchangeRatePerShippingBill: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="FOB Value in Rupees"
               value={annexure1.fobValueInRupees}
               onChange={(e) =>
-                setAnnexure1({ ...annexure1, fobValueInRupees: e.target.value })
+                setAnnexure1({
+                  ...annexure1,
+                  fobValueInRupees: e.target.value,
+                })
+              }
+              type="number"
+            />
+          </div>
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              Annexure2
+            </div>
+            <InputField
+              label="Sr No"
+              value={annexure2.srNo}
+              onChange={(e) =>
+                setAnnexure2({ ...annexure2, srNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill No"
+              value={annexure2.shippingBillNo}
+              onChange={(e) =>
+                setAnnexure2({ ...annexure2, shippingBillNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill Date"
+              value={annexure2.shippingBillDate}
+              onChange={(e) =>
+                setAnnexure2({ ...annexure2, shippingBillDate: e.target.value })
+              }
+              type="date"
+            />
+            <InputField
+              label="Tax Invoice Bill No"
+              value={annexure2.taxInvoiceBillNo}
+              onChange={(e) =>
+                setAnnexure2({ ...annexure2, taxInvoiceBillNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Tax Invoice Date"
+              value={annexure2.taxInvoiceDate}
+              onChange={(e) =>
+                setAnnexure2({ ...annexure2, taxInvoiceDate: e.target.value })
+              }
+              type="date"
+            />
+            <InputField
+              label="Tax Invoice Basic Amount"
+              value={annexure2.taxInvoiceBasicAmount}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  taxInvoiceBasicAmount: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="Tax Invoice Tax"
+              value={annexure2.taxInvoiceTax}
+              onChange={(e) =>
+                setAnnexure2({ ...annexure2, taxInvoiceTax: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Tax Invoice Invoice Value"
+              value={annexure2.taxInvoiceInvoiceValue}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  taxInvoiceInvoiceValue: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="Payment Details Date"
+              value={annexure2.paymentDetailsDate}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  paymentDetailsDate: e.target.value,
+                })
+              }
+              type="date"
+            />
+            <InputField
+              label="Payment Details Amount Received"
+              value={annexure2.paymentDetailsAmountReceived}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  paymentDetailsAmountReceived: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="Payment Details Amount Realised"
+              value={annexure2.paymentDetailsAmountRealised}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  paymentDetailsAmountRealised: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="Lower of Invoice and Bank Statement"
+              value={annexure2.lowerOfInvoiceAndBankStatement}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  lowerOfInvoiceAndBankStatement: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="Proportionate Amount of 6 for in Rs"
+              value={annexure2.proportionateAmountOf6ForInRs}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  proportionateAmountOf6ForInRs: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="Exchange Rate per Shipping Bill"
+              value={annexure2.exchangeRatePerShippingBill}
+              onChange={(e) =>
+                setAnnexure2({
+                  ...annexure2,
+                  exchangeRatePerShippingBill: e.target.value,
+                })
+              }
+              type="number"
+            />
+            <InputField
+              label="For in USD"
+              value={annexure2.forInUsd}
+              onChange={(e) =>
+                setAnnexure2({ ...annexure2, forInUsd: e.target.value })
               }
               type="number"
             />
 
 
+
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              calculationSheet
+            </div>
+            <InputField
+              label="Sr No"
+              value={calculationSheet.srNo}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, srNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Same Product or Service"
+              value={calculationSheet.sameProductOrService}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, sameProductOrService: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Alternative Product or Service"
+              value={calculationSheet.alternativeProductOrService}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, alternativeProductOrService: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill No"
+              value={calculationSheet.shippingBillNo}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, shippingBillNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill Date"
+              value={calculationSheet.shippingBillDate}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, shippingBillDate: e.target.value })
+              }
+              type="date"
+            />
+            <InputField
+              label="FOB Value Realization Proceeds Rs"
+              value={calculationSheet.fobValueRealizationProceedsRs}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueRealizationProceedsRs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="FOB Value Realization Proceeds Us"
+              value={calculationSheet.fobValueRealizationProceedsUs}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueRealizationProceedsUs: e.target.value })
+              }
+              type="number"
+            />
+
+            <InputField
+              label="FOB Value Annexure1 Rs"
+              value={calculationSheet.fobValueAnnexure1Rs}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueAnnexure1Rs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="FOB Value Annexure1 Us"
+              value={calculationSheet.fobValueAnnexure1Us}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueAnnexure1Us: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="FOB Value Annexure2 Rs"
+              value={calculationSheet.fobValueAnnexure2Rs}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueAnnexure2Rs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="FOB Value Annexure2 Us"
+              value={calculationSheet.fobValueAnnexure2Us}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueAnnexure2Us: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="FOB Value Lower of 5 6 7 Rs"
+              value={calculationSheet.fobValueLowerOf5_6_7Rs}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueLowerOf5_6_7Rs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="FOB Value Lower of 5 6 7 Us"
+              value={calculationSheet.fobValueLowerOf5_6_7Us}
+              onChange={(e) =>
+                setCalculationSheet({ ...calculationSheet, fobValueLowerOf5_6_7Us: e.target.value })
+              }
+              type="number"
+            />
+
           </div>
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
-              AnnexureA
+              newDeptSheet
+            </div>
+            <InputField
+              label="Sr No"
+              value={newDeptSheet.srNo}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, srNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill No"
+              value={newDeptSheet.shippingBillNo}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, shippingBillNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Shipping Bill Date"
+              value={newDeptSheet.shippingBillDate}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, shippingBillDate: e.target.value })
+              }
+              type="date"
+            />
+            <InputField
+              label="Invoice No"
+              value={newDeptSheet.invoiceNo}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, invoiceNo: e.target.value })
+              }
+              type="text"
+            />
+            <InputField
+              label="Invoice Date"
+              value={newDeptSheet.invoiceDate}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, invoiceDate: e.target.value })
+              }
+              type="date"
+            />
+            <InputField
+              label="Amount Realised as per BRC Us"
+              value={newDeptSheet.amountRealisedAsPerBrcUs}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, amountRealisedAsPerBrcUs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Amount Realised as per BRC Exch Rate"
+              value={newDeptSheet.amountRealisedAsPerBrcExchRate}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, amountRealisedAsPerBrcExchRate: e.target.value })
+              }
+              type="number"
+
+            />
+            <InputField
+              label="Amount Realised as per BRC Rs"
+              value={newDeptSheet.amountRealisedAsPerBrcRs}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, amountRealisedAsPerBrcRs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Amount Realised in Bank Rs"
+              value={newDeptSheet.amountRealisedInBankRs}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, amountRealisedInBankRs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Amount Less of Col 6 and 7 Rs"
+              value={newDeptSheet.amountLessOfCol6And7Rs}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, amountLessOfCol6And7Rs: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Converted into USD"
+              value={newDeptSheet.convertedIntoUsd}
+              onChange={(e) =>
+                setNewDeptSheet({ ...newDeptSheet, convertedIntoUsd: e.target.value })
+              }
+              type="number"
+            />
+          </div>
+          <div className="bg-white p-4 rounded-md">
+            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+              annexureA
             </div>
             <InputField
               label="Sr No"
@@ -544,25 +1337,20 @@ const IndirectExport = () => {
               }
               type="text"
             />
+
             <InputField
-              label="Product Exported"
-              value={annexureA.productExportered}
+              label="Same Product or Service"
+              value={annexureA.sameProductOrService}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  productExportered: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, sameProductOrService: e.target.value })
               }
               type="text"
             />
             <InputField
-              label="Shipping Bill Number"
-              value={annexureA.shippingBillNumber}
+              label="Shipping Bill No"
+              value={annexureA.shippingBillNo}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  shippingBillNumber: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, shippingBillNo: e.target.value })
               }
               type="text"
             />
@@ -570,65 +1358,50 @@ const IndirectExport = () => {
               label="Shipping Bill Date"
               value={annexureA.shippingBillDate}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  shippingBillDate: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, shippingBillDate: e.target.value })
               }
               type="date"
             />
+
             <InputField
-              label="Direct Exports in Rupees"
-              value={annexureA.directExportsInRupees}
+              label="Direct Exports Rs"
+              value={annexureA.directExportsRs}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  directExportsInRupees: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, directExportsRs: e.target.value })
               }
               type="number"
             />
             <InputField
-              label="Direct Exports in Dollars"
-              value={annexureA.directExportsInDollars}
+              label="Direct Exports Us"
+              value={annexureA.directExportsUs}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  directExportsInDollars: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, directExportsUs: e.target.value })
               }
               type="number"
             />
+
             <InputField
               label="Deemed Exports"
               value={annexureA.deemedExports}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  deemedExports: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, deemedExports: e.target.value })
               }
               type="number"
             />
             <InputField
-              label="Third Party Exports in Rupees"
-              value={annexureA.thirdPartyExportsInRupees}
+              label="Third Party Exports Rs"
+              value={annexureA.thirdPartyExportsRs}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  thirdPartyExportsInRupees: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, thirdPartyExportsRs: e.target.value })
               }
               type="number"
+
             />
             <InputField
-              label="Third Party Exports in Dollars"
-              value={annexureA.thirdPartyExportsInDollars}
+              label="Third Party Exports Us"
+              value={annexureA.thirdPartyExportsUs}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  thirdPartyExportsInDollars: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, thirdPartyExportsUs: e.target.value })
               }
               type="number"
             />
@@ -636,43 +1409,31 @@ const IndirectExport = () => {
               label="By Group Company"
               value={annexureA.byGroupCompany}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  byGroupCompany: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, byGroupCompany: e.target.value })
               }
               type="number"
             />
             <InputField
-              label="Other RW Series"
-              value={annexureA.otherRWseries}
+              label="Other RW series"
+              value={annexureA.otherRnDServicesOrRoyalty}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  otherRWseries: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, otherRnDServicesOrRoyalty: e.target.value })
               }
               type="number"
             />
             <InputField
-              label="Total in Rupees"
-              value={annexureA.totalInRupees}
+              label="Total in Rs"
+              value={annexureA.totalRs}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  totalInRupees: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, totalRs: e.target.value })
               }
               type="number"
             />
             <InputField
-              label="Total in Dollars"
-              value={annexureA.totalInDollars}
+              label="Total in Us"
+              value={annexureA.totalUs}
               onChange={(e) =>
-                setAnnexureA({
-                  ...annexureA,
-                  totalInDollars: e.target.value,
-                })
+                setAnnexureA({ ...annexureA, totalUs: e.target.value })
               }
               type="number"
             />
@@ -682,6 +1443,7 @@ const IndirectExport = () => {
               nextLink={""}
               handleSubmit={handleSubmit}
             />
+
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">

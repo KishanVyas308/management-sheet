@@ -14,6 +14,7 @@ import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
 import directexportRoute from "./router/directexportRoute";
 import manageUserShippingBillRoute from "./router/manageUserShippingBillRoute";
+import indirectexportRoute from "./router/indirectexportRoute";
 
 const app = express();
 const httpServer = createServer(app);
@@ -40,11 +41,14 @@ app.use(verifyToken);
 //? existing data api
 app.use("/api/v1/ex", existingDataRoute);
 
-//? new data api
+//? shipping bill api
 app.use("/api/v1/shippingbill", shippingBillRoute);
 
-//? shipping bill
+//? direct export api
 app.use("/api/v1/directexport", directexportRoute)
+
+//? indirect export api
+app.use("/api/v1/indirectexport", indirectexportRoute);
 
 //? manage user api
 app.use("/api/v1/manageUser", manageUserRoute);
@@ -54,6 +58,8 @@ app.use("/api/v1/dataAnalytics", dataAnalyticsRoute);
 
 //? manage user shipping bill api
 app.use("/api/v1/manageUserShippingBill", isAdmin ,manageUserShippingBillRoute);
+
+
 
 // Initialize WebSocket server on the same HTTP server
 const wss = new WebSocketServer({ server: httpServer, path: "/api/socket" });

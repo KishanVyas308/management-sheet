@@ -51,6 +51,7 @@ const manageUser_1 = __importDefault(require("./router/manageUser"));
 const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRoute"));
 const directexportRoute_1 = __importDefault(require("./router/directexportRoute"));
 const manageUserShippingBillRoute_1 = __importDefault(require("./router/manageUserShippingBillRoute"));
+const indirectexportRoute_1 = __importDefault(require("./router/indirectexportRoute"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 app.use((0, cors_1.default)({
@@ -66,10 +67,12 @@ app.use("/api/v1/auth", authRoute_1.default);
 app.use(middleWare_1.verifyToken);
 //? existing data api
 app.use("/api/v1/ex", existingDataRoute_1.default);
-//? new data api
+//? shipping bill api
 app.use("/api/v1/shippingbill", shippingBillRoute_1.default);
-//? shipping bill
+//? direct export api
 app.use("/api/v1/directexport", directexportRoute_1.default);
+//? indirect export api
+app.use("/api/v1/indirectexport", indirectexportRoute_1.default);
 //? manage user api
 app.use("/api/v1/manageUser", manageUser_1.default);
 //? data analytics api
