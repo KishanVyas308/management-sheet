@@ -9,46 +9,65 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.test = test;
+exports.directExportDataOnDate = directExportDataOnDate;
+exports.indirectExportDataOnDate = indirectExportDataOnDate;
 const __1 = require("..");
-function test(req, res) {
+function directExportDataOnDate(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { startDate, endDate, name, type, minValue, maxValue } = req.query;
-        // Construct a dynamic filter object
-        let filters = {};
-        if (startDate && endDate) {
-            filters.date = {
-                gte: new Date(startDate),
-                lte: new Date(endDate),
-            };
+        const { startDate, endDate } = req.query;
+        if (!startDate || !endDate) {
+            return res.status(200).json({ selectDateError: 'Start date and end date are required' });
         }
-        if (name) {
-            filters.exportersName = {
-                contains: name,
-            };
-        }
-        if (type) {
-            filters.type = {
-                contains: type,
-            };
-        }
-        if (minValue && maxValue) {
-            filters.fobValue = {
-                gte: parseFloat(minValue),
-                lte: parseFloat(maxValue),
-            };
-        }
-        // Fetch data based on filters
         try {
-            const data = yield __1.prisma.part1Section1.findMany({
-                where: filters,
+            const data = yield __1.prisma.basicSheet.findMany({
+                where: {
+                    uploadedDate: {
+                        gte: new Date(startDate),
+                        lte: new Date(endDate),
+                    },
+                },
                 select: {
                     id: true,
-                    exportersName: true,
-                    type: true,
-                    adCode: true,
-                    ifscNo: true,
-                }
+                    srNo: true,
+                    shippingBillNo: true,
+                    shippingBillDate: true,
+                    uploadedDate: true,
+                },
+                orderBy: {
+                    uploadedDate: 'desc',
+                },
+            });
+            res.json(data);
+        }
+        catch (err) {
+            res.status(500).json({ error: 'Failed to fetch data' });
+        }
+    });
+}
+function indirectExportDataOnDate(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { startDate, endDate } = req.query;
+        if (!startDate || !endDate) {
+            return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+        }
+        try {
+            const data = yield __1.prisma.basicSheet.findMany({
+                where: {
+                    uploadedDate: {
+                        gte: new Date(startDate),
+                        lte: new Date(endDate),
+                    },
+                },
+                select: {
+                    id: true,
+                    srNo: true,
+                    shippingBillNo: true,
+                    shippingBillDate: true,
+                    uploadedDate: true,
+                },
+                orderBy: {
+                    uploadedDate: 'desc',
+                },
             });
             res.json(data);
         }

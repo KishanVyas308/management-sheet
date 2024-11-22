@@ -12,6 +12,21 @@ import { authAtom } from "../../../../../atoms/authAtom";
 const ShippingBillPage = () => {
   const [usdPrice, setUsdPrice] = useState("USD Price: -cant able to fetch-");
   const {user} = useRecoilValue(authAtom);
+  interface ExporterDetail {
+    id: string;
+    exporterName: string;
+    exporterAddress: string;
+    type: string;
+    adCode: string;
+    cbName: string;
+    forexBankAc: string[];
+    dbkBankAcNo: string[];
+    addedByUserId: string;
+  }
+
+  const [exporterDetail, setExporterDetail] = useState<ExporterDetail[]>([]);
+  const [currentExporterIndex, setCurrentExporterIndex] = useState<number | null>(null)
+
   const [basicSheet, setBasicSheet] = useState({
     companyName: "",
     srNo: "0",
@@ -77,6 +92,37 @@ const ShippingBillPage = () => {
   const [loading, setLoading] = useState(false);
 
   const [cookies, setCookie] = useCookies(["token"]);
+
+
+  //? Fetch all Exporter Detail
+  useEffect(() => {
+    const fetchExporterDetail = async () => {
+      setLoading(true);
+      const res = await axios.get(`${BACKEND_URL}/getdata/allexpoters`, {
+        headers: {
+          Authorization: cookies.token,
+        },
+      });
+      if (res.status !== 200) {
+        alert("Error in fetching data");
+        setLoading(false);
+        return;
+      }
+      const responce = res.data.map((exporter: any) => ({
+        ...exporter,
+        forexBankAc: exporter.forexBankAc.split(","),
+        dbkBankAcNo: exporter.dbkBankAcNo.split(","),
+      }));
+      console.log(responce);
+
+      setExporterDetail(responce);
+      setLoading(false);
+    };
+    fetchExporterDetail();
+  }, []);
+
+
+
   const handleSubmit = async () => {
     setLoading(true);
     const jsonData = {
@@ -268,6 +314,28 @@ const ShippingBillPage = () => {
     basicSheet.product,
     basicSheet.srNo
   ]);
+
+  //? On chang of current exporter index 
+  useMemo(() => {
+    if (currentExporterIndex !== null) {
+      const selectedExporter = exporterDetail[currentExporterIndex];
+      setBasicSheet((prev) => ({
+        ...prev,
+        exportersName: selectedExporter.exporterName,
+        exporterAddress: selectedExporter.exporterAddress,
+        type: selectedExporter.type,
+        adCode: selectedExporter.adCode,
+        cbName: selectedExporter.cbName,
+        forexBankAc: selectedExporter.forexBankAc.join(", "),
+        dbkBankAcNo: selectedExporter.dbkBankAcNo.join(", "),
+      }));
+      console.log(selectedExporter);
+      
+      
+    }
+  }, [currentExporterIndex]);
+
+
   const getUsdPrice = async () => {
     const res = await axios.get("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json")
 
@@ -337,12 +405,16 @@ const ShippingBillPage = () => {
             />
             <InputField
               label="Exporter's Name"
+              type="select"
+              options={exporterDetail.map((exporter) => exporter.exporterName)}
               value={basicSheet.exportersName}
               onChange={(e) =>
-                setBasicSheet({
+             {   setBasicSheet({
                   ...basicSheet,
                   exportersName: e.target.value,
                 })
+                setCurrentExporterIndex(exporterDetail.findIndex((exporter) => exporter.exporterName === e.target.value))
+             }  
               }
             />
             <InputField

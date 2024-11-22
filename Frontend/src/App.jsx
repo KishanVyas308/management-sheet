@@ -16,7 +16,7 @@ import DataManagementPage from "./pages/Home/DataManagement/DataManagementPage";
 import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadDataPage";
 
 import Admin from "./pages/Home/ProcessMonatring/Admin";
-import NewDataAnalytics from "./pages/Home/DataManagement/newdata/NewDataAnalytics";
+import NewDataAnalytics from "./pages/Home/DataManagement/newdata/Analytics/NewDataAnalytics";
 import DirectExport from "./pages/Home/DataManagement/newdata/DirectExport/DirectExport";
 import IndirectExport from "./pages/Home/DataManagement/newdata/IndirectExport/IndirectExport";
 

@@ -17,57 +17,69 @@ interface filtersInterface {
     };
 }
 
+async function directExportDataOnDate(req: any, res: any) {
+    const { startDate, endDate } = req.query;
 
-async function test(req : any, res : any) {
-   
-        const { startDate, endDate, name, type, minValue, maxValue } = req.query;
-    
-        // Construct a dynamic filter object
-        let filters : filtersInterface = {};
-    
-        if (startDate && endDate) {
-            filters.date = {
-                gte: new Date(startDate),
-                lte: new Date(endDate),
-            };
-        }
-    
-        if (name) {
-            filters.exportersName = {
-                contains: name,
-            };
-        }
-    
-        if (type) {
-            filters.type = {
-                contains: type,
-            };
-        }
-    
-        if (minValue && maxValue) {
-            filters.fobValue = {
-                gte: parseFloat(minValue),
-                lte: parseFloat(maxValue),
-            };
-        }
-    
-        // Fetch data based on filters
-        try {
-            const data = await prisma.part1Section1.findMany({
-                where: filters,
-                select: {
-                    id: true,
-                    exportersName: true,
-                    type: true,
-                    adCode: true,
-                    ifscNo: true,
-                }
-            } );
-            res.json(data);
-        } catch (err) {
-            res.status(500).json({ error: 'Failed to fetch data' });
-        }
+    if (!startDate || !endDate) {
+        return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+    }
+
+    try {
+        const data = await prisma.basicSheet.findMany({
+            where: {
+                uploadedDate: {
+                    gte: new Date(startDate),
+                    lte: new Date(endDate),
+                },
+            },
+            select: {
+                id: true,
+                srNo: true,
+                shippingBillNo: true,
+                shippingBillDate: true,
+                uploadedDate: true,
+            },
+            orderBy: {
+                uploadedDate: 'desc',
+            },
+        });
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+}
+
+async function indirectExportDataOnDate(req: any, res: any) {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+        return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+    }
+
+    try {
+        const data = await prisma.basicSheet.findMany({
+            where: {
+                uploadedDate: {
+                    gte: new Date(startDate),
+                    lte: new Date(endDate),
+                },
+            },
+            select: {
+                id: true,
+                srNo: true,
+                shippingBillNo: true,
+                shippingBillDate: true,
+                uploadedDate: true,
+            },
+            orderBy: {
+                uploadedDate: 'desc',
+            },
+        });
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
 }
 
 
-export { test };
+export {  directExportDataOnDate, indirectExportDataOnDate };
