@@ -382,189 +382,363 @@ const Register = ({handleGoback } : {handleGoback : () => void}) => {
 
 
 const Exporter = ({ handleGoback }: { handleGoback: () => void }) => {
-    const [loading, setLoading] = useState(false);
-    const [exporterName, setExporterName] = useState("");
-    const [exporterAddress, setExporterAddress] = useState("");
-    const [type, setType] = useState("");
-    const [adCode, setAdCode] = useState("");
-    const [cbName, setCbName] = useState("");
-    const [forexBankAc, setForexBankAc] = useState([""]);
-    const [dbkBankAcNo, setDbkBankAcNo] = useState([""]);
+  const [loading, setLoading] = useState(false);
+  const [customerName, setCustomerName] = useState("");
+  const [directorName, setDirectorName] = useState("");
+  const [directorMobileNumber, setDirectorMobileNumber] = useState("");
+  const [accountantName, setAccountantName] = useState("");
+  const [accountantMobileNumber, setAccountantMobileNumber] = useState("");
+  const [mailId1, setMailId1] = useState("");
+  const [mailId2, setMailId2] = useState("");
+  const [mailId3, setMailId3] = useState("");
+  const [firmPan, setFirmPan] = useState("");
+  const [gstNo, setGstNo] = useState("");
+  const [iecNo, setIecNo] = useState("");
+  const [bankDetails, setBankDetails] = useState([{ accountNo: "", ifscCode: "" }]);
+  const [industryCategory, setIndustryCategory] = useState("");
+  const [subIndustryCategory, setSubIndustryCategory] = useState("");
+  const [turnoverData, setTurnoverData] = useState([{ year: "", domestic: "", export: "" }]);
+  const [productNameHsnCode, setProductNameHsnCode] = useState([{ productName: "", hsnCode: "" }]);
+  const [iemUdyam, setIemUdyam] = useState("");
 
-    const [cookies, setCookie] = useCookies(["token"]);
-    const user = useRecoilValue(authAtom);
+  const [cookies, setCookie] = useCookies(["token"]);
+  const user = useRecoilValue(authAtom);
 
-    const addForexBankAc = () => {
-        if (forexBankAc.length < 5) {
-            setForexBankAc([...forexBankAc, ""]);
-        }
-    };
+  const addBankDetail = () => {
+    if (bankDetails.length < 5) {
+      setBankDetails([...bankDetails, { accountNo: "", ifscCode: "" }]);
+    }
+  };
 
-    const addDbkBankAcNo = () => {
-        if (dbkBankAcNo.length < 5) {
-            setDbkBankAcNo([...dbkBankAcNo, ""]);
-        }
-    };
+  const removeBankDetail = (index) => {
+    const newBankDetails = bankDetails.filter((_, i) => i !== index);
+    setBankDetails(newBankDetails);
+  };
 
-    const removeForexBankAc = (index) => {
-        const newForexBankAc = forexBankAc.filter((_, i) => i !== index);
-        setForexBankAc(newForexBankAc);
-    };
+  const addTurnoverData = () => {
+    if (turnoverData.length < 3) {
+      setTurnoverData([...turnoverData, { year: "", domestic: "", export: "" }]);
+    }
+  };
 
-    const removeDbkBankAcNo = (index) => {
-        const newDbkBankAcNo = dbkBankAcNo.filter((_, i) => i !== index);
-        setDbkBankAcNo(newDbkBankAcNo);
-    };
+  const removeTurnoverData = (index) => {
+    const newTurnoverData = turnoverData.filter((_, i) => i !== index);
+    setTurnoverData(newTurnoverData);
+  };
 
-    const handleForexBankAcChange = (index, value) => {
-        const newForexBankAc = [...forexBankAc];
-        newForexBankAc[index] = value;
-        setForexBankAc(newForexBankAc);
-    };
+  const addProductNameHsnCode = () => {
+    if (productNameHsnCode.length < 5) {
+      setProductNameHsnCode([...productNameHsnCode, { productName: "", hsnCode: "" }]);
+    }
+  };
 
-    const handleDbkBankAcNoChange = (index, value) => {
-        const newDbkBankAcNo = [...dbkBankAcNo];
-        newDbkBankAcNo[index] = value;
-        setDbkBankAcNo(newDbkBankAcNo);
-    };
+  const removeProductNameHsnCode = (index) => {
+    const newProductNameHsnCode = productNameHsnCode.filter((_, i) => i !== index);
+    setProductNameHsnCode(newProductNameHsnCode);
+  };
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        // Add your validation and API call logic here
-        setLoading(true);
-        const res = await axios.post(`${BACKEND_URL}/add/exporter`, {
-            exporterName,
-            exporterAddress,
-            type,
-            adCode,
-            cbName,
-            forexBankAc,
-            dbkBankAcNo,
-            addedByUserId: user.user.id,
-        }, 
-        {
-          headers: {
-            Authorization: cookies.token,
-          },
-        });
+  const handleBankDetailChange = (index, field, value) => {
+    const newBankDetails = [...bankDetails];
+    newBankDetails[index][field] = value;
+    setBankDetails(newBankDetails);
+  };
 
+  const handleTurnoverDataChange = (index, field, value) => {
+    const newTurnoverData = [...turnoverData];
+    newTurnoverData[index][field] = value;
+    setTurnoverData(newTurnoverData);
+  };
 
-        alert(res.data.message);
-        setLoading(false);
+  const handleProductNameHsnCodeChange = (index, field, value) => {
+    const newProductNameHsnCode = [...productNameHsnCode];
+    newProductNameHsnCode[index][field] = value;
+    setProductNameHsnCode(newProductNameHsnCode);
+  };
 
-    };
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    // const res = await axios.post(`${BACKEND_URL}/add/exporter`, {
+    //   customerName,
+    //   directorName,
+    //   directorMobileNumber,
+    //   accountantName,
+    //   accountantMobileNumber,
+    //   mailId1,
+    //   mailId2,
+    //   mailId3,
+    //   firmPan,
+    //   gstNo,
+    //   iecNo,
+    //   bankDetails,
+    //   industryCategory,
+    //   subIndustryCategory,
+    //   turnoverData,
+    //   productNameHsnCode,
+    //   iemUdyam,
+    //   addedByUserId: user.user.id,
+    // }, 
+    // {
+    //   headers: {
+    //   Authorization: cookies.token,
+    //   },
+    // });
 
-    return (
-        <div className="h-[70vh] bg-gray-200">
-            {loading && <Loading />}
-            <div className="flex flex-col my-4  w-full h-full">
-                <div>
-                    <div className="w-full p-8 rounded-md">
-                        <h2 className="text-4xl text-center border-b-2 mb-6">Register Exporter</h2>
-                        <form onSubmit={handleRegister} className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="relative">
-                                    <FontAwesomeIcon icon={faUser} className="absolute left-3 top-3 text-green-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="Exporter Name"
-                                        className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                                        value={exporterName}
-                                        onChange={(e) => setExporterName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="relative">
-                                    <FontAwesomeIcon icon={faMapMarkerAlt} className="absolute left-3 top-3 text-green-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="Exporter Address"
-                                        className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                                        value={exporterAddress}
-                                        onChange={(e) => setExporterAddress(e.target.value)}
-                                    />
-                                </div>
-                                <div className="relative">
-                                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="Type"
-                                        className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                                        value={type}
-                                        onChange={(e) => setType(e.target.value)}
-                                    />
-                                </div>
-                                <div className="relative">
-                                    <FontAwesomeIcon icon={faPercent} className="absolute left-3 top-3 text-green-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="AD Code"
-                                        className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                                        value={adCode}
-                                        onChange={(e) => setAdCode(e.target.value)}
-                                    />
-                                </div>
-                                <div className="relative">
-                                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="CB Name"
-                                        className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                                        value={cbName}
-                                        onChange={(e) => setCbName(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            {forexBankAc.map((account, index) => (
-                                <div key={index} className="relative">
-                                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="Forex Bank Ac"
-                                        className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                                        value={account}
-                                        onChange={(e) => handleForexBankAcChange(index, e.target.value)}
-                                    />
-                                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeForexBankAc(index)}>Remove</button>
-                                </div>
-                            ))}
-                            {forexBankAc.length < 5 && (
-                                <div className="text-center">
-                                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addForexBankAc}>
-                                        Add Another Forex Bank Ac
-                                    </button>
-                                </div>
-                            )}
-                            {dbkBankAcNo.map((account, index) => (
-                                <div key={index} className="relative">
-                                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
-                                    <input
-                                        type="text"
-                                        placeholder="DBK Bank Ac No."
-                                        className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                                        value={account}
-                                        onChange={(e) => handleDbkBankAcNoChange(index, e.target.value)}
-                                    />
-                                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeDbkBankAcNo(index)}>Remove</button>
-                                </div>
-                            ))}
-                            {dbkBankAcNo.length < 5 && (
-                                <div className="text-center">
-                                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addDbkBankAcNo}>
-                                        Add Another DBK Bank Ac No.
-                                    </button>
-                                </div>
-                            )}
-                            <div className="text-center">
-                                <button type="submit" className="bg-green-500 text-white p-2 rounded-lg w-full">
-                                    Register
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+    // alert(res.data.message);
+
+    alert("Right now work is in progress, done by 27th Nov 2021");
+    setLoading(false);
+  };
+
+  return (
+    <div className="h-[70vh] bg-gray-100 p-4 rounded-lg shadow-lg">
+      {loading && <Loading />}
+      <div className="flex flex-col my-4 w-full h-full">
+        <div>
+          <div className="w-full p-8 rounded-md bg-white shadow-md">
+            <h2 className="text-4xl text-center border-b-2 mb-6">Register Client</h2>
+            <form onSubmit={handleRegister} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="relative">
+                  <FontAwesomeIcon icon={faUser} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Customer Name"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                  />
                 </div>
-            </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faUser} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Director Name"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={directorName}
+                    onChange={(e) => setDirectorName(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faPhone} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Director Mo. No."
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={directorMobileNumber}
+                    onChange={(e) => setDirectorMobileNumber(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faUser} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Accountant Name"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={accountantName}
+                    onChange={(e) => setAccountantName(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faPhone} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Accountant Mo. No."
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={accountantMobileNumber}
+                    onChange={(e) => setAccountantMobileNumber(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faEnvelope} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="email"
+                    placeholder="Mail ID 1"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={mailId1}
+                    onChange={(e) => setMailId1(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faEnvelope} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="email"
+                    placeholder="Mail ID 2"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={mailId2}
+                    onChange={(e) => setMailId2(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faEnvelope} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="email"
+                    placeholder="Mail ID 3"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={mailId3}
+                    onChange={(e) => setMailId3(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Firm Pan"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={firmPan}
+                    onChange={(e) => setFirmPan(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faPercent} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="GST No."
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={gstNo}
+                    onChange={(e) => setGstNo(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="IEC No."
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={iecNo}
+                    onChange={(e) => setIecNo(e.target.value)}
+                  />
+                </div>
+                {bankDetails.map((detail, index) => (
+                  <div key={index} className="relative">
+                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                    <input
+                      type="text"
+                      placeholder="Account No."
+                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
+                      value={detail.accountNo}
+                      onChange={(e) => handleBankDetailChange(index, "accountNo", e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="IFSC Code"
+                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                      value={detail.ifscCode}
+                      onChange={(e) => handleBankDetailChange(index, "ifscCode", e.target.value)}
+                    />
+                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeBankDetail(index)}>Remove</button>
+                  </div>
+                ))}
+                {bankDetails.length < 5 && (
+                  <div className="text-center col-span-2">
+                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addBankDetail}>
+                      Add Another Bank Detail
+                    </button>
+                  </div>
+                )}
+                <div className="relative">
+                  <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Industry Category"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={industryCategory}
+                    onChange={(e) => setIndustryCategory(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="Sub-Industry Category"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={subIndustryCategory}
+                    onChange={(e) => setSubIndustryCategory(e.target.value)}
+                  />
+                </div>
+                {turnoverData.map((data, index) => (
+                  <div key={index} className="relative">
+                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                    <input
+                      type="text"
+                      placeholder="Year"
+                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
+                      value={data.year}
+                      onChange={(e) => handleTurnoverDataChange(index, "year", e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Domestic Turnover"
+                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
+                      value={data.domestic}
+                      onChange={(e) => handleTurnoverDataChange(index, "domestic", e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Export Turnover"
+                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                      value={data.export}
+                      onChange={(e) => handleTurnoverDataChange(index, "export", e.target.value)}
+                    />
+                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeTurnoverData(index)}>Remove</button>
+                  </div>
+                ))}
+                {turnoverData.length < 3 && (
+                  <div className="text-center col-span-2">
+                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addTurnoverData}>
+                      Add Another Turnover Data
+                    </button>
+                  </div>
+                )}
+                {productNameHsnCode.map((product, index) => (
+                  <div key={index} className="relative">
+                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                    <input
+                      type="text"
+                      placeholder="Product Name"
+                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
+                      value={product.productName}
+                      onChange={(e) => handleProductNameHsnCodeChange(index, "productName", e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="HSN Code"
+                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                      value={product.hsnCode}
+                      onChange={(e) => handleProductNameHsnCodeChange(index, "hsnCode", e.target.value)}
+                    />
+                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeProductNameHsnCode(index)}>Remove</button>
+                  </div>
+                ))}
+                {productNameHsnCode.length < 5 && (
+                  <div className="text-center col-span-2">
+                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addProductNameHsnCode}>
+                      Add Another Product
+                    </button>
+                  </div>
+                )}
+                <div className="relative">
+                  <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
+                  <input
+                    type="text"
+                    placeholder="IEM / Udyam"
+                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
+                    value={iemUdyam}
+                    onChange={(e) => setIemUdyam(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="text-center">
+                <button type="submit" className="bg-green-500 text-white p-2 rounded-lg w-full">
+                  Register
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 

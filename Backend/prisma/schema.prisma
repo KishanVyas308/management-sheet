@@ -61,7 +61,7 @@ model user {
   IndirectExportCalculationSheet IndirectExportCalculationSheet[]
   IndirectExportNewDeptSheet IndirectExportNewDeptSheet[]
   IndirectExportAnneuxureA IndirectExportAnneuxureA[]
-  Exporter               Exporter[]
+  Client               Client[]
 }
 
 model ExcelDataFinal {
@@ -686,7 +686,6 @@ model IndirectExportCalculationSheet {
   id                       String  @id @default(cuid())
   srNo                     String
   sameProductOrService     String
-  alternativeProductOrService String
   shippingBillNo           String
   shippingBillDate         String?
   fobValueRealizationProceedsRs String
@@ -744,15 +743,20 @@ model IndirectExportAnneuxureA {
 }
 
 
-model Exporter {
+model Client  {
   id                       String                  @id @default(cuid())
-  exporterName             String
-  exporterAddress          String
-  type                     String
-  adCode                   String
-  cbName                   String
-  forexBankAc              String
-  dbkBankAcNo              String
+  customerName             String
+  mobileNumber             String
+  mailId                   String
+  firmPan                  String
+  gstNo                    String
+  iecNo                    String
+  bankDetails              Json
+  industryCategory         String
+  subIndustryCategory      String
+  turnoverData             Json
+  productNameHsnCode       Json
+  iemUdyam                 String
   user                     user                    @relation(fields: [addedByUserId], references: [id])
   addedByUserId            String
 

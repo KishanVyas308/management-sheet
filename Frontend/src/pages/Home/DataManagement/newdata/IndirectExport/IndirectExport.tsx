@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Loading from "../../../../components/Loading";
 import NewDataHeaderComponent from "../NewDataHeaderComponent";
-import InputField from "../../../../components/InputField";
+import InputField, { SelectInputField } from "../../../../components/InputField";
 import NewDataButtons from "../NewDataButtons";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -91,7 +91,7 @@ const IndirectExport = () => {
     return saved ? JSON.parse(saved) : {
       srNo: "",
       sameProductOrService: "",
-      alternativeProductOrService: "",
+     
       shippingBillNo: "",
       shippingBillDate: "",
       fobValueRealizationProceedsRs: "",
@@ -354,16 +354,16 @@ const IndirectExport = () => {
 
     const cifValue2 =
       Number(basicSheet.cifValue) *
-      Number(basicSheet.exchangeRateOrProprtionRatio);
+      Number(basicSheet.exchangeRate);
     const brcValue =
-      Number(basicSheet.brc) * Number(basicSheet.exchangeRateOrProprtionRatio);
+      Number(basicSheet.brc) * Number(basicSheet.exchangeRate);
     const lowerOfSbAndBrc = Math.min(Number(basicSheet.cifValue2), Number(basicSheet.brc2)).toString();
     const shippingBillFreight =
       Number(basicSheet.freight) *
-      Number(basicSheet.exchangeRateOrProprtionRatio);
+      Number(basicSheet.exchangeRate);
     const shippingBillInsurance =
       Number(basicSheet.insurance) *
-      Number(basicSheet.exchangeRateOrProprtionRatio);
+      Number(basicSheet.exchangeRate);
     const fobValueInDoller = (
       Number(lowerOfSbAndBrc) -
       (shippingBillFreight + shippingBillInsurance)
@@ -372,25 +372,31 @@ const IndirectExport = () => {
       Number(fobValueInDoller) * Number(basicSheet.exchangeRate)
     ).toString();
 
+    console.log("Fob Value in Rupees", fobValueInRupees);
+    console.log("Fob Value in Dollar", fobValueInDoller);
+    
+    
+
     const updatedAnnexure1 = {
       srNo: basicSheet.srNo,
       shippingBillNo: basicSheet.shippingBillNo,
       shippingBillDate: basicSheet.shippingBillDate,
-      shippingBillCifValue: basicSheet.cifValue2,
-      brcValue: basicSheet.brc2,
+      shippingBillCifValue: basicSheet.cifValue,
+      brcValue: basicSheet.brc,
       lowerOfSbAndBrc: lowerOfSbAndBrc,
-      shippingBillFreight: shippingBillFreight.toString(),
-      shippingBillInsurance: shippingBillInsurance.toString(),
+      shippingBillFreight: basicSheet.freight,
+      shippingBillInsurance: basicSheet.insurance,
       fobValueInDollars: fobValueInDoller,
       exchangeRatePerShippingBill: basicSheet.exchangeRate,
       fobValueInRupees: fobValueInRupees,
+
 
     };
 
 
 
     const taxInvoiceTax = Number(basicSheet.invoiceValue) - Number(basicSheet.basicAmount);
-    const lowerOfInvoiceAndBankStatement = (Math.min(Number(basicSheet.invoiceValue), Number(basicSheet.amountRealised))).toString();
+    const lowerOfInvoiceAndBankStatement = (Math.min(taxInvoiceTax, Number(basicSheet.amountRealised))).toString();
     const proportionateAmountOf6ForInRs = ((Number(lowerOfInvoiceAndBankStatement) * Number(basicSheet.basicAmount)) / Number(basicSheet.invoiceValue)).toString();
 
     const updatedAnnexure2 = {
@@ -415,7 +421,7 @@ const IndirectExport = () => {
 
     const updatedCalculationSheet = {
       srNo: basicSheet.srNo,
-      sameProductOrService: basicSheet.product,
+      
       shippingBillNo: basicSheet.shippingBillNo,
       shippingBillDate: basicSheet.shippingBillDate,
       fobValueRealizationProceedsRs: newDeptSheet.amountLessOfCol6And7Rs,
@@ -448,7 +454,7 @@ const IndirectExport = () => {
     const updatedAnnexureA = {
       srNo: basicSheet.srNo,
       productExportered: basicSheet.product,
-      shippingBillNumber: basicSheet.shippingBillNo,
+      shippingBillNo: basicSheet.shippingBillNo,
       shippingBillDate: basicSheet.shippingBillDate,
       directExportsInRupees: updatedCalculationSheet.fobValueLowerOf5_6_7Rs,
       directExportsInDollars: updatedCalculationSheet.fobValueLowerOf5_6_7Us,
@@ -497,8 +503,9 @@ const IndirectExport = () => {
 
   }, [
     basicSheet.cifValue,
-    basicSheet.exchangeRateOrProprtionRatio,
+    basicSheet.exchangeRate,
     basicSheet.brc,
+    basicSheet.cifValue,
     basicSheet.cifValue2,
     basicSheet.brc2,
     basicSheet.freight,
@@ -636,8 +643,8 @@ const IndirectExport = () => {
                 })
               }
             />
-            <InputField
-              label="HS Code and Description"
+            <SelectInputField
+              label="HS Code & Description"
               value={basicSheet.hsCodeAndDescription}
               onChange={(e) =>
                 setBasicSheet({
@@ -645,13 +652,15 @@ const IndirectExport = () => {
                   hsCodeAndDescription: e.target.value,
                 })
               }
+              options={["Y", "N"]}
             />
-            <InputField
-              label="EPCG Lic No"
+            <SelectInputField
+              label="EPCG Lic. No."
               value={basicSheet.epcgLicNo}
               onChange={(e) =>
                 setBasicSheet({ ...basicSheet, epcgLicNo: e.target.value })
               }
+              options={["Y", "N"]}
             />
             <InputField
               label="CIF Value"
@@ -792,7 +801,7 @@ const IndirectExport = () => {
               }
               type="number"
             />
-            <InputField
+            <SelectInputField
               label="Qty as per Invoice and SB Match"
               value={basicSheet.qtyAsPerInvoiceAndSbMatch}
               onChange={(e) =>
@@ -801,9 +810,10 @@ const IndirectExport = () => {
                   qtyAsPerInvoiceAndSbMatch: e.target.value,
                 })
               }
-              type="number"
+              
+              options={["Y", "N"]}
             />
-            <InputField
+            <SelectInputField
               label="EPCG Lic No in Tax Invoice"
               value={basicSheet.epcgLicNoInTaxInvoice}
               onChange={(e) =>
@@ -813,8 +823,9 @@ const IndirectExport = () => {
                 })
               }
               type="text"
+              options={["Y", "N"]}
             />
-            <InputField
+            <SelectInputField
               label="Lorry Receipt or Eway Bill"
               value={basicSheet.lorryReceiptOrEwayBill}
               onChange={(e) =>
@@ -824,14 +835,16 @@ const IndirectExport = () => {
                 })
               }
               type="text"
+              options={["Y", "N"]}
             />
-            <InputField
+            <SelectInputField
               label="Bank Statement"
               value={basicSheet.bankStatement}
               onChange={(e) =>
                 setBasicSheet({ ...basicSheet, bankStatement: e.target.value })
               }
               type="text"
+              options={["Y", "N"]}
             />
             <InputField
               label="Product"

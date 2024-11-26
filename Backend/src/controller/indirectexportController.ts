@@ -174,7 +174,6 @@ export async function addIndirectExportCalculationSheet(data: any) {
     const {
       srNo,
       sameProductOrService,
-      alternativeProductOrService,
       shippingBillNo,
       shippingBillDate,
       fobValueRealizationProceedsRs,
@@ -191,7 +190,6 @@ export async function addIndirectExportCalculationSheet(data: any) {
       data: {
         srNo: srNo?.toString() || "",
         sameProductOrService: sameProductOrService?.toString() || "",
-        alternativeProductOrService: alternativeProductOrService?.toString() || "",
         shippingBillNo: shippingBillNo?.toString() || "",
         shippingBillDate: shippingBillDate?.toString() || "",
         fobValueRealizationProceedsRs: fobValueRealizationProceedsRs?.toString() || "",

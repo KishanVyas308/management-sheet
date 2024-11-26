@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Loading from "../../../../components/Loading";
 import NewDataHeaderComponent from "../NewDataHeaderComponent";
-import InputField from "../../../../components/InputField";
+import InputField, { SelectInputField } from "../../../../components/InputField";
 import NewDataButtons from "../NewDataButtons";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -11,7 +11,7 @@ import { authAtom } from "../../../../../atoms/authAtom";
 
 const ShippingBillPage = () => {
   const [usdPrice, setUsdPrice] = useState("USD Price: -cant able to fetch-");
-  const {user} = useRecoilValue(authAtom);
+  const { user } = useRecoilValue(authAtom);
   interface ExporterDetail {
     id: string;
     exporterName: string;
@@ -127,7 +127,7 @@ const ShippingBillPage = () => {
     setLoading(true);
     const jsonData = {
       basicSheet,
-      addedByUserId : user.id
+      addedByUserId: user.id
     };
     console.log(jsonData);
 
@@ -148,7 +148,7 @@ const ShippingBillPage = () => {
 
     const annexure1Data = {
       annexure1,
-      addedByUserId : user.id
+      addedByUserId: user.id
     }
     console.log(annexure1Data);
 
@@ -169,7 +169,7 @@ const ShippingBillPage = () => {
 
     const annexureAData = {
       annexureA,
-      addedByUserId : user.id
+      addedByUserId: user.id
     }
     console.log(annexureAData);
 
@@ -286,7 +286,7 @@ const ShippingBillPage = () => {
       totalInDollars: fobValueInDoller,
     };
 
-    
+
 
     setAnnexure1((prevAnnexure) => ({
       ...prevAnnexure,
@@ -330,8 +330,8 @@ const ShippingBillPage = () => {
         dbkBankAcNo: selectedExporter.dbkBankAcNo.join(", "),
       }));
       console.log(selectedExporter);
-      
-      
+
+
     }
   }, [currentExporterIndex]);
 
@@ -408,17 +408,19 @@ const ShippingBillPage = () => {
               type="select"
               options={exporterDetail.map((exporter) => exporter.exporterName)}
               value={basicSheet.exportersName}
-              onChange={(e) =>
-             {   setBasicSheet({
+              onChange={(e) => {
+                setBasicSheet({
                   ...basicSheet,
                   exportersName: e.target.value,
                 })
                 setCurrentExporterIndex(exporterDetail.findIndex((exporter) => exporter.exporterName === e.target.value))
-             }  
+              }
               }
             />
-            <InputField
-              label="HS Code and Description"
+
+
+            <SelectInputField
+              label="HS Code & Description"
               value={basicSheet.hsCodeAndDescription}
               onChange={(e) =>
                 setBasicSheet({
@@ -426,13 +428,16 @@ const ShippingBillPage = () => {
                   hsCodeAndDescription: e.target.value,
                 })
               }
-            />
-            <InputField
-              label="EPCG Lic No"
+              options={["Y", "N"]}
+            />  
+
+            <SelectInputField
+              label="EPCG Lic. No."
               value={basicSheet.epcgLicNo}
               onChange={(e) =>
                 setBasicSheet({ ...basicSheet, epcgLicNo: e.target.value })
               }
+              options={["Y", "N"]}
             />
             <InputField
               label="CIF Value"
