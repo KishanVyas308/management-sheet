@@ -50,32 +50,41 @@ export const addNewUser = async (req: any, res: any) => {
 
 export const addNewExpoter = async (req: any, res: any) => {
 const {
-  exporterName,
-  exporterAddress,
-  type,
-  adCode,
-  cbName,
-  forexBankAc,
-  dbkBankAcNo,
+  customerName,
+  mobileNumber1,
+  mobileNumber2,
+  mobileNumber3,
+  mailId1,
+  mailId2,
+  mailId3,
+  firmPan,
+  gstNo,
+  iecNo,
+  industryCategory,
+  subIndustryCategory,
+  iemUdyam,
   addedByUserId,
 } = req.body;
 
 console.log(req.body);
 
-let allforexBankAc = forexBankAc.join(',');
-let alldbkBankAcNo = dbkBankAcNo.join(',');
-
 try {
-  const exporter = await prisma.exporter.create({
+  const exporter = await prisma.client.create({
     data: {
-      exporterName,
-      exporterAddress,
-      type,
-      adCode,
-      cbName,
-      forexBankAc : allforexBankAc,
-      dbkBankAcNo : alldbkBankAcNo,
-      addedByUserId,
+      customerName: customerName || "",
+      mobileNumber1: mobileNumber1 || "",
+      mobileNumber2: mobileNumber2 || "",
+      mobileNumber3: mobileNumber3 || "",
+      mailId1: mailId1 || "",
+      mailId2: mailId2 || "",
+      mailId3: mailId3 || "",
+      firmPan: firmPan || "",
+      gstNo: gstNo || "",
+      iecNo: iecNo || "",
+      industryCategory: industryCategory || "",
+      subIndustryCategory: subIndustryCategory || "",
+      iemUdyam: iemUdyam || "",
+      addedByUserId: addedByUserId || "",
     },
   });
 

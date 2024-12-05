@@ -13,15 +13,21 @@ const ShippingBillPage = () => {
   const [usdPrice, setUsdPrice] = useState("USD Price: -cant able to fetch-");
   const { user } = useRecoilValue(authAtom);
   interface ExporterDetail {
-    id: string;
-    exporterName: string;
-    exporterAddress: string;
-    type: string;
-    adCode: string;
-    cbName: string;
-    forexBankAc: string[];
-    dbkBankAcNo: string[];
-    addedByUserId: string;
+    addedByUserId: string,
+    customerName : string,
+    firmPan : string,
+    gstNo : string,
+    id : string,
+    iecNo : string,
+    iemUdyam : string,
+    industryCategory : string,
+    mailId1 : string,
+    mailId2 : string,
+    mailId3 : string,
+    mobileNumber1 : string,
+    mobileNumber2 : string,
+    mobileNumber3 : string,
+    subIndustryCategory : string
   }
 
   const [exporterDetail, setExporterDetail] = useState<ExporterDetail[]>([]);
@@ -108,14 +114,10 @@ const ShippingBillPage = () => {
         setLoading(false);
         return;
       }
-      const responce = res.data.map((exporter: any) => ({
-        ...exporter,
-        forexBankAc: exporter.forexBankAc.split(","),
-        dbkBankAcNo: exporter.dbkBankAcNo.split(","),
-      }));
-      console.log(responce);
+     
+      console.log(res.data);
 
-      setExporterDetail(responce);
+      setExporterDetail(res.data);
       setLoading(false);
     };
     fetchExporterDetail();
@@ -321,13 +323,13 @@ const ShippingBillPage = () => {
       const selectedExporter = exporterDetail[currentExporterIndex];
       setBasicSheet((prev) => ({
         ...prev,
-        exportersName: selectedExporter.exporterName,
-        exporterAddress: selectedExporter.exporterAddress,
-        type: selectedExporter.type,
-        adCode: selectedExporter.adCode,
-        cbName: selectedExporter.cbName,
-        forexBankAc: selectedExporter.forexBankAc.join(", "),
-        dbkBankAcNo: selectedExporter.dbkBankAcNo.join(", "),
+        exportersName: selectedExporter.customerName,
+        exporterAddress: selectedExporter.mailId1,
+        // type: selectedExporter.type,
+        // adCode: selectedExporter.adCode,
+        // cbName: selectedExporter.cbName,
+        // forexBankAc: selectedExporter.forexBankAc.join(", "),
+        // dbkBankAcNo: selectedExporter.dbkBankAcNo.join(", "),
       }));
       console.log(selectedExporter);
 
@@ -406,14 +408,14 @@ const ShippingBillPage = () => {
             <InputField
               label="Exporter's Name"
               type="select"
-              options={exporterDetail.map((exporter) => exporter.exporterName)}
+              options={exporterDetail.map((exporter) => exporter.customerName)}
               value={basicSheet.exportersName}
               onChange={(e) => {
                 setBasicSheet({
                   ...basicSheet,
                   exportersName: e.target.value,
                 })
-                setCurrentExporterIndex(exporterDetail.findIndex((exporter) => exporter.exporterName === e.target.value))
+                setCurrentExporterIndex(exporterDetail.findIndex((exporter) => exporter.customerName === e.target.value))
               }
               }
             />

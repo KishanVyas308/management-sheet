@@ -54,6 +54,7 @@ const manageUserShippingBillRoute_1 = __importDefault(require("./router/manageUs
 const indirectexportRoute_1 = __importDefault(require("./router/indirectexportRoute"));
 const manageAddByAdminRoute_1 = __importDefault(require("./router/manageAddByAdminRoute"));
 const getDataForUserRoute_1 = __importDefault(require("./router/getDataForUserRoute"));
+const documentsListRoute_1 = __importDefault(require("./router/documentsListRoute"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 app.use((0, cors_1.default)({
@@ -83,6 +84,8 @@ app.use("/api/v1/dataAnalytics", dataAnalyticsRoute_1.default);
 app.use("/api/v1/manageUserShippingBill", middleWare_1.isAdmin, manageUserShippingBillRoute_1.default);
 //? add user and expoter api
 app.use("/api/v1/add", middleWare_1.isAdmin, manageAddByAdminRoute_1.default);
+//? routes for documentslist
+app.use("/api/v1/documentslist", documentsListRoute_1.default);
 //? get data for user 
 app.use("/api/v1/getdata", getDataForUserRoute_1.default);
 // Initialize WebSocket server on the same HTTP server

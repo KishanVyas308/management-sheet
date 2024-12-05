@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllExporters = void 0;
 const __1 = require("..");
 const getAllExporters = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield __1.prisma.exporter.findMany();
+    const data = yield __1.prisma.client.findMany();
     res.json(data);
 });
 exports.getAllExporters = getAllExporters;

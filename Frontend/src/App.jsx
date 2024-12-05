@@ -19,6 +19,8 @@ import Admin from "./pages/Home/ProcessMonatring/Admin";
 import NewDataAnalytics from "./pages/Home/DataManagement/newdata/Analytics/NewDataAnalytics";
 import DirectExport from "./pages/Home/DataManagement/newdata/DirectExport/DirectExport";
 import IndirectExport from "./pages/Home/DataManagement/newdata/IndirectExport/IndirectExport";
+import EWayBillDetails from "./pages/Home/DataManagement/newdata/EWayBillDetails";
+import Invoice from "./pages/Home/DataManagement/newdata/Invoice";
 
 function App() {
   return (
@@ -62,6 +64,16 @@ function App() {
         <Route
           path="/datamanagement/existingdata"
           element={<ProtectedRoute element={<FileUpload />} />}
+        />
+
+        />
+        <Route
+          path="/datamanagement/invoice"
+          element={<ProtectedRoute element={<Invoice />} />}
+        />
+        <Route
+          path="/datamanagement/e-way-bill"
+          element={<ProtectedRoute element={<EWayBillDetails />} />}
         />
 
         <Route path="/signin" element={<Signin />} />

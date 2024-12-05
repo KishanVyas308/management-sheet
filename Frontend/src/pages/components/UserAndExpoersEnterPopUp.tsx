@@ -50,7 +50,7 @@ const UserAndExpoersEnterPopUp = ({ open, handleClose }: { open: boolean, handle
                         </Button>
                       
                         <Button variant="contained" color="secondary" onClick={() => setShowExporter(true)}>
-                            Create New Exporter
+                            Create New Client
                         </Button>
                     </div>
                     } 
@@ -380,113 +380,55 @@ const Register = ({handleGoback } : {handleGoback : () => void}) => {
   );
 };
 
-
 const Exporter = ({ handleGoback }: { handleGoback: () => void }) => {
   const [loading, setLoading] = useState(false);
   const [customerName, setCustomerName] = useState("");
-  const [directorName, setDirectorName] = useState("");
-  const [directorMobileNumber, setDirectorMobileNumber] = useState("");
-  const [accountantName, setAccountantName] = useState("");
-  const [accountantMobileNumber, setAccountantMobileNumber] = useState("");
+  const [mobileNumber1, setMobileNumber1] = useState("");
+  const [mobileNumber2, setMobileNumber2] = useState("");
+  const [mobileNumber3, setMobileNumber3] = useState("");
   const [mailId1, setMailId1] = useState("");
   const [mailId2, setMailId2] = useState("");
   const [mailId3, setMailId3] = useState("");
   const [firmPan, setFirmPan] = useState("");
   const [gstNo, setGstNo] = useState("");
   const [iecNo, setIecNo] = useState("");
-  const [bankDetails, setBankDetails] = useState([{ accountNo: "", ifscCode: "" }]);
   const [industryCategory, setIndustryCategory] = useState("");
   const [subIndustryCategory, setSubIndustryCategory] = useState("");
-  const [turnoverData, setTurnoverData] = useState([{ year: "", domestic: "", export: "" }]);
-  const [productNameHsnCode, setProductNameHsnCode] = useState([{ productName: "", hsnCode: "" }]);
   const [iemUdyam, setIemUdyam] = useState("");
 
   const [cookies, setCookie] = useCookies(["token"]);
   const user = useRecoilValue(authAtom);
 
-  const addBankDetail = () => {
-    if (bankDetails.length < 5) {
-      setBankDetails([...bankDetails, { accountNo: "", ifscCode: "" }]);
-    }
-  };
-
-  const removeBankDetail = (index) => {
-    const newBankDetails = bankDetails.filter((_, i) => i !== index);
-    setBankDetails(newBankDetails);
-  };
-
-  const addTurnoverData = () => {
-    if (turnoverData.length < 3) {
-      setTurnoverData([...turnoverData, { year: "", domestic: "", export: "" }]);
-    }
-  };
-
-  const removeTurnoverData = (index) => {
-    const newTurnoverData = turnoverData.filter((_, i) => i !== index);
-    setTurnoverData(newTurnoverData);
-  };
-
-  const addProductNameHsnCode = () => {
-    if (productNameHsnCode.length < 5) {
-      setProductNameHsnCode([...productNameHsnCode, { productName: "", hsnCode: "" }]);
-    }
-  };
-
-  const removeProductNameHsnCode = (index) => {
-    const newProductNameHsnCode = productNameHsnCode.filter((_, i) => i !== index);
-    setProductNameHsnCode(newProductNameHsnCode);
-  };
-
-  const handleBankDetailChange = (index, field, value) => {
-    const newBankDetails = [...bankDetails];
-    newBankDetails[index][field] = value;
-    setBankDetails(newBankDetails);
-  };
-
-  const handleTurnoverDataChange = (index, field, value) => {
-    const newTurnoverData = [...turnoverData];
-    newTurnoverData[index][field] = value;
-    setTurnoverData(newTurnoverData);
-  };
-
-  const handleProductNameHsnCodeChange = (index, field, value) => {
-    const newProductNameHsnCode = [...productNameHsnCode];
-    newProductNameHsnCode[index][field] = value;
-    setProductNameHsnCode(newProductNameHsnCode);
-  };
-
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // const res = await axios.post(`${BACKEND_URL}/add/exporter`, {
-    //   customerName,
-    //   directorName,
-    //   directorMobileNumber,
-    //   accountantName,
-    //   accountantMobileNumber,
-    //   mailId1,
-    //   mailId2,
-    //   mailId3,
-    //   firmPan,
-    //   gstNo,
-    //   iecNo,
-    //   bankDetails,
-    //   industryCategory,
-    //   subIndustryCategory,
-    //   turnoverData,
-    //   productNameHsnCode,
-    //   iemUdyam,
-    //   addedByUserId: user.user.id,
-    // }, 
-    // {
-    //   headers: {
-    //   Authorization: cookies.token,
-    //   },
-    // });
+    const res = await axios.post(`${BACKEND_URL}/add/exporter`, {
+      customerName,
+      mobileNumber1,
+      mobileNumber2,
+      mobileNumber3,
+      mailId1,
+      mailId2,
+      mailId3,
+      firmPan,
+      gstNo,
+      iecNo,
+      industryCategory,
+      subIndustryCategory,
+      iemUdyam,
+      addedByUserId: user.user.id,
+    }, 
+    {
+      headers: {
+      Authorization: cookies.token,
+      },
+    });
 
     // alert(res.data.message);
 
-    alert("Right now work is in progress, done by 27th Nov 2021");
+    alert(res.data.message);
+    console.log(res.data.message);
+    
     setLoading(false);
   };
 
@@ -510,43 +452,33 @@ const Exporter = ({ handleGoback }: { handleGoback: () => void }) => {
                   />
                 </div>
                 <div className="relative">
-                  <FontAwesomeIcon icon={faUser} className="absolute left-3 top-3 text-green-500" />
+                  <FontAwesomeIcon icon={faPhone} className="absolute left-3 top-3 text-green-500" />
                   <input
                     type="text"
-                    placeholder="Director Name"
+                    placeholder="Mobile Number 1"
                     className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                    value={directorName}
-                    onChange={(e) => setDirectorName(e.target.value)}
+                    value={mobileNumber1}
+                    onChange={(e) => setMobileNumber1(e.target.value)}
                   />
                 </div>
                 <div className="relative">
                   <FontAwesomeIcon icon={faPhone} className="absolute left-3 top-3 text-green-500" />
                   <input
                     type="text"
-                    placeholder="Director Mo. No."
+                    placeholder="Mobile Number 2"
                     className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                    value={directorMobileNumber}
-                    onChange={(e) => setDirectorMobileNumber(e.target.value)}
-                  />
-                </div>
-                <div className="relative">
-                  <FontAwesomeIcon icon={faUser} className="absolute left-3 top-3 text-green-500" />
-                  <input
-                    type="text"
-                    placeholder="Accountant Name"
-                    className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                    value={accountantName}
-                    onChange={(e) => setAccountantName(e.target.value)}
+                    value={mobileNumber2}
+                    onChange={(e) => setMobileNumber2(e.target.value)}
                   />
                 </div>
                 <div className="relative">
                   <FontAwesomeIcon icon={faPhone} className="absolute left-3 top-3 text-green-500" />
                   <input
                     type="text"
-                    placeholder="Accountant Mo. No."
+                    placeholder="Mobile Number 3"
                     className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                    value={accountantMobileNumber}
-                    onChange={(e) => setAccountantMobileNumber(e.target.value)}
+                    value={mobileNumber3}
+                    onChange={(e) => setMobileNumber3(e.target.value)}
                   />
                 </div>
                 <div className="relative">
@@ -609,33 +541,6 @@ const Exporter = ({ handleGoback }: { handleGoback: () => void }) => {
                     onChange={(e) => setIecNo(e.target.value)}
                   />
                 </div>
-                {bankDetails.map((detail, index) => (
-                  <div key={index} className="relative">
-                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
-                    <input
-                      type="text"
-                      placeholder="Account No."
-                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
-                      value={detail.accountNo}
-                      onChange={(e) => handleBankDetailChange(index, "accountNo", e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="IFSC Code"
-                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                      value={detail.ifscCode}
-                      onChange={(e) => handleBankDetailChange(index, "ifscCode", e.target.value)}
-                    />
-                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeBankDetail(index)}>Remove</button>
-                  </div>
-                ))}
-                {bankDetails.length < 5 && (
-                  <div className="text-center col-span-2">
-                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addBankDetail}>
-                      Add Another Bank Detail
-                    </button>
-                  </div>
-                )}
                 <div className="relative">
                   <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
                   <input
@@ -656,67 +561,6 @@ const Exporter = ({ handleGoback }: { handleGoback: () => void }) => {
                     onChange={(e) => setSubIndustryCategory(e.target.value)}
                   />
                 </div>
-                {turnoverData.map((data, index) => (
-                  <div key={index} className="relative">
-                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
-                    <input
-                      type="text"
-                      placeholder="Year"
-                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
-                      value={data.year}
-                      onChange={(e) => handleTurnoverDataChange(index, "year", e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Domestic Turnover"
-                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
-                      value={data.domestic}
-                      onChange={(e) => handleTurnoverDataChange(index, "domestic", e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Export Turnover"
-                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                      value={data.export}
-                      onChange={(e) => handleTurnoverDataChange(index, "export", e.target.value)}
-                    />
-                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeTurnoverData(index)}>Remove</button>
-                  </div>
-                ))}
-                {turnoverData.length < 3 && (
-                  <div className="text-center col-span-2">
-                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addTurnoverData}>
-                      Add Another Turnover Data
-                    </button>
-                  </div>
-                )}
-                {productNameHsnCode.map((product, index) => (
-                  <div key={index} className="relative">
-                    <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
-                    <input
-                      type="text"
-                      placeholder="Product Name"
-                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg mb-2"
-                      value={product.productName}
-                      onChange={(e) => handleProductNameHsnCodeChange(index, "productName", e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="HSN Code"
-                      className="pl-10 p-2 w-full border border-gray-300 rounded-lg"
-                      value={product.hsnCode}
-                      onChange={(e) => handleProductNameHsnCodeChange(index, "hsnCode", e.target.value)}
-                    />
-                    <button type="button" className="absolute right-3 top-3 text-red-500" onClick={() => removeProductNameHsnCode(index)}>Remove</button>
-                  </div>
-                ))}
-                {productNameHsnCode.length < 5 && (
-                  <div className="text-center col-span-2">
-                    <button type="button" className="bg-blue-500 text-white p-2 rounded-lg w-full" onClick={addProductNameHsnCode}>
-                      Add Another Product
-                    </button>
-                  </div>
-                )}
                 <div className="relative">
                   <FontAwesomeIcon icon={faBuilding} className="absolute left-3 top-3 text-green-500" />
                   <input

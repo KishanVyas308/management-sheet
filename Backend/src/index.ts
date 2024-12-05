@@ -17,6 +17,7 @@ import manageUserShippingBillRoute from "./router/manageUserShippingBillRoute";
 import indirectexportRoute from "./router/indirectexportRoute";
 import manageAddByAdminRoute from "./router/manageAddByAdminRoute";
 import getDataForUserRoute from "./router/getDataForUserRoute";
+import documentsListRoute from "./router/documentsListRoute"
 
 const app = express();
 const httpServer = createServer(app);
@@ -63,6 +64,9 @@ app.use("/api/v1/manageUserShippingBill", isAdmin, manageUserShippingBillRoute);
 
 //? add user and expoter api
 app.use("/api/v1/add", isAdmin, manageAddByAdminRoute);
+
+//? routes for documentslist
+app.use("/api/v1/documentslist", documentsListRoute)
 
 //? get data for user 
 app.use("/api/v1/getdata", getDataForUserRoute);

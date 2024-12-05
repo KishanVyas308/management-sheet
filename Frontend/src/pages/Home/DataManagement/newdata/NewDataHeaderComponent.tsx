@@ -19,27 +19,32 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
           {" "}
           Dashboard
         </Link>
+        <div className="relative group">
+          <button className="text-white flex gap-2 hover:text-gray-100 items-center">
+            Documents List
+          </button>
+          <div className="absolute hidden group-hover:block text-base z-50 bg-white text-black  rounded shadow-lg">
+            <Link to={"/datamanagement/epcg-license"} className="block px-4 py-2 hover:bg-gray-200">EPCG License</Link>
+            <Link to={"/datamanagement/advance-license"} className="block px-4 py-2 hover:bg-gray-200">Advance License</Link>
+            <Link to={"/datamanagement/newdata/part1"} className="block px-4 py-2 hover:bg-gray-200">Shipping Bill</Link>
+            <Link to={"/datamanagement/invoice"} className="block px-4 py-2 hover:bg-gray-200">Invoice</Link>
+            <Link to={"/datamanagement/e-brc"} className="block px-4 py-2 hover:bg-gray-200">E - BRC</Link>
+            <Link to={"/datamanagement/e-way-bill"} className="block px-4 py-2 hover:bg-gray-200">E - Way Bill</Link>
+            <Link to={"/datamanagement/subsidy"} className="block px-4 py-2 hover:bg-gray-200">Subsidy</Link>
+          </div>
+        </div>
+        <div className="relative group">
+          <button className="text-white flex gap-2 hover:text-gray-100 items-center">
+            Form
+          </button>
+          <div className="absolute text-base hidden group-hover:block bg-white text-black z-50 rounded ">
+            <Link to={"/datamanagement/directexport"} className="block px-4 py-2 hover:bg-gray-200">Direct Export</Link>
+            <Link to={"/datamanagement/indirectexport"} className="block px-4 py-2 hover:bg-gray-200">Indirect Export</Link>
+          </div>
+        </div>
+       
 
-        <Link
-          to={"/datamanagement/newdata/part1"}
-          className="text-white flex gap-2 hover:text-gray-100  items-center"
-        >
-          {" "}
-          Shipping Bill
-        </Link>
-
-        <Link
-          to={"/datamanagement/directexport"}
-          className="text-white flex gap-2 hover:text-gray-100  items-center"
-        >
-          Direct Export
-        </Link>
-        <Link
-          to={"/datamanagement/indirectexport"}
-          className="text-white flex gap-2 hover:text-gray-100  items-center"
-        >
-          Indirect Export
-        </Link>
+   
       </div>
       <div className="flex gap-6 items-center">
         <Link

@@ -47,21 +47,25 @@ const addNewUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.addNewUser = addNewUser;
 const addNewExpoter = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { exporterName, exporterAddress, type, adCode, cbName, forexBankAc, dbkBankAcNo, addedByUserId, } = req.body;
+    const { customerName, mobileNumber1, mobileNumber2, mobileNumber3, mailId1, mailId2, mailId3, firmPan, gstNo, iecNo, industryCategory, subIndustryCategory, iemUdyam, addedByUserId, } = req.body;
     console.log(req.body);
-    let allforexBankAc = forexBankAc.join(',');
-    let alldbkBankAcNo = dbkBankAcNo.join(',');
     try {
-        const exporter = yield __1.prisma.exporter.create({
+        const exporter = yield __1.prisma.client.create({
             data: {
-                exporterName,
-                exporterAddress,
-                type,
-                adCode,
-                cbName,
-                forexBankAc: allforexBankAc,
-                dbkBankAcNo: alldbkBankAcNo,
-                addedByUserId,
+                customerName: customerName || "",
+                mobileNumber1: mobileNumber1 || "",
+                mobileNumber2: mobileNumber2 || "",
+                mobileNumber3: mobileNumber3 || "",
+                mailId1: mailId1 || "",
+                mailId2: mailId2 || "",
+                mailId3: mailId3 || "",
+                firmPan: firmPan || "",
+                gstNo: gstNo || "",
+                iecNo: iecNo || "",
+                industryCategory: industryCategory || "",
+                subIndustryCategory: subIndustryCategory || "",
+                iemUdyam: iemUdyam || "",
+                addedByUserId: addedByUserId || "",
             },
         });
         return res.status(200).json({
