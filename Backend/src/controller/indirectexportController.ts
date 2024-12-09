@@ -173,7 +173,7 @@ export async function addIndirectExportCalculationSheet(data: any) {
     const { calculationSheet, addedByUserId } = data;
     const {
       srNo,
-      sameProductOrService,
+      sameProductOrAlternativeProductService,
       shippingBillNo,
       shippingBillDate,
       fobValueRealizationProceedsRs,
@@ -189,7 +189,7 @@ export async function addIndirectExportCalculationSheet(data: any) {
     await prisma.indirectExportCalculationSheet.create({
       data: {
         srNo: srNo?.toString() || "",
-        sameProductOrService: sameProductOrService?.toString() || "",
+        sameProductOrAlternativeProductService: sameProductOrAlternativeProductService?.toString() || "",
         shippingBillNo: shippingBillNo?.toString() || "",
         shippingBillDate: shippingBillDate?.toString() || "",
         fobValueRealizationProceedsRs: fobValueRealizationProceedsRs?.toString() || "",

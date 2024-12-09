@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Loading from "../../../../components/Loading";
-import NewDataHeaderComponent from "../NewDataHeaderComponent";
-import InputField, { SelectInputField } from "../../../../components/InputField";
-import NewDataButtons from "../NewDataButtons";
+import Loading from "../../../../../components/Loading";
+import NewDataHeaderComponent from "../../NewDataHeaderComponent";
+import InputField, { SelectInputField } from "../../../../../components/InputField";
+import NewDataButtons from "../../NewDataButtons";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { BACKEND_URL } from "../../../../../Globle";
+import { BACKEND_URL } from "../../../../../../Globle";
 import { useRecoilValue } from "recoil";
-import { authAtom } from "../../../../../atoms/authAtom";
+import { authAtom } from "../../../../../../atoms/authAtom";
 
 const ShippingBillPage = () => {
   const [usdPrice, setUsdPrice] = useState("USD Price: -cant able to fetch-");
@@ -134,7 +134,7 @@ const ShippingBillPage = () => {
     console.log(jsonData);
 
     const res1 = await axios.post(
-      `${BACKEND_URL}/directexport/basicsheet`,
+      `${BACKEND_URL}/forms/directexport/basicsheet`,
       jsonData,
       {
         headers: {
@@ -155,7 +155,7 @@ const ShippingBillPage = () => {
     console.log(annexure1Data);
 
     const res2 = await axios.post(
-      `${BACKEND_URL}/directexport/annexure1`,
+      `${BACKEND_URL}/forms/directexport/annexure1`,
       annexure1Data,
       {
         headers: {
@@ -176,7 +176,7 @@ const ShippingBillPage = () => {
     console.log(annexureAData);
 
     const res3 = await axios.post(
-      `${BACKEND_URL}/directexport/annexureA`,
+      `${BACKEND_URL}/forms/directexport/annexureA`,
       annexureAData,
       {
         headers: {
@@ -198,7 +198,7 @@ const ShippingBillPage = () => {
   const getSummary = async () => {
     setLoading(true);
     const res = await axios.get(
-      `${BACKEND_URL}/directexport/summary`,
+      `${BACKEND_URL}/forms/directexport/summary`,
       {
         headers: {
           Authorization: cookies.token,
@@ -546,6 +546,22 @@ const ShippingBillPage = () => {
               Annexure1
             </div>
             <InputField
+              label="SR No"
+              value={annexure1.srNo}
+              onChange={(e) =>
+                setAnnexure1({ ...annexure1, srNo: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
+              label="Shipping Bill No"
+              value={annexure1.shippingBillNo}
+              onChange={(e) =>
+                setAnnexure1({ ...annexure1, shippingBillNo: e.target.value })
+              }
+              type="number"
+            />
+            <InputField
               label="Shipping Bill CIF Value (in Dollar)"
               value={annexure1.shippingBillCifValueInDoller}
               onChange={(e) =>
@@ -602,6 +618,15 @@ const ShippingBillPage = () => {
               }
               type="number"
             />
+            <InputField
+              label="Exchange Rate as per Shipping Bill"
+              value={annexure1.ExchangeRatePerShippingBill}
+              onChange={(e) =>
+                setAnnexure1({ ...annexure1, ExchangeRatePerShippingBill: e.target.value })
+              }
+              type="number"
+            />
+            
             <InputField
               label="FOB Value (in Rupees)"
               value={annexure1.fobValueInRupees}

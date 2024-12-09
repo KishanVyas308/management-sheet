@@ -46,15 +46,13 @@ const authControler_1 = require("./controller/authControler");
 const middleWare_1 = require("./middleWare");
 const authRoute_1 = __importDefault(require("./router/authRoute"));
 const existingDataRoute_1 = __importDefault(require("./router/existingDataRoute"));
-const shippingBillRoute_1 = __importDefault(require("./router/shippingBillRoute"));
 const manageUser_1 = __importDefault(require("./router/manageUser"));
 const dataAnalyticsRoute_1 = __importDefault(require("./router/dataAnalyticsRoute"));
-const directexportRoute_1 = __importDefault(require("./router/directexportRoute"));
 const manageUserShippingBillRoute_1 = __importDefault(require("./router/manageUserShippingBillRoute"));
-const indirectexportRoute_1 = __importDefault(require("./router/indirectexportRoute"));
 const manageAddByAdminRoute_1 = __importDefault(require("./router/manageAddByAdminRoute"));
 const getDataForUserRoute_1 = __importDefault(require("./router/getDataForUserRoute"));
-const documentsListRoute_1 = __importDefault(require("./router/documentsListRoute"));
+const documentsListRoute_1 = __importDefault(require("./router/documentList/documentsListRoute"));
+const formsRoute_1 = __importDefault(require("./router/forms/formsRoute"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 app.use((0, cors_1.default)({
@@ -70,12 +68,6 @@ app.use("/api/v1/auth", authRoute_1.default);
 app.use(middleWare_1.verifyToken);
 //? existing data api
 app.use("/api/v1/ex", existingDataRoute_1.default);
-//? shipping bill api
-app.use("/api/v1/shippingbill", shippingBillRoute_1.default);
-//? direct export api
-app.use("/api/v1/directexport", directexportRoute_1.default);
-//? indirect export api
-app.use("/api/v1/indirectexport", indirectexportRoute_1.default);
 //? manage user api
 app.use("/api/v1/manageUser", manageUser_1.default);
 //? data analytics api
@@ -86,6 +78,8 @@ app.use("/api/v1/manageUserShippingBill", middleWare_1.isAdmin, manageUserShippi
 app.use("/api/v1/add", middleWare_1.isAdmin, manageAddByAdminRoute_1.default);
 //? routes for documentslist
 app.use("/api/v1/documentslist", documentsListRoute_1.default);
+//? routed for froms
+app.use('/api/v1/forms', formsRoute_1.default);
 //? get data for user 
 app.use("/api/v1/getdata", getDataForUserRoute_1.default);
 // Initialize WebSocket server on the same HTTP server

@@ -1,5 +1,5 @@
 import express from "express";
-import { addAnnexure1, addAnnexureA, addBasicSheet, getSummary } from "../controller/directexportController";
+import { addAnnexure1, addAnnexureA, addBasicSheet, getSummary } from "../../../controller/directexportController";
 
 
 const router = express.Router();

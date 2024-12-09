@@ -1,15 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../../components/Loading";
-import { BACKEND_URL } from "../../../../../Globle";
+import Loading from "../../../../../components/Loading";
+import { BACKEND_URL } from "../../../../../../Globle";
 import { useCookies } from "react-cookie";
-import NewDataHeaderComponent from "../NewDataHeaderComponent";
-import NewDataButtons from "../NewDataButtons";
-import InputField from "../../../../components/InputField";
+import NewDataHeaderComponent from "../../NewDataHeaderComponent";
+import NewDataButtons from "../../NewDataButtons";
+import InputField from "../../../../../components/InputField";
 import ShippingBillHeader from "./ShippingBillHeader";
 import { useRecoilValue } from "recoil";
-import { authAtom } from "../../../../../atoms/authAtom";
+import { authAtom } from "../../../../../../atoms/authAtom";
 
 const Part3 = () => {
   const [invsn, setInvsn] = useState(localStorage.getItem("part3invsn") || "");
@@ -127,7 +127,7 @@ const Part3 = () => {
       addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/shippingbill/part3section1`,
+      `${BACKEND_URL}/documentslist/shippingbill/part3section1`,
       jsonData,
       {
         headers: {
@@ -179,7 +179,7 @@ const Part3 = () => {
       addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/shippingbill/part3section2`,
+      `${BACKEND_URL}/documentslist/shippingbill/part3section2`,
       jsonData,
       {
         headers: {
@@ -230,7 +230,7 @@ const Part3 = () => {
       addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/shippingbill/part3section3`,
+      `${BACKEND_URL}/documentslist/shippingbill/part3section3`,
       jsonData,
       {
         headers: {

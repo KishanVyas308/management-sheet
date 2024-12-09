@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Loading from "../../../../components/Loading";
-import NewDataHeaderComponent from "../NewDataHeaderComponent";
-import InputField, { SelectInputField } from "../../../../components/InputField";
-import NewDataButtons from "../NewDataButtons";
+import Loading from "../../../../../components/Loading";
+import NewDataHeaderComponent from "../../NewDataHeaderComponent";
+import InputField, { SelectInputField } from "../../../../../components/InputField";
+import NewDataButtons from "../../NewDataButtons";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { BACKEND_URL } from "../../../../../Globle";
+import { BACKEND_URL } from "../../../../../../Globle";
 import { useRecoilValue } from "recoil";
-import { authAtom } from "../../../../../atoms/authAtom";
+import { authAtom } from "../../../../../../atoms/authAtom";
 
 const IndirectExport = () => {
   const [usdPrice, setUsdPrice] = useState("USD Price: -cant able to fetch-");
@@ -194,7 +194,7 @@ const IndirectExport = () => {
 
 
     const res = await axios.post(
-      `${BACKEND_URL}/indirectexport/alldata`,
+      `${BACKEND_URL}/forms/indirectexport/alldata`,
       jsonData,
       {
         headers: {
@@ -272,7 +272,7 @@ const IndirectExport = () => {
 
       setCalculationSheet({
         srNo: "",
-        sameProductOrService: "",
+        sameProductOrAlternativeProductService: "",
         shippingBillNo: "",
         shippingBillDate: "",
         fobValueRealizationProceedsRs: "",
@@ -326,26 +326,26 @@ const IndirectExport = () => {
     setLoading(false);
   };
 
-  const getSummary = async () => {
-    setLoading(true);
-    const res = await axios.get(
-      `${BACKEND_URL}/directexport/summary`,
-      {
-        headers: {
-          Authorization: cookies.token,
-        },
-      }
-    );
-    if (res.status !== 200) {
-      alert("Error in fetching data");
-      setLoading(false);
-      return;
-    }
-    console.log(res.data);
+  // const getSummary = async () => {
+  //   setLoading(true);
+  //   const res = await axios.get(
+  //     `${BACKEND_URL}/directexport/summary`,
+  //     {
+  //       headers: {
+  //         Authorization: cookies.token,
+  //       },
+  //     }
+  //   );
+  //   if (res.status !== 200) {
+  //     alert("Error in fetching data");
+  //     setLoading(false);
+  //     return;
+  //   }
+  //   console.log(res.data);
 
-    setBlockwiseSummary(res.data.summary);
-    setLoading(false);
-  }
+  //   setBlockwiseSummary(res.data.summary);
+  //   setLoading(false);
+  // }
 
 
 
@@ -396,7 +396,7 @@ const IndirectExport = () => {
 
 
     const taxInvoiceTax = Number(basicSheet.invoiceValue) - Number(basicSheet.basicAmount);
-    const lowerOfInvoiceAndBankStatement = (Math.min(taxInvoiceTax, Number(basicSheet.amountRealised))).toString();
+    const lowerOfInvoiceAndBankStatement = (Math.min( Number(basicSheet.invoiceValue), Number(basicSheet.amountRealised))).toString();
     const proportionateAmountOf6ForInRs = ((Number(lowerOfInvoiceAndBankStatement) * Number(basicSheet.basicAmount)) / Number(basicSheet.invoiceValue)).toString();
 
     const updatedAnnexure2 = {
@@ -413,7 +413,7 @@ const IndirectExport = () => {
       paymentDetailsAmountRealised: basicSheet.amountRealised,
       lowerOfInvoiceAndBankStatement: lowerOfInvoiceAndBankStatement,
       proportionateAmountOf6ForInRs: proportionateAmountOf6ForInRs,
-      exchangeRatePerShippingBill: basicSheet.exchangeRate,
+      exchangeRatePerShippingBill: annexure1.exchangeRatePerShippingBill,
       forInUsd: (Number(proportionateAmountOf6ForInRs) / Number(basicSheet.exchangeRate)).toString(),
     }
 
@@ -421,7 +421,6 @@ const IndirectExport = () => {
 
     const updatedCalculationSheet = {
       srNo: basicSheet.srNo,
-      
       shippingBillNo: basicSheet.shippingBillNo,
       shippingBillDate: basicSheet.shippingBillDate,
       fobValueRealizationProceedsRs: newDeptSheet.amountLessOfCol6And7Rs,
@@ -434,7 +433,7 @@ const IndirectExport = () => {
       fobValueLowerOf5_6_7Us: Math.min(Number(newDeptSheet.convertedIntoUsd), Number(fobValueInDoller), (Number(proportionateAmountOf6ForInRs) / Number(basicSheet.exchangeRate))),
     }
 
-    const amountLessOfCol6And7Rs = Math.min(Number(basicSheet.brc) * Number(basicSheet.exchangeRate), Number(basicSheet.amountRealised));
+    const amountLessOfCol6And7Rs = Math.min((Number(basicSheet.brc) * Number(basicSheet.exchangeRate)), Number(basicSheet.amountRealised));
 
     const updatedNewDeptSheet = {
       srNo: basicSheet.srNo,
@@ -446,10 +445,9 @@ const IndirectExport = () => {
       amountRealisedAsPerBrcExchRate: (Number(basicSheet.exchangeRate)).toString(),
       amountRealisedAsPerBrcRs: (Number(basicSheet.brc) * Number(basicSheet.exchangeRate)).toString(),
       amountRealisedInBankRs: basicSheet.amountRealised,
-      amountLessOfCol6And7Rs: amountLessOfCol6And7Rs,
-      convertedIntoUsd: amountLessOfCol6And7Rs / Number(basicSheet.exchangeRate),
+      amountLessOfCol6And7Rs: (amountLessOfCol6And7Rs).toString(),
+      convertedIntoUsd: (amountLessOfCol6And7Rs / Number(basicSheet.exchangeRate)).toString(),
     }
-
 
     const updatedAnnexureA = {
       srNo: basicSheet.srNo,
@@ -458,11 +456,8 @@ const IndirectExport = () => {
       shippingBillDate: basicSheet.shippingBillDate,
       directExportsInRupees: updatedCalculationSheet.fobValueLowerOf5_6_7Rs,
       directExportsInDollars: updatedCalculationSheet.fobValueLowerOf5_6_7Us,
-      deemedExports: "0",
       thirdPartyExportsInRupees: updatedCalculationSheet.fobValueLowerOf5_6_7Rs,
       thirdPartyExportsInDollars: updatedCalculationSheet.fobValueLowerOf5_6_7Us,
-      byGroupCompany: "0",
-      otherRWseries: "0",
       totalInRupees: (updatedCalculationSheet.fobValueLowerOf5_6_7Rs),
       totalInDollars: updatedCalculationSheet.fobValueLowerOf5_6_7Us,
     };
@@ -510,7 +505,6 @@ const IndirectExport = () => {
     basicSheet.brc2,
     basicSheet.freight,
     basicSheet.insurance,
-    basicSheet.exchangeRate,
     basicSheet.invoiceValue,
     basicSheet.basicAmount,
     basicSheet.amountRealised,
@@ -564,6 +558,7 @@ const IndirectExport = () => {
     annexure2.proportionateAmountOf6ForInRs,
     annexure2.srNo,
     annexure2.taxInvoiceBasicAmount,
+    
 
     
   ]);
@@ -957,7 +952,7 @@ const IndirectExport = () => {
               type="number"
             />
             <InputField
-              label="Exchange Rate per Shipping Bill"
+              label="Exchange Rate 2"
               value={annexure1.exchangeRatePerShippingBill}
               onChange={(e) =>
                 setAnnexure1({
@@ -1146,21 +1141,14 @@ const IndirectExport = () => {
               type="text"
             />
             <InputField
-              label="Same Product or Service"
-              value={calculationSheet.sameProductOrService}
+              label="Same Product / Alternative Product / Services"
+              value={calculationSheet.sameProductOrAlternativeProductService}
               onChange={(e) =>
-                setCalculationSheet({ ...calculationSheet, sameProductOrService: e.target.value })
+                setCalculationSheet({ ...calculationSheet, sameProductOrAlternativeProductService: e.target.value })
               }
               type="text"
             />
-            <InputField
-              label="Alternative Product or Service"
-              value={calculationSheet.alternativeProductOrService}
-              onChange={(e) =>
-                setCalculationSheet({ ...calculationSheet, alternativeProductOrService: e.target.value })
-              }
-              type="text"
-            />
+           
             <InputField
               label="Shipping Bill No"
               value={calculationSheet.shippingBillNo}
@@ -1459,7 +1447,7 @@ const IndirectExport = () => {
 
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
           <div className="bg-white p-4 rounded-md">
             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
               Summary
@@ -1530,7 +1518,7 @@ const IndirectExport = () => {
               Get Summary
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

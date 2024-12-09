@@ -2,11 +2,11 @@ import { useState } from "react";
 import FileUpload from "./pages/Home/DataManagement/existingdata/FileUpload";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Part1 from "./pages/Home/DataManagement/newdata/ShippingBill/Part1";
-import Part2 from "./pages/Home/DataManagement/newdata/ShippingBill/Part2";
-import Part3 from "./pages/Home/DataManagement/newdata/ShippingBill/Part3";
-import Part4 from "./pages/Home/DataManagement/newdata/ShippingBill/Part4";
-import Part5 from "./pages/Home/DataManagement/newdata/ShippingBill/Part5";
+import Part1 from "./pages/Home/DataManagement/newdata/DocumentList/ShippingBill/Part1";
+import Part2 from "./pages/Home/DataManagement/newdata/DocumentList/ShippingBill/Part2";
+import Part3 from "./pages/Home/DataManagement/newdata/DocumentList/ShippingBill/Part3";
+import Part4 from "./pages/Home/DataManagement/newdata/DocumentList/ShippingBill/Part4";
+import Part5 from "./pages/Home/DataManagement/newdata/DocumentList/ShippingBill/Part5";
 
 import HomePage from "./pages/Home/HomPage";
 import Signin from "./pages/auth/SIgnin";
@@ -17,10 +17,14 @@ import DownloadDataPage from "./pages/Home/DataManagement/DownloadData/DownloadD
 
 import Admin from "./pages/Home/ProcessMonatring/Admin";
 import NewDataAnalytics from "./pages/Home/DataManagement/newdata/Analytics/NewDataAnalytics";
-import DirectExport from "./pages/Home/DataManagement/newdata/DirectExport/DirectExport";
-import IndirectExport from "./pages/Home/DataManagement/newdata/IndirectExport/IndirectExport";
-import EWayBillDetails from "./pages/Home/DataManagement/newdata/EWayBillDetails";
-import Invoice from "./pages/Home/DataManagement/newdata/Invoice";
+import DirectExport from "./pages/Home/DataManagement/newdata/Form/DirectExport/DirectExport";
+import IndirectExport from "./pages/Home/DataManagement/newdata/Form/IndirectExport/IndirectExport";
+import Invoice from "./pages/Home/DataManagement/newdata/DocumentList/Invoice/Invoice";
+import EWayBillDetails from "./pages/Home/DataManagement/newdata/DocumentList/EWayBill/EWayBillDetails";
+
+import NotFound from "./pages/NotFound";
+import UnderDevelopment from "./pages/UnderConstruction";
+
 
 function App() {
   return (
@@ -66,7 +70,6 @@ function App() {
           element={<ProtectedRoute element={<FileUpload />} />}
         />
 
-        />
         <Route
           path="/datamanagement/invoice"
           element={<ProtectedRoute element={<Invoice />} />}
@@ -91,6 +94,8 @@ function App() {
 
         {/* //? process monitoring section */}
         <Route path="/admin" element={<ProtectedRoute element={<Admin />} />} />
+        <Route path="/datamanagement/*" element={<UnderDevelopment />} />
+        <Route path="*" element={<NotFound />} /> 
       </Routes>
     </Router>
   );

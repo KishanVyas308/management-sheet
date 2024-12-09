@@ -1,15 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../../components/Loading";
-import { BACKEND_URL } from "../../../../../Globle";
+import Loading from "../../../../../components/Loading";
+import { BACKEND_URL } from "../../../../../../Globle";
 import { useCookies } from "react-cookie";
-import NewDataHeaderComponent from "../NewDataHeaderComponent";
-import InputField from "../../../../components/InputField";
-import NewDataButtons from "../NewDataButtons";
+import NewDataHeaderComponent from "../../NewDataHeaderComponent";
+import InputField from "../../../../../components/InputField";
+import NewDataButtons from "../../NewDataButtons";
 import ShippingBillHeader from "./ShippingBillHeader";
 import { useRecoilValue } from "recoil";
-import { authAtom } from "../../../../../atoms/authAtom";
+import { authAtom } from "../../../../../../atoms/authAtom";
 
 const Part5 = () => {
   const [declarationStatement, setDeclarationStatement] = useState(localStorage.getItem("part5declarationStatement") || "");
@@ -44,7 +44,7 @@ const Part5 = () => {
       addedByUserId: user.id,
     };
     const response = await axios.post(
-      `${BACKEND_URL}/shippingbill/part5`,
+      `${BACKEND_URL}/documentslist/shippingbill/part5`,
       jsonData,
       {
         headers: {

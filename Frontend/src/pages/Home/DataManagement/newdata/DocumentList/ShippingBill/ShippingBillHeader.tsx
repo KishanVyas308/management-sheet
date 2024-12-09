@@ -4,7 +4,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import { FaHome } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
-import { authAtom } from "../../../../../atoms/authAtom";
+import { authAtom } from "../../../../../../atoms/authAtom";
 
 const ShippingBillHeader = () => {
   const user = useRecoilValue(authAtom);

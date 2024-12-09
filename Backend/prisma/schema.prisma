@@ -686,21 +686,21 @@ model IndirectExportAnneuxure2 {
 }
 
 model IndirectExportCalculationSheet {
-  id                            String  @id @default(cuid())
-  srNo                          String
-  sameProductOrService          String
-  shippingBillNo                String
-  shippingBillDate              String?
-  fobValueRealizationProceedsRs String
-  fobValueRealizationProceedsUs String
-  fobValueAnnexure1Rs           String
-  fobValueAnnexure1Us           String
-  fobValueAnnexure2Rs           String
-  fobValueAnnexure2Us           String
-  fobValueLowerOf5_6_7Rs        String
-  fobValueLowerOf5_6_7Us        String
-  user                          user    @relation(fields: [addedByUserId], references: [id])
-  addedByUserId                 String
+  id                                     String  @id @default(cuid())
+  srNo                                   String
+  sameProductOrAlternativeProductService String @default("")
+  shippingBillNo                         String
+  shippingBillDate                       String?
+  fobValueRealizationProceedsRs          String
+  fobValueRealizationProceedsUs          String
+  fobValueAnnexure1Rs                    String
+  fobValueAnnexure1Us                    String
+  fobValueAnnexure2Rs                    String
+  fobValueAnnexure2Us                    String
+  fobValueLowerOf5_6_7Rs                 String
+  fobValueLowerOf5_6_7Us                 String
+  user                                   user    @relation(fields: [addedByUserId], references: [id])
+  addedByUserId                          String
 
   @@index([addedByUserId], name: "userId")
 }

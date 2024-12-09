@@ -1,15 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Loading from "../../../../components/Loading";
-import { BACKEND_URL } from "../../../../../Globle";
+import Loading from "../../../../../components/Loading";
+import { BACKEND_URL } from "../../../../../../Globle";
 import { useCookies } from "react-cookie";
-import InputField from "../../../../components/InputField";
-import NewDataHeaderComponent from "../NewDataHeaderComponent";
-import NewDataButtons from "../NewDataButtons";
+import InputField from "../../../../../components/InputField";
+import NewDataHeaderComponent from "../../NewDataHeaderComponent";
+import NewDataButtons from "../../NewDataButtons";
 import ShippingBillHeader from "./ShippingBillHeader";
 import { useRecoilValue } from "recoil";
-import { authAtom } from "../../../../../atoms/authAtom";
+import { authAtom } from "../../../../../../atoms/authAtom";
 
 const Part1 = () => {
   const [exportersName, setExportersName] = useState(localStorage.getItem("part1exportersName") || "");
@@ -134,7 +134,7 @@ const Part1 = () => {
 
     
     const response = await axios.post(
-      `${BACKEND_URL}/shippingbill/part1section1`,
+      `${BACKEND_URL}/documentslist/shippingbill/part1section1`,
       jsonData,
       {
         headers: {
@@ -209,7 +209,7 @@ const Part1 = () => {
     try {
       
       const response = await axios.post(
-        `${BACKEND_URL}/shippingbill/part1section2`,
+        `${BACKEND_URL}/documentslist/shippingbill/part1section2`,
         jsonData,
         {
           headers: {
@@ -280,7 +280,7 @@ const Part1 = () => {
     setHawbNo("");
 
     const response = await axios.post(
-      `${BACKEND_URL}/shippingbill/part1section3`,
+      `${BACKEND_URL}/documentslist/shippingbill/part1section3`,
       jsonData,
       {
         headers: {

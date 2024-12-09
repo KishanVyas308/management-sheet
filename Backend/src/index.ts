@@ -9,15 +9,13 @@ import { isAdmin, verifyToken } from "./middleWare";
 
 import authRoute from "./router/authRoute";
 import existingDataRoute from "./router/existingDataRoute";
-import shippingBillRoute from "./router/shippingBillRoute";
 import manageUserRoute from "./router/manageUser";
 import dataAnalyticsRoute from "./router/dataAnalyticsRoute";
-import directexportRoute from "./router/directexportRoute";
 import manageUserShippingBillRoute from "./router/manageUserShippingBillRoute";
-import indirectexportRoute from "./router/indirectexportRoute";
 import manageAddByAdminRoute from "./router/manageAddByAdminRoute";
 import getDataForUserRoute from "./router/getDataForUserRoute";
-import documentsListRoute from "./router/documentsListRoute"
+import documentsListRoute from "./router/documentList/documentsListRoute"
+import formsRoute from "./router/forms/formsRoute"
 
 const app = express();
 const httpServer = createServer(app);
@@ -44,15 +42,6 @@ app.use(verifyToken);
 //? existing data api
 app.use("/api/v1/ex", existingDataRoute);
 
-//? shipping bill api
-app.use("/api/v1/shippingbill", shippingBillRoute);
-
-//? direct export api
-app.use("/api/v1/directexport", directexportRoute);
-
-//? indirect export api
-app.use("/api/v1/indirectexport", indirectexportRoute);
-
 //? manage user api
 app.use("/api/v1/manageUser", manageUserRoute);
 
@@ -67,6 +56,9 @@ app.use("/api/v1/add", isAdmin, manageAddByAdminRoute);
 
 //? routes for documentslist
 app.use("/api/v1/documentslist", documentsListRoute)
+
+//? routed for froms
+app.use('/api/v1/forms', formsRoute)
 
 //? get data for user 
 app.use("/api/v1/getdata", getDataForUserRoute);

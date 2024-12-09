@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
-import InputField from '../../../components/InputField';
-import NewDataButtons from './NewDataButtons';
-import ExistingDataHeader from '../existingdata/ExistingDataHeader';
+import InputField from '../../../../../components/InputField';
+import NewDataButtons from '../../NewDataButtons';
+import ExistingDataHeader from '../../../existingdata/ExistingDataHeader';
 import axios from 'axios';
-import { BACKEND_URL } from '../../../../Globle';
+import { BACKEND_URL } from '../../../../../../Globle';
 import { useCookies } from 'react-cookie';
 import { useRecoilValue } from 'recoil';
-import { authAtom } from '../../../../atoms/authAtom';
+import { authAtom } from '../../../../../../atoms/authAtom';
+import Loading from '../../../../../components/Loading';
+import NewDataHeaderComponent from '../../NewDataHeaderComponent';
 
 const Invoice = () => {
 
   const [cookies, setCookie] = useCookies(["token"]);
   const { user } = useRecoilValue(authAtom);
+  const [loading, setLoading] = useState(false);
 
 
   const [invoice, setInvoice] = useState({
@@ -62,6 +65,7 @@ const Invoice = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
 
     const jsonData = {
       ...invoice,
@@ -79,17 +83,25 @@ const Invoice = () => {
         }
       );
 
-     alert(res.data.essage)
+     alert(res.data.message)
       // Handle form submission
       console.log(invoice);
+      setLoading(false);
     } catch (error) {
       alert('Error in saving data');
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
     <div className="bg-[#e6e7e9] w-full h-full min-h-screen">
-      <ExistingDataHeader backLink={""} nextLink={""} />
+    <div className="container mx-auto px-4 py-8 ">
+      {loading && <Loading />}
+      <NewDataHeaderComponent
+          backLink={"/datamanagement"}
+          nextLink={"/datamanagement/newdata/part2"}
+        />
       <div className="container mx-auto px-4 py-8">
         <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
           Invoice
@@ -149,6 +161,7 @@ const Invoice = () => {
         </div>
         <NewDataButtons backLink="" nextLink="" handleSubmit={handleSubmit} />
       </div>
+    </div>
     </div>
   );
 };

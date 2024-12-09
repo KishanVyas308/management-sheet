@@ -131,11 +131,11 @@ function addIndirectExportCalculationSheet(data) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { calculationSheet, addedByUserId } = data;
-            const { srNo, sameProductOrService, shippingBillNo, shippingBillDate, fobValueRealizationProceedsRs, fobValueRealizationProceedsUs, fobValueAnnexure1Rs, fobValueAnnexure1Us, fobValueAnnexure2Rs, fobValueAnnexure2Us, fobValueLowerOf5_6_7Rs, fobValueLowerOf5_6_7Us, } = calculationSheet;
+            const { srNo, sameProductOrAlternativeProductService, shippingBillNo, shippingBillDate, fobValueRealizationProceedsRs, fobValueRealizationProceedsUs, fobValueAnnexure1Rs, fobValueAnnexure1Us, fobValueAnnexure2Rs, fobValueAnnexure2Us, fobValueLowerOf5_6_7Rs, fobValueLowerOf5_6_7Us, } = calculationSheet;
             yield __1.prisma.indirectExportCalculationSheet.create({
                 data: {
                     srNo: (srNo === null || srNo === void 0 ? void 0 : srNo.toString()) || "",
-                    sameProductOrService: (sameProductOrService === null || sameProductOrService === void 0 ? void 0 : sameProductOrService.toString()) || "",
+                    sameProductOrAlternativeProductService: (sameProductOrAlternativeProductService === null || sameProductOrAlternativeProductService === void 0 ? void 0 : sameProductOrAlternativeProductService.toString()) || "",
                     shippingBillNo: (shippingBillNo === null || shippingBillNo === void 0 ? void 0 : shippingBillNo.toString()) || "",
                     shippingBillDate: (shippingBillDate === null || shippingBillDate === void 0 ? void 0 : shippingBillDate.toString()) || "",
                     fobValueRealizationProceedsRs: (fobValueRealizationProceedsRs === null || fobValueRealizationProceedsRs === void 0 ? void 0 : fobValueRealizationProceedsRs.toString()) || "",

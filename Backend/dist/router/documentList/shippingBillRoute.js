@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const shippingBillController_1 = require("../../controller/shippingBillController");
+const router = express_1.default.Router();
+router.post("/part1section1", shippingBillController_1.part1section1);
+router.post("/part1section2", shippingBillController_1.part1section2);
+router.post("/part1section3", shippingBillController_1.part1section3);
+router.post("/part2section1", shippingBillController_1.part2section1);
+router.post("/part2section2", shippingBillController_1.part2section2);
+router.post("/part2section3", shippingBillController_1.part2section3);
+router.post("/part3section1", shippingBillController_1.part3section1);
+router.post("/part3section2", shippingBillController_1.part3section2);
+router.post("/part3section3", shippingBillController_1.part3section3);
+router.post("/part4section1", shippingBillController_1.part4section1);
+router.post("/part4section2", shippingBillController_1.part4section2);
+router.post("/part4section3", shippingBillController_1.part4section3);
+router.post("/part4section4", shippingBillController_1.part4section4);
+router.post("/part4section5", shippingBillController_1.part4section5);
+router.post("/part4section6", shippingBillController_1.part4section6);
+router.post("/part5", shippingBillController_1.part5);
+exports.default = router;

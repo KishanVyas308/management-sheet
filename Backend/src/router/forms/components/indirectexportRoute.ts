@@ -1,5 +1,5 @@
 import express from "express";
-import { addAllIndirectExportData } from "../controller/indirectexportController";
+import { addAllIndirectExportData } from "../../../controller/indirectexportController";
 
 const router = express.Router();
 
