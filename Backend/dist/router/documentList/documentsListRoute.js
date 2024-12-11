@@ -10,4 +10,5 @@ const router = express_1.default.Router();
 router.post("/invoice", documentsListController_1.addInvoice);
 router.post("/ewaybilldetails", documentsListController_1.addEWayBill);
 router.use("/shippingbill", shippingBillRoute_1.default);
+router.post("/epcglicense", documentsListController_1.addEpcgLicense);
 exports.default = router;

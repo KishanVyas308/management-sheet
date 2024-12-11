@@ -65,6 +65,7 @@ model user {
   EpcgList                       EpcgList[]
   Invoice                        Invoice[]
   EWayBillDetails                EWayBillDetails[]
+  EPCGLicense                    EPCGLicense[]
 }
 
 model ExcelDataFinal {
@@ -688,7 +689,7 @@ model IndirectExportAnneuxure2 {
 model IndirectExportCalculationSheet {
   id                                     String  @id @default(cuid())
   srNo                                   String
-  sameProductOrAlternativeProductService String @default("")
+  sameProductOrAlternativeProductService String  @default("")
   shippingBillNo                         String
   shippingBillDate                       String?
   fobValueRealizationProceedsRs          String
@@ -866,6 +867,32 @@ model EWayBillDetails {
   vehicleNo                            String?
   user                                 user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                        String
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model EPCGLicense {
+  id                               String   @id @default(cuid())
+  srNo                             String
+  customerName                     String
+  licenseNo                        String
+  licenseDate                      String
+  fileNo                           String
+  fileDate                         String
+  licenseType                      String
+  bankGuaranteeAmountRs            String
+  bankGuaranteeValidity            String
+  bankGuaranteeSubmittedTo         String
+  dutySavedValueAmountRs           String
+  dutySavedEoInr                   String
+  dutySavedEoUsd                   String
+  averageExportImposedAsPerLicense String
+  averageExportNoOfYears           String
+  averageExportTotalAeoImposedInr  String
+  remarks                          String
+  user                             user     @relation(fields: [addedByUserId], references: [id])
+  addedByUserId                    String
+  uploadedDate                     DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }

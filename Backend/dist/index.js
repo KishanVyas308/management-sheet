@@ -99,14 +99,12 @@ wss.on("connection", (ws, req) => __awaiter(void 0, void 0, void 0, function* ()
             return;
         }
         ws.user = decoded;
-        console.log("User authenticated:", decoded);
         try {
             // Update the user status as online in the database
             const updatedUser = yield exports.prisma.user.update({
                 where: { id: decoded.id },
                 data: { isOnline: true },
             });
-            console.log("User connected:", updatedUser);
             // Broadcast to all clients that the user is online
             wss.clients.forEach((client) => {
                 if (client !== ws && client.readyState === ws_1.default.OPEN) {
@@ -138,12 +136,10 @@ wss.on("connection", (ws, req) => __awaiter(void 0, void 0, void 0, function* ()
                     }
                 }
                 catch (error) {
-                    console.error("Error parsing WebSocket message:", error);
                 }
             });
             // Handle socket disconnection
             ws.on("close", () => __awaiter(void 0, void 0, void 0, function* () {
-                console.log("User disconnected:", decoded.id);
                 try {
                     // Update user status to offline in the database
                     const updatedUser = yield exports.prisma.user.update({

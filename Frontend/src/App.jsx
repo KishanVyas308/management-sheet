@@ -24,6 +24,8 @@ import EWayBillDetails from "./pages/Home/DataManagement/newdata/DocumentList/EW
 
 import NotFound from "./pages/NotFound";
 import UnderDevelopment from "./pages/UnderConstruction";
+import EPCGLicensePage from "./pages/Home/DataManagement/newdata/DocumentList/EPCGLicense/EPCGLicensePage";
+import NewDataPage from "./pages/Home/DataManagement/newdata/NewDataPage";
 
 
 function App() {
@@ -33,6 +35,10 @@ function App() {
         {/* <Route path="/">
             <Home />
           </Route> */}
+        <Route
+          path="/datamanagement/newdata"
+          element={<ProtectedRoute element={<NewDataPage />} />}
+        />
         <Route
           path="/datamanagement/newdata/part1"
           element={<ProtectedRoute element={<Part1 />} />}
@@ -77,6 +83,10 @@ function App() {
         <Route
           path="/datamanagement/e-way-bill"
           element={<ProtectedRoute element={<EWayBillDetails />} />}
+        />
+        <Route
+          path="/datamanagement/epcg-license"
+          element={<ProtectedRoute element={<EPCGLicensePage />} />}
         />
 
         <Route path="/signin" element={<Signin />} />

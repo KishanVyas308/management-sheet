@@ -32,13 +32,6 @@ async function directExportDataOnDate(req: any, res: any) {
                     lte: new Date(endDate),
                 },
             },
-            select: {
-                id: true,
-                srNo: true,
-                shippingBillNo: true,
-                shippingBillDate: true,
-                uploadedDate: true,
-            },
             orderBy: {
                 uploadedDate: 'desc',
             },
@@ -64,12 +57,79 @@ async function indirectExportDataOnDate(req: any, res: any) {
                     lte: new Date(endDate),
                 },
             },
-            select: {
-                id: true,
-                srNo: true,
-                shippingBillNo: true,
-                shippingBillDate: true,
-                uploadedDate: true,
+            orderBy: {
+                uploadedDate: 'desc',
+            },
+        });
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+}
+async function shippingBillDataOnDate(req: any, res: any) {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+        return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+    }
+
+    try {
+        const data = await prisma.basicSheet.findMany({
+            where: {
+                uploadedDate: {
+                    gte: new Date(startDate),
+                    lte: new Date(endDate),
+                },
+            },
+            orderBy: {
+                uploadedDate: 'desc',
+            },
+        });
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+}
+
+async function invoiceDataOnDate(req: any, res: any) {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+        return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+    }
+
+    try {
+        const data = await prisma.basicSheet.findMany({
+            where: {
+                uploadedDate: {
+                    gte: new Date(startDate),
+                    lte: new Date(endDate),
+                },
+            },
+            orderBy: {
+                uploadedDate: 'desc',
+            },
+        });
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+}
+
+async function ewayBillDataOnDate(req: any, res: any) {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+        return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+    }
+
+    try {
+        const data = await prisma.basicSheet.findMany({
+            where: {
+                uploadedDate: {
+                    gte: new Date(startDate),
+                    lte: new Date(endDate),
+                },
             },
             orderBy: {
                 uploadedDate: 'desc',
@@ -82,4 +142,4 @@ async function indirectExportDataOnDate(req: any, res: any) {
 }
 
 
-export {  directExportDataOnDate, indirectExportDataOnDate };
+export {  directExportDataOnDate, indirectExportDataOnDate, ewayBillDataOnDate, invoiceDataOnDate, shippingBillDataOnDate };

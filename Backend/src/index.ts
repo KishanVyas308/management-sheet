@@ -86,7 +86,6 @@ wss.on("connection", async (ws: any, req: any) => {
       }
 
       ws.user = decoded;
-      console.log("User authenticated:", decoded);
 
       try {
         // Update the user status as online in the database
@@ -95,7 +94,6 @@ wss.on("connection", async (ws: any, req: any) => {
           data: { isOnline: true },
         });
 
-        console.log("User connected:", updatedUser);
         // Broadcast to all clients that the user is online
         wss.clients.forEach((client) => {
           if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -132,13 +130,11 @@ wss.on("connection", async (ws: any, req: any) => {
               });
             }
           } catch (error) {
-            console.error("Error parsing WebSocket message:", error);
           }
         });
 
         // Handle socket disconnection
         ws.on("close", async () => {
-          console.log("User disconnected:", decoded.id);
 
           try {
             // Update user status to offline in the database

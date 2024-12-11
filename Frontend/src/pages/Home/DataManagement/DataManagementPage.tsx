@@ -32,7 +32,7 @@ const user = useRecoilValue(authAtom);
 
       <div className="flex gap-8 my-4 justify-between">
         <DetailCard
-          link={"/datamanagement/newdata/part1"}
+          link={"/datamanagement/newdata"}
           title={"New Data"}
           color="bg-[#faaa55]"
           description={

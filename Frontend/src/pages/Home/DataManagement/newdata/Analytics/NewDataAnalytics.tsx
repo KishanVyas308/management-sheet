@@ -5,22 +5,48 @@ import { useCookies } from 'react-cookie';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
-import NewDataHeaderComponent from '../NewDataHeaderComponent';
 import Loading from '../../../../components/Loading';
+import NewDataHeaderComponent from '../NewDataHeaderComponent';
 
 const NewDataAnalytics = () => {
+    enum Mode {
+        Document = 'document',
+        Form = 'form'
+    }
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [data, setData] = useState<any>([]);
-    const [exportType, setExportType] = useState('direct'); // 'direct' or 'indirect'
+    const [data, setData] = useState<any[]>([]);
+    const [mode, setMode] = useState<Mode>(Mode.Document);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [cookies] = useCookies(['token']);
     const [loading, setLoading] = useState(false);
 
-    const [cookies] = useCookies(['token']);
+    console.log('selectedOption', selectedOption);
+    console.log('mode', mode);
+    
+    
+
+    const documentList = {
+        'EPCG License': 'epcglicense',
+        'Advance License': 'advancelicense',
+        'Shipping Bill': 'shippingbill',
+        'Invoice': 'invoice',
+        'E - BRC': 'ebrc',
+        'E - Way Bill': 'ewaybill',
+        'Subsidy': 'subsidy'
+    };
+
+    const form = {
+        'Direct Export': 'directexport',
+        'Indirect Export': 'indirectexport'
+    };
 
     const fetchData = async () => {
         try {
             setLoading(true);
-            const endpoint = exportType === 'direct' ? 'directexport-data-on-date' : 'indirectexport-data-on-date';
+            const endpoint = mode === Mode.Document ? documentList[selectedOption] : form[selectedOption];
+            console.log('endpoint', endpoint);
+            
             const res = await axios.get(`${BACKEND_URL}/dataAnalytics/${endpoint}`, {
                 params: {
                     startDate,
@@ -31,18 +57,11 @@ const NewDataAnalytics = () => {
                 },
             });
             console.log(res.data);
-            
-            if (res.data.selectDateError) {
-                alert(res.data.selectDateError);
-            }
-            else if (res.data.length === 0) {
-                alert('No data found');
-            }
+            setData(res.data);
             setLoading(false);
-            setData(Array.isArray(res.data) ? res.data : []);
         } catch (err) {
-            setLoading(false);
             console.error('Error fetching data', err);
+            setLoading(false);
         }
     };
 
@@ -52,19 +71,17 @@ const NewDataAnalytics = () => {
             head: [['ID', 'Sr No', 'Shipping Bill No', 'Shipping Bill Date', 'Uploaded Date']],
             body: data.map(item => [item.id, item.srNo, item.shippingBillNo, item.shippingBillDate, (item.uploadedDate).split('T')[0]]),
         });
-        doc.save('Analytics.pdf');
+        doc.save('data.pdf');
     };
 
     const generateExcel = () => {
-        // update date format spit at 'T' and take first part
         data.forEach(item => {
             item.uploadedDate = (item.uploadedDate).split('T')[0];
-        }
-        );
+        });
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-        XLSX.writeFile(workbook, 'Analytics.xlsx');
+        XLSX.writeFile(workbook, 'data.xlsx');
     };
 
     return (
@@ -75,11 +92,29 @@ const NewDataAnalytics = () => {
                     backLink={"/datamanagement"}
                     nextLink={"/datamanagement/newdata/part2"}
                 />
-                <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
-                    Data Analytics
-                </div>
                 <h1 className="text-2xl mb-4">Filter Data</h1>
                 <div className="grid grid-cols-2 gap-4">
+                    <select
+                        className="border p-2"
+                        value={mode}
+                        onChange={(e) => setMode(e.target.value as Mode)}
+                    >
+                        <option value={Mode.Document}>Document</option>
+                        <option value={Mode.Form}>Form</option>
+                    </select>
+                    <select
+                        className="border p-2"
+                        value={selectedOption}
+                        onChange={(e) => setSelectedOption(e.target.value)}
+                    >
+                        {mode === Mode.Document
+                            ? Object.entries(documentList).map(([key, value]) => (
+                                <option key={key} value={key}>{key}</option>
+                            ))
+                            : Object.entries(form).map(([key, value]) => (
+                                <option key={key} value={key}>{key}</option>
+                            ))}
+                    </select>
                     <input
                         type="date"
                         className="border p-2"
@@ -94,14 +129,6 @@ const NewDataAnalytics = () => {
                         onChange={(e) => setEndDate(e.target.value)}
                         placeholder="End Date"
                     />
-                    <select
-                        className="border p-2"
-                        value={exportType}
-                        onChange={(e) => setExportType(e.target.value)}
-                    >
-                        <option value="direct">Direct Export</option>
-                        <option value="indirect">Indirect Export</option>
-                    </select>
                 </div>
                 <button
                     onClick={fetchData}
@@ -109,12 +136,12 @@ const NewDataAnalytics = () => {
                 >
                     Fetch Data
                 </button>
-                <button
+                {/* <button
                     onClick={generatePDF}
                     className="bg-blue-500 text-white p-2 mt-4 ml-2"
                 >
                     Generate PDF
-                </button>
+                </button> */}
                 <button
                     onClick={generateExcel}
                     className="bg-yellow-500 text-white p-2 mt-4 ml-2"
@@ -122,28 +149,28 @@ const NewDataAnalytics = () => {
                     Generate Excel
                 </button>
 
-                <table className="table-auto mt-4 w-full border-collapse border border-gray-400 bg-white">
+                {/* <table className="table-auto mt-4 w-full">
                     <thead>
-                        <tr className="bg-white">
-                            <th className="border px-4 py-2 border-gray-400">ID</th>
-                            <th className="border px-4 py-2 border-gray-400">Sr No</th>
-                            <th className="border px-4 py-2 border-gray-400">Shipping Bill No</th>
-                            <th className="border px-4 py-2 border-gray-400">Shipping Bill Date</th>
-                            <th className="border px-4 py-2 border-gray-400">Uploaded Date</th>
+                        <tr>
+                            <th className="border px-4 py-2">ID</th>
+                            <th className="border px-4 py-2">Sr No</th>
+                            <th className="border px-4 py-2">Shipping Bill No</th>
+                            <th className="border px-4 py-2">Shipping Bill Date</th>
+                            <th className="border px-4 py-2">Uploaded Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((item: any) => (
-                            <tr key={item.id} className="hover:bg-gray-100">
-                                <td className="border px-4 py-2 border-gray-400">{item.id}</td>
-                                <td className="border px-4 py-2 border-gray-400">{item.srNo}</td>
-                                <td className="border px-4 py-2 border-gray-400">{item.shippingBillNo}</td>
-                                <td className="border px-4 py-2 border-gray-400">{item.shippingBillDate}</td>
-                                <td className="border px-4 py-2 border-gray-400">{(item.uploadedDate).split('T')[0]}</td>
+                        {data && data.map((item: any) => (
+                            <tr key={item.id}>
+                                <td className="border px-4 py-2">{item.id}</td>
+                                <td className="border px-4 py-2">{item.srNo}</td>
+                                <td className="border px-4 py-2">{item.shippingBillNo}</td>
+                                <td className="border px-4 py-2">{item.shippingBillDate}</td>
+                                <td className="border px-4 py-2">{(item.uploadedDate).split('T')[0]}</td>
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table> */}
             </div>
         </div>
     );
