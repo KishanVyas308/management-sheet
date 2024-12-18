@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../../../Globle';
 import { useCookies } from 'react-cookie';
@@ -15,16 +15,23 @@ const NewDataAnalytics = () => {
     }
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<any>([]);
     const [mode, setMode] = useState<Mode>(Mode.Document);
-    const [selectedOption, setSelectedOption] = useState('');
+    const [selectedOption, setSelectedOption] = useState('EPCG License');
     const [cookies] = useCookies(['token']);
+    const [selectedMain, setSelectedMain] = useState<string | null>(null);
+    const [selectedItem, setSelectedItem] = useState<any>(null);
     const [loading, setLoading] = useState(false);
-
+    useEffect(() => {
+        if (mode === Mode.Form) {
+            setSelectedOption('Direct Export');
+        }
+        if (mode === Mode.Document) {
+            setSelectedOption('EPCG License');
+        }
+    }, [mode]);
     console.log('selectedOption', selectedOption);
     console.log('mode', mode);
-    
-    
 
     const documentList = {
         'EPCG License': 'epcglicense',
@@ -46,7 +53,7 @@ const NewDataAnalytics = () => {
             setLoading(true);
             const endpoint = mode === Mode.Document ? documentList[selectedOption] : form[selectedOption];
             console.log('endpoint', endpoint);
-            
+
             const res = await axios.get(`${BACKEND_URL}/dataAnalytics/${endpoint}`, {
                 params: {
                     startDate,
@@ -61,6 +68,7 @@ const NewDataAnalytics = () => {
             setLoading(false);
         } catch (err) {
             console.error('Error fetching data', err);
+            alert('Error fetching data');
             setLoading(false);
         }
     };
@@ -75,14 +83,19 @@ const NewDataAnalytics = () => {
     };
 
     const generateExcel = () => {
-        data.forEach(item => {
-            item.uploadedDate = (item.uploadedDate).split('T')[0];
-        });
-        const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-        XLSX.writeFile(workbook, 'data.xlsx');
+
+        const addSheetToWorkbook = (sheetData, sheetName) => {
+            const worksheet = XLSX.utils.json_to_sheet(sheetData);
+            XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+        };
+        Object.entries(data).forEach(([key, value]) => {
+            addSheetToWorkbook(value, key.replace(/([A-Z])/g, ' $1').trim());
+        });
+
+        XLSX.writeFile(workbook, `${selectedOption}.xlsx`);
     };
+
 
     return (
         <div className="bg-[#e6e7e9] w-full h-full min-h-screen">
@@ -136,6 +149,7 @@ const NewDataAnalytics = () => {
                 >
                     Fetch Data
                 </button>
+
                 {/* <button
                     onClick={generatePDF}
                     className="bg-blue-500 text-white p-2 mt-4 ml-2"
@@ -149,29 +163,64 @@ const NewDataAnalytics = () => {
                     Generate Excel
                 </button>
 
-                {/* <table className="table-auto mt-4 w-full">
-                    <thead>
-                        <tr>
-                            <th className="border px-4 py-2">ID</th>
-                            <th className="border px-4 py-2">Sr No</th>
-                            <th className="border px-4 py-2">Shipping Bill No</th>
-                            <th className="border px-4 py-2">Shipping Bill Date</th>
-                            <th className="border px-4 py-2">Uploaded Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data && data.map((item: any) => (
-                            <tr key={item.id}>
-                                <td className="border px-4 py-2">{item.id}</td>
-                                <td className="border px-4 py-2">{item.srNo}</td>
-                                <td className="border px-4 py-2">{item.shippingBillNo}</td>
-                                <td className="border px-4 py-2">{item.shippingBillDate}</td>
-                                <td className="border px-4 py-2">{(item.uploadedDate).split('T')[0]}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table> */}
+                <div className="mt-8 grid grid-cols-3 gap-4">
+                    
+                    {Object.entries(data).map(([key, value]: any) => (
+                        <div key={key} className=" ">
+                            <h2 className="text-2xl font-semibold border rounded-lg p-4 shadow-md bg-white cursor-pointer" onClick={() => setSelectedMain(key)}>
+                                {key.replace(/([A-Z])/g, ' $1').trim()}
+                            </h2>
+
+                        </div>
+                    ))}
+                </div>
+                <div className='mt-8'>
+
+                    {Object.entries(data).map(([key, value]: any) => (
+                        <div key={key} className=" grid grid-cols-3 gap-3">
+
+                            {selectedMain === key && Array.isArray(value) && value.map((item: any, index: number) => (
+                                <div key={index} className="border rounded-lg p-4 shadow-md bg-white cursor-pointer" onClick={() => setSelectedItem(item)}>
+                                    <div className="flex justify-between">
+                                    <strong className="text-gray-700">{key.replace(/([A-Z])/g, ' $1').trim()} {index + 1}</strong>
+                                    {item.uploadedDate && (
+                                         
+                                            <span className="text-gray-900">{(item.uploadedDate).split('T')[0]}</span>
+                                        )}
+                                        </div>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+
+                <div>
+
+
+                    {selectedItem && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
+                            <div className="bg-white p-8 rounded-lg shadow-lg max-w-xl w-full max-h-[90%] overflow-y-auto">
+                                <h2 className="text-2xl font-semibold mb-4">Item Details</h2>
+                                {Object.entries(selectedItem).map(([itemKey, itemValue]: any) => (
+                                    <div key={itemKey} className="flex justify-between py-2">
+                                        <strong className="text-gray-700">{itemKey.replace(/([A-Z])/g, ' $1').trim()}:</strong>
+                                        <span className="text-gray-900">{itemValue}</span>
+                                    </div>
+                                ))}
+                                <button
+                                    onClick={() => setSelectedItem(null)}
+                                    className="bg-red-500 text-white p-2 mt-4"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
+
+
+
         </div>
     );
 };

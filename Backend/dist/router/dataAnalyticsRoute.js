@@ -11,7 +11,7 @@ const router = express_1.default.Router();
 router.get('/directexport', dataAnalyticsController_1.directExportDataOnDate);
 router.get('/indirectexport', dataAnalyticsController_1.indirectExportDataOnDate);
 // Form 
-router.get('/epcglicense');
+router.get('/epcglicense', dataAnalyticsController_1.epcgLicenceDataOnDate);
 router.get('/advancelicense');
 router.get('/shippingbill', dataAnalyticsController_1.shippingBillDataOnDate);
 router.get('/invoice', dataAnalyticsController_1.invoiceDataOnDate);

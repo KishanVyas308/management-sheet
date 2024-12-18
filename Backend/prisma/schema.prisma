@@ -91,6 +91,7 @@ model ExcelDataFinal {
   exchangeRate2        String  @default("0.0000")
   product              String?
   remarks              String?
+  uploadedDate         DateTime @default(now()) 
 }
 
 model Part1Section1 {
@@ -117,6 +118,7 @@ model Part1Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -145,6 +147,7 @@ model Part1Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -171,6 +174,7 @@ model Part1Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -195,6 +199,7 @@ model Part2Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -219,6 +224,7 @@ model Part2Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -241,6 +247,7 @@ model Part2Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -263,6 +270,7 @@ model Part3Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -285,6 +293,7 @@ model Part3Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -306,6 +315,7 @@ model Part3Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -332,6 +342,7 @@ model Part4Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -358,6 +369,7 @@ model Part4Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -384,6 +396,7 @@ model Part4Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -411,6 +424,7 @@ model Part4Section4 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -438,6 +452,7 @@ model Part4Section5 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -465,6 +480,7 @@ model Part4Section6 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -482,6 +498,7 @@ model Part5 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -514,6 +531,7 @@ model BasicSheet {
   remarks                      String?
   user                         user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                String
+  
 
   @@index([addedByUserId], name: "userId")
 }
@@ -536,6 +554,7 @@ model Annexure1 {
   fobValueInRupees             String?
   user                         user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -558,6 +577,7 @@ model AnnexureA {
   totalInDollars             String
   user                       user   @relation(fields: [addedByUserId], references: [id])
   addedByUserId              String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -602,6 +622,7 @@ model ManageUserShippingBill {
   Part4Section5            Part4Section5[]
   Part4Section6            Part4Section6[]
   Part5                    Part5[]
+  
 
   @@index([addedByUserId], name: "userId")
 }
@@ -640,6 +661,7 @@ model IndirectExportBasicSheet {
   remarks                   String?
   user                      user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId             String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -659,6 +681,7 @@ model IndirectExportAnneuxure1 {
   fobValueInRupees            String?
   user                        user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId               String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -682,6 +705,7 @@ model IndirectExportAnneuxure2 {
   forInUsd                       String
   user                           user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                  String
+  uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -702,6 +726,7 @@ model IndirectExportCalculationSheet {
   fobValueLowerOf5_6_7Us                 String
   user                                   user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                          String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -721,6 +746,7 @@ model IndirectExportNewDeptSheet {
   convertedIntoUsd               String
   user                           user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                  String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -742,6 +768,7 @@ model IndirectExportAnneuxureA {
   totalUs                   String
   user                      user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId             String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -763,6 +790,7 @@ model Client {
   iemUdyam            String
   user                user   @relation(fields: [addedByUserId], references: [id])
   addedByUserId       String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -780,6 +808,7 @@ model EpcgList {
   authorisedPersonName String
   user                 user   @relation(fields: [addedByUserId], references: [id])
   addedByUserId        String
+    uploadedDate         DateTime @default(now()) 
 
   @@index([addedByUserId], name: "userId")
 }
@@ -824,6 +853,7 @@ model Invoice {
   authorizedSignature          String?
   user                         user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                String
+    uploadedDate         DateTime @default(now()) 
 }
 
 model EWayBillDetails {
@@ -867,7 +897,7 @@ model EWayBillDetails {
   vehicleNo                            String?
   user                                 user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                        String
-
+  uploadedDate         DateTime @default(now()) 
   @@index([addedByUserId], name: "userId")
 }
 
