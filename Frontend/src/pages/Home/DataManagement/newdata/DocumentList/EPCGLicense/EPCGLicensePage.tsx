@@ -141,20 +141,20 @@ const EPCGLicensePage = () => {
                                 }
                                 type="date"
                             />
-                        </div>
-                        <div className="bg-white p-4 rounded-md">
-                            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
-                                Bank Guarantee Details
-                            </div>
                             <InputField
                                 label="License Type"
                                 value={epcgLicenseDetails.licenseType}
-                                options={['Direct', 'Import']}
+                                options={['Domestic', 'Import']}
                                 onChange={(e) =>
                                     setEpcgLicenseDetails({ ...epcgLicenseDetails, licenseType: e.target.value })
                                 }
                                 type="select"
                             />
+                        </div>
+                        <div className="bg-white p-4 rounded-md">
+                            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+                                Bank Guarantee Details
+                            </div>
                             <InputField
                                 label="Amount (Rs)"
                                 value={epcgLicenseDetails.bankGuaranteeAmountRs}
@@ -189,6 +189,9 @@ const EPCGLicensePage = () => {
                                 }
                                 type="text"
                             />
+                            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
+                            Duty Saved Value
+                            </div>
                             <InputField
                                 label="Duty Saved Value Amount (Rs)"
                                 value={epcgLicenseDetails.dutySavedValueAmountRs}
@@ -216,7 +219,7 @@ const EPCGLicensePage = () => {
                         </div>
                         <div className="bg-white p-4 rounded-md">
                             <div className="container text-center text-green-700 font-sans font-semibold text-xl">
-                                Export Details
+                            Average Export Details
                             </div>
                             <InputField
                                 label="Imposed As Per License"
