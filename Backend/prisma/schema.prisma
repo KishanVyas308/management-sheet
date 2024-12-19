@@ -854,6 +854,8 @@ model Invoice {
   user                         user    @relation(fields: [addedByUserId], references: [id])
   addedByUserId                String
     uploadedDate         DateTime @default(now()) 
+     @@index([addedByUserId], name: "userId")
+
 }
 
 model EWayBillDetails {

@@ -21,6 +21,7 @@ function addInvoice(req, res) {
             });
         }
         catch (e) {
+            console.log(e);
             return res.json({ message: e });
         }
         return res.json({ message: "Added successfully" });

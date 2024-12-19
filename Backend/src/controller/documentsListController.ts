@@ -3,10 +3,12 @@ import { prisma } from "..";
 export async function addInvoice(req: any, res: any) {
     try {
 
-        const responce = await  prisma.invoice.create({
+        const responce = await prisma.invoice.create({
             data : req.body
         })
     } catch(e) {
+        console.log(e);
+        
         return res.json({message: e})
     }
 
