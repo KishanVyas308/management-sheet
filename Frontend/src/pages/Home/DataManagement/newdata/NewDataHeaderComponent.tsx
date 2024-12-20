@@ -28,7 +28,7 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
             <Link to={"/datamanagement/advance-license"} className="block px-4 py-2 hover:bg-gray-200">Advance License</Link>
             <Link to={"/datamanagement/newdata/part1"} className="block px-4 py-2 hover:bg-gray-200">Shipping Bill</Link>
             <Link to={"/datamanagement/invoice"} className="block px-4 py-2 hover:bg-gray-200">Invoice</Link>
-            <Link to={"/datamanagement/e-brc"} className="block px-4 py-2 hover:bg-gray-200">E - BRC</Link>
+            <Link to={"/datamanagement/ebrc"} className="block px-4 py-2 hover:bg-gray-200">E - BRC</Link>
             <Link to={"/datamanagement/e-way-bill"} className="block px-4 py-2 hover:bg-gray-200">E - Way Bill</Link>
             <Link to={"/datamanagement/subsidy"} className="block px-4 py-2 hover:bg-gray-200">Subsidy</Link>
           </div>
@@ -42,9 +42,6 @@ const NewDataHeaderComponent = ({ backLink, nextLink }) => {
             <Link to={"/datamanagement/indirectexport"} className="block px-4 py-2 hover:bg-gray-200">Indirect Export</Link>
           </div>
         </div>
-       
-
-   
       </div>
       <div className="flex gap-6 items-center">
         <Link
