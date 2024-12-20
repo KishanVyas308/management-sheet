@@ -11,4 +11,5 @@ router.post("/invoice", documentsListController_1.addInvoice);
 router.post("/ewaybilldetails", documentsListController_1.addEWayBill);
 router.use("/shippingbill", shippingBillRoute_1.default);
 router.post("/epcglicense", documentsListController_1.addEpcgLicense);
+router.post("/ebrc", documentsListController_1.addEbrc);
 exports.default = router;

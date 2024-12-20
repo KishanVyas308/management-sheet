@@ -15,6 +15,7 @@ exports.ewayBillDataOnDate = ewayBillDataOnDate;
 exports.invoiceDataOnDate = invoiceDataOnDate;
 exports.shippingBillDataOnDate = shippingBillDataOnDate;
 exports.epcgLicenceDataOnDate = epcgLicenceDataOnDate;
+exports.ebrcOnDate = ebrcOnDate;
 const __1 = require("..");
 function directExportDataOnDate(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -439,6 +440,33 @@ function epcgLicenceDataOnDate(req, res) {
             });
             res.json({
                 EpcgLicense
+            });
+        }
+        catch (err) {
+            res.status(500).json({ error: 'Failed to fetch data' });
+        }
+    });
+}
+function ebrcOnDate(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { startDate, endDate } = req.query;
+        if (!startDate || !endDate) {
+            return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+        }
+        try {
+            const Ebrc = yield __1.prisma.eBRC.findMany({
+                where: {
+                    uploadedDate: {
+                        gte: new Date(startDate),
+                        lte: new Date(endDate),
+                    },
+                },
+                orderBy: {
+                    uploadedDate: 'desc',
+                },
+            });
+            res.json({
+                Ebrc
             });
         }
         catch (err) {

@@ -12,12 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addInvoice = addInvoice;
 exports.addEWayBill = addEWayBill;
 exports.addEpcgLicense = addEpcgLicense;
+exports.addEbrc = addEbrc;
 const __1 = require("..");
 function addInvoice(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const responce = yield __1.prisma.invoice.create({
-                data: req.body
+                data: req.body,
             });
         }
         catch (e) {
@@ -31,7 +32,7 @@ function addEWayBill(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const responce = yield __1.prisma.eWayBillDetails.create({
-                data: req.body
+                data: req.body,
             });
         }
         catch (e) {
@@ -44,10 +45,24 @@ function addEpcgLicense(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const responce = yield __1.prisma.ePCGLicense.create({
-                data: req.body
+                data: req.body,
             });
         }
         catch (e) {
+            return res.json({ message: e });
+        }
+        return res.json({ message: "Added successfully" });
+    });
+}
+function addEbrc(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const responce = yield __1.prisma.eBRC.create({
+                data: req.body,
+            });
+        }
+        catch (e) {
+            console.log(e);
             return res.json({ message: e });
         }
         return res.json({ message: "Added successfully" });

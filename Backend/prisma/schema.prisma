@@ -66,12 +66,13 @@ model user {
   Invoice                        Invoice[]
   EWayBillDetails                EWayBillDetails[]
   EPCGLicense                    EPCGLicense[]
+  EBRC                           EBRC[]
 }
 
 model ExcelDataFinal {
   // set id for sql
   // id                   String  @id @default(auto()) @map("_id") @db.ObjectId
-  id                   String  @id @default(cuid())
+  id                   String   @id @default(cuid())
   companyName          String
   srNo                 String
   shippingBillNo       String
@@ -79,19 +80,19 @@ model ExcelDataFinal {
   thirdPartyExporter   String?
   hsCodeAndDescription String?
   epcgLicNo            String?
-  cifValue             String  @default("0.00")
-  freight              String  @default("0.00")
-  insurance            String  @default("0.00")
-  brc                  String  @default("0.00")
-  exchangeRate         String  @default("0.0000")
-  cifValue2            String  @default("0.00")
-  freight2             String  @default("0.00")
-  insurance2           String  @default("0.00")
-  brc2                 String  @default("0.00")
-  exchangeRate2        String  @default("0.0000")
+  cifValue             String   @default("0.00")
+  freight              String   @default("0.00")
+  insurance            String   @default("0.00")
+  brc                  String   @default("0.00")
+  exchangeRate         String   @default("0.0000")
+  cifValue2            String   @default("0.00")
+  freight2             String   @default("0.00")
+  insurance2           String   @default("0.00")
+  brc2                 String   @default("0.00")
+  exchangeRate2        String   @default("0.0000")
   product              String?
   remarks              String?
-  uploadedDate         DateTime @default(now()) 
+  uploadedDate         DateTime @default(now())
 }
 
 model Part1Section1 {
@@ -118,7 +119,7 @@ model Part1Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -147,7 +148,7 @@ model Part1Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -174,7 +175,7 @@ model Part1Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -199,7 +200,7 @@ model Part2Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -224,7 +225,7 @@ model Part2Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -247,7 +248,7 @@ model Part2Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -270,7 +271,7 @@ model Part3Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -293,7 +294,7 @@ model Part3Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -315,7 +316,7 @@ model Part3Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -342,7 +343,7 @@ model Part4Section1 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -369,7 +370,7 @@ model Part4Section2 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -396,7 +397,7 @@ model Part4Section3 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -424,7 +425,7 @@ model Part4Section4 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -452,7 +453,7 @@ model Part4Section5 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -480,7 +481,7 @@ model Part4Section6 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -498,7 +499,7 @@ model Part5 {
   addedByUserId            String
   ManageUserShippingBill   ManageUserShippingBill? @relation(fields: [manageUserShippingBillId], references: [id])
   manageUserShippingBillId String?
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate             DateTime                @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -531,7 +532,6 @@ model BasicSheet {
   remarks                      String?
   user                         user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                String
-  
 
   @@index([addedByUserId], name: "userId")
 }
@@ -539,7 +539,7 @@ model BasicSheet {
 model Annexure1 {
   // set id for sql
   // id                           String  @id @default(auto()) @map("_id") @db.ObjectId
-  id                           String  @id @default(cuid())
+  id                           String   @id @default(cuid())
   srNo                         String
   shippingBillNo               String
   shippingBillDate             String?
@@ -552,32 +552,32 @@ model Annexure1 {
   fobValueInDoller             String?
   ExchangeRatePerShippingBill  String?
   fobValueInRupees             String?
-  user                         user    @relation(fields: [addedByUserId], references: [id])
+  user                         user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate                 DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model AnnexureA {
   // id String @id @default(auto()) @map("_id") @db.ObjectId
-  id                         String @id @default(cuid())
+  id                         String   @id @default(cuid())
   srNo                       String
   productExportered          String
   shippingBillNumber         String
   shippingBillDate           String
   directExportsInRupees      String
   directExportsInDollars     String
-  deemedExports              String @default("0.00")
-  thirdPartyExportsInRupees  String @default("0.00")
-  thirdPartyExportsInDollars String @default("0.00")
-  byGroupCompany             String @default("0.00")
-  otherRWseries              String @default("0.00")
+  deemedExports              String   @default("0.00")
+  thirdPartyExportsInRupees  String   @default("0.00")
+  thirdPartyExportsInDollars String   @default("0.00")
+  byGroupCompany             String   @default("0.00")
+  otherRWseries              String   @default("0.00")
   totalInRupees              String
   totalInDollars             String
-  user                       user   @relation(fields: [addedByUserId], references: [id])
+  user                       user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId              String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate               DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
@@ -622,13 +622,12 @@ model ManageUserShippingBill {
   Part4Section5            Part4Section5[]
   Part4Section6            Part4Section6[]
   Part5                    Part5[]
-  
 
   @@index([addedByUserId], name: "userId")
 }
 
 model IndirectExportBasicSheet {
-  id                        String  @id @default(cuid())
+  id                        String   @id @default(cuid())
   companyName               String
   srNo                      String
   shippingBillNo            String
@@ -636,16 +635,16 @@ model IndirectExportBasicSheet {
   thirdPartyExporter        String
   hsCodeAndDescription      String
   epcgLicNo                 String?
-  cifValue                  String  @default("0.00")
-  freight                   String  @default("0.00")
-  insurance                 String  @default("0.00")
-  brc                       String  @default("0.00")
-  exchangeRate              String  @default("0.0000")
-  cifValue2                 String  @default("0.00")
-  freight2                  String  @default("0.00")
-  insurance2                String  @default("0.00")
-  brc2                      String  @default("0.00")
-  exchangeRate2             String  @default("0.0000")
+  cifValue                  String   @default("0.00")
+  freight                   String   @default("0.00")
+  insurance                 String   @default("0.00")
+  brc                       String   @default("0.00")
+  exchangeRate              String   @default("0.0000")
+  cifValue2                 String   @default("0.00")
+  freight2                  String   @default("0.00")
+  insurance2                String   @default("0.00")
+  brc2                      String   @default("0.00")
+  exchangeRate2             String   @default("0.0000")
   invoiceNo                 String
   invoiceDate               String
   basicAmount               String
@@ -659,15 +658,15 @@ model IndirectExportBasicSheet {
   bankStatement             String
   product                   String?
   remarks                   String?
-  user                      user    @relation(fields: [addedByUserId], references: [id])
+  user                      user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId             String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate              DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model IndirectExportAnneuxure1 {
-  id                          String  @id @default(cuid())
+  id                          String   @id @default(cuid())
   srNo                        String
   shippingBillNo              String
   shippingBillDate            String?
@@ -679,15 +678,15 @@ model IndirectExportAnneuxure1 {
   fobValueInDollars           String?
   exchangeRatePerShippingBill String?
   fobValueInRupees            String?
-  user                        user    @relation(fields: [addedByUserId], references: [id])
+  user                        user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId               String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate                DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model IndirectExportAnneuxure2 {
-  id                             String  @id @default(cuid())
+  id                             String   @id @default(cuid())
   srNo                           String
   shippingBillNo                 String
   shippingBillDate               String?
@@ -703,17 +702,17 @@ model IndirectExportAnneuxure2 {
   proportionateAmountOf6ForInRs  String
   exchangeRatePerShippingBill    String
   forInUsd                       String
-  user                           user    @relation(fields: [addedByUserId], references: [id])
+  user                           user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                  String
-  uploadedDate         DateTime @default(now()) 
+  uploadedDate                   DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model IndirectExportCalculationSheet {
-  id                                     String  @id @default(cuid())
+  id                                     String   @id @default(cuid())
   srNo                                   String
-  sameProductOrAlternativeProductService String  @default("")
+  sameProductOrAlternativeProductService String   @default("")
   shippingBillNo                         String
   shippingBillDate                       String?
   fobValueRealizationProceedsRs          String
@@ -724,15 +723,15 @@ model IndirectExportCalculationSheet {
   fobValueAnnexure2Us                    String
   fobValueLowerOf5_6_7Rs                 String
   fobValueLowerOf5_6_7Us                 String
-  user                                   user    @relation(fields: [addedByUserId], references: [id])
+  user                                   user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                          String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate                           DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model IndirectExportNewDeptSheet {
-  id                             String  @id @default(cuid())
+  id                             String   @id @default(cuid())
   srNo                           String
   shippingBillNo                 String
   shippingBillDate               String?
@@ -744,37 +743,37 @@ model IndirectExportNewDeptSheet {
   amountRealisedInBankRs         String
   amountLessOfCol6And7Rs         String
   convertedIntoUsd               String
-  user                           user    @relation(fields: [addedByUserId], references: [id])
+  user                           user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                  String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate                   DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model IndirectExportAnneuxureA {
-  id                        String  @id @default(cuid())
+  id                        String   @id @default(cuid())
   srNo                      String
   sameProductOrService      String
   shippingBillNo            String
   shippingBillDate          String?
   directExportsRs           String
   directExportsUs           String
-  deemedExports             String  @default("0.00")
-  thirdPartyExportsRs       String  @default("0.00")
-  thirdPartyExportsUs       String  @default("0.00")
-  byGroupCompany            String  @default("0.00")
-  otherRnDServicesOrRoyalty String  @default("0.00")
+  deemedExports             String   @default("0.00")
+  thirdPartyExportsRs       String   @default("0.00")
+  thirdPartyExportsUs       String   @default("0.00")
+  byGroupCompany            String   @default("0.00")
+  otherRnDServicesOrRoyalty String   @default("0.00")
   totalRs                   String
   totalUs                   String
-  user                      user    @relation(fields: [addedByUserId], references: [id])
+  user                      user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId             String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate              DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model Client {
-  id                  String @id @default(cuid())
+  id                  String   @id @default(cuid())
   customerName        String
   mobileNumber1       String
   mobileNumber2       String
@@ -788,15 +787,15 @@ model Client {
   industryCategory    String
   subIndustryCategory String
   iemUdyam            String
-  user                user   @relation(fields: [addedByUserId], references: [id])
+  user                user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId       String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate        DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model EpcgList {
-  id                   String @id @default(cuid())
+  id                   String   @id @default(cuid())
   srNo                 String
   partyName            String
   mailId1              String
@@ -806,60 +805,57 @@ model EpcgList {
   contactPersonName    String
   authorisedPersonMoNo String
   authorisedPersonName String
-  user                 user   @relation(fields: [addedByUserId], references: [id])
+  user                 user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId        String
-    uploadedDate         DateTime @default(now()) 
+  uploadedDate         DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
 
 model Invoice {
-  id                           String  @id @default(cuid())
-  sellerName                   String?
-  sellerAddress                String?
-  sellerPanNumber              String?
-  sellerGstNumber              String?
-  buyerBillToName              String?
-  buyerBillToAddress           String?
-  buyerContactNumber           String?
-  buyerGstNumber               String?
-  buyerShipToName              String?
-  buyerShipToAddress           String?
-  buyerShipToContactNumber     String?
-  buyerShipToGstNumber         String?
-  invoiceNumber                String?
-  invoiceDate                  String?
-  quickResponseCode            String?
-  productDetailSrNo            String?
-  productDetailDescription     String?
-  productDetailHSN             String?
-  productDetailTypeOfProducts  String?
-  productDetailUQC             String?
-  productDetailQty             String?
-  productDetailRateOfProduct   String?
-  productDetailAmount          String?
-  productDetailTaxPayableOnRcm String?
-  subTotal                     String?
-  amountInWords                String?
-  notes                        String?
-  bankName                     String?
-  accountNumber                String?
-  ifscCode                     String?
-  taxRate                      String?
-  igst                         String?
-  cgst                         String?
-  sgst                         String?
-  termsAndConditions           String?
-  authorizedSignature          String?
-  user                         user    @relation(fields: [addedByUserId], references: [id])
-  addedByUserId                String
-    uploadedDate         DateTime @default(now()) 
-     @@index([addedByUserId], name: "userId")
+  id                             String   @id @default(cuid())
+  sellerName                     String?
+  sellerAddress                  String?
+  sellerPanNumber                String?
+  sellerGstNumber                String?
+  buyerBillToName                String?
+  buyerBillToAddress             String?
+  buyerContactNumber             String?
+  buyerGstNumber                 String?
+  buyerShipToName                String?
+  buyerShipToAddress             String?
+  buyerShipToContactNumber       String?
+  buyerShipToGstNumber           String?
+  invoiceNumber                  String?
+  invoiceDate                    String?
+  quickResponseCode              String?
+  productDetailSrNo              String?
+  productDetailDescription       String?
+  productDetailHSN               String?
+  productDetailTypeOfProductsUQC String?
+  productDetailQty               String?
+  productDetailRateOfProduct     String?
+  productDetailAmount            String?
+  productDetailTaxPayableOnRcm   String?
+  subTotal                       String?
+  amountInWords                  String?
+  notes                          String?
+  bankName                       String?
+  accountNumber                  String?
+  ifscCode                       String?
+  taxRate                        String?
+  igst                           String?
+  termsAndConditions             String?
+  authorizedSignature            String?
+  user                           user     @relation(fields: [addedByUserId], references: [id])
+  addedByUserId                  String
+  uploadedDate                   DateTime @default(now())
 
+  @@index([addedByUserId], name: "userId")
 }
 
 model EWayBillDetails {
-  id                                   String  @id @default(cuid())
+  id                                   String   @id @default(cuid())
   ewaybillNo                           String?
   ewaybillGeneratedDate                String?
   ewaybillValidUpto                    String?
@@ -897,9 +893,10 @@ model EWayBillDetails {
   multiVehicleInfo                     String?
   vehicleType                          String?
   vehicleNo                            String?
-  user                                 user    @relation(fields: [addedByUserId], references: [id])
+  user                                 user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                        String
-  uploadedDate         DateTime @default(now()) 
+  uploadedDate                         DateTime @default(now())
+
   @@index([addedByUserId], name: "userId")
 }
 
@@ -925,6 +922,29 @@ model EPCGLicense {
   user                             user     @relation(fields: [addedByUserId], references: [id])
   addedByUserId                    String
   uploadedDate                     DateTime @default(now())
+
+  @@index([addedByUserId], name: "userId")
+}
+
+model EBRC {
+  id                             String   @id @default(cuid())
+  firmName                       String
+  address                        String
+  iec                            String
+  shippingBillNo                 String
+  shippingBillDate               String
+  shippingBillPort               String
+  bankName                       String
+  bankFileNoAndUploadedDate      String
+  billIdNo                       String
+  bankRealisationCertificateNo   String
+  dateOfRealisationOfMoneyByBank String
+  realisedValueInForeignCurrency String
+  currencyOfRealisation          String
+  dateTimeOfPrinting             String
+  user                           user     @relation(fields: [addedByUserId], references: [id])
+  addedByUserId                  String
+  uploadedDate                   DateTime @default(now())
 
   @@index([addedByUserId], name: "userId")
 }
