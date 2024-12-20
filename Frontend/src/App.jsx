@@ -26,6 +26,7 @@ import NotFound from "./pages/NotFound";
 import UnderDevelopment from "./pages/UnderConstruction";
 import EPCGLicensePage from "./pages/Home/DataManagement/newdata/DocumentList/EPCGLicense/EPCGLicensePage";
 import NewDataPage from "./pages/Home/DataManagement/newdata/NewDataPage";
+import EBRCPage from "./pages/Home/DataManagement/newdata/DocumentList/EBRC/EBRCpage";
 
 
 function App() {
@@ -87,6 +88,10 @@ function App() {
         <Route
           path="/datamanagement/epcg-license"
           element={<ProtectedRoute element={<EPCGLicensePage />} />}
+        />
+        <Route
+          path="/datamanagement/ebrc"
+          element={<ProtectedRoute element={<EBRCPage />} />}
         />
 
         <Route path="/signin" element={<Signin />} />

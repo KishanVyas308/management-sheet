@@ -12,7 +12,7 @@ import Loading from '../../../../../components/Loading';
 import NewDataHeaderComponent from '../../NewDataHeaderComponent';
 
 const EWayBillDetails = () => {
-    
+
     const { user } = useRecoilValue(authAtom);
     const [cookies] = useCookies(['token']);
     const [loading, setLoading] = useState(false);
@@ -85,10 +85,9 @@ const EWayBillDetails = () => {
             setLoading(false);
         }
     };
-
     return (
         <div className="bg-[#e6e7e9] w-full h-full min-h-screen">
-            <div className="container mx-auto px-4 py-8 ">
+            <div className="container mx-auto px-4 py-8">
                 {loading && <Loading />}
                 <NewDataHeaderComponent
                     backLink={"/datamanagement"}
@@ -96,12 +95,12 @@ const EWayBillDetails = () => {
                 />
                 <div className="container mx-auto px-4 py-8">
                     <div className="container text-center text-green-700 font-sans font-semibold text-[24px]">
-                        E-Way Bill Details
+                        E-Way Bill
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 mt-2 gap-4">
                         <div className="bg-white p-4 rounded-md">
-                            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
-                                E-Way Bill Information
+                            <div className="container text-center text-green-700 font-sans font-semibold text-lg">
+                                E-Way Bill Details - Basic Details
                             </div>
                             <InputField
                                 label="E-Way Bill No"
@@ -109,9 +108,10 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillNo: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
-                                label="E-Way Bill Generated Date"
+                                label="Generated Date"
                                 value={ewayBillDetails.ewaybillGeneratedDate}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillGeneratedDate: e.target.value })
@@ -119,7 +119,7 @@ const EWayBillDetails = () => {
                                 type="date"
                             />
                             <InputField
-                                label="E-Way Bill Valid Upto"
+                                label="Valid Upto"
                                 value={ewayBillDetails.ewaybillValidUpto}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillValidUpto: e.target.value })
@@ -127,7 +127,7 @@ const EWayBillDetails = () => {
                                 type="date"
                             />
                             <InputField
-                                label="E-Way Bill Valid From"
+                                label="Valid From"
                                 value={ewayBillDetails.ewaybillValidFrom}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillValidFrom: e.target.value })
@@ -140,6 +140,7 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillModeOfTransportation: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
                                 label="Approx Distance"
@@ -147,11 +148,13 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillApproxDistance: e.target.value })
                                 }
+                                type="text"
                             />
+
                         </div>
                         <div className="bg-white p-4 rounded-md">
-                            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
-                                Document Details
+                            <div className="container text-center text-green-700 font-sans font-semibold text-lg">
+                                E-Way Bill Details - Basic Details
                             </div>
                             <InputField
                                 label="Document Type"
@@ -159,6 +162,7 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillDocumentType: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
                                 label="Document Number"
@@ -166,6 +170,7 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillDocumentNumber: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
                                 label="Document Date"
@@ -181,6 +186,7 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillSupplyType: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
                                 label="Sub Type"
@@ -188,6 +194,7 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillSubType: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
                                 label="Transaction Type"
@@ -195,75 +202,239 @@ const EWayBillDetails = () => {
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, ewaybillTransactionType: e.target.value })
                                 }
+                                type="text"
                             />
                         </div>
                         <div className="bg-white p-4 rounded-md">
-                            <div className="container text-center text-green-700 font-sans font-semibold text-xl">
-                                Supplier and Recipient Details
+                            <div className="container text-center text-green-700 font-sans font-semibold text-lg">
+                                Address Details
+                            </div>
+                            <div className="container text-center text-green-700 font-sans font-semibold text-base">
+                                Supplier
                             </div>
                             <InputField
-                                label="Supplier GSTIN"
+                                label="GSTIN"
                                 value={ewayBillDetails.supplierGstin}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, supplierGstin: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
-                                label="Supplier Name"
+                                label="Name"
                                 value={ewayBillDetails.supplierName}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, supplierName: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
-                                label="Supplier State"
+                                label="State"
                                 value={ewayBillDetails.supplierState}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, supplierState: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
-                                label="Supplier Dispatch From Address"
+                                label="Dispatch From Address"
                                 value={ewayBillDetails.supplierDispatchFromAddress}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, supplierDispatchFromAddress: e.target.value })
                                 }
+                                type="text"
                             />
+                            <div className="container text-center text-green-700 font-sans font-semibold text-base">
+                                Recipient
+                            </div>
                             <InputField
-                                label="Recipient GSTIN"
+                                label="GSTIN"
                                 value={ewayBillDetails.recipientGstin}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, recipientGstin: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
-                                label="Recipient Name"
+                                label="Name"
                                 value={ewayBillDetails.recipientName}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, recipientName: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
-                                label="Recipient State"
+                                label="State"
                                 value={ewayBillDetails.recipientState}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, recipientState: e.target.value })
                                 }
+                                type="text"
                             />
                             <InputField
-                                label="Recipient Ship To Address"
+                                label="Ship To Address"
                                 value={ewayBillDetails.recipientShipToAddress}
                                 onChange={(e) =>
                                     setEwayBillDetails({ ...ewayBillDetails, recipientShipToAddress: e.target.value })
                                 }
+                                type="text"
                             />
+                        </div>
+                        <div className="bg-white p-4 rounded-md">
+                            <div className="container text-center text-green-700 font-sans font-semibold text-lg">
+                                Goods Details
+                            </div>
+                            <InputField
+                                label="HSN Code"
+                                value={ewayBillDetails.goodDetailsHsnCode}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsHsnCode: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Product Name and Description"
+                                value={ewayBillDetails.goodDetailsProductNameAndDescription}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsProductNameAndDescription: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Quantity"
+                                value={ewayBillDetails.goodDetailsQuantity}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsQuantity: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Unit"
+                                value={ewayBillDetails.goodDetailsUnit}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsUnit: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Tax Rate"
+                                value={ewayBillDetails.goodDetailsTaxRate}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsTaxRate: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Total Taxable Amount"
+                                value={ewayBillDetails.goodDetailsTotalTaxableAmount}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsTotalTaxableAmount: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="CGST Amount"
+                                value={ewayBillDetails.goodDetailsCgstAmount}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsCgstAmount: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="SGST Amount"
+                                value={ewayBillDetails.goodDetailsSgstAmount}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsSgstAmount: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="IGST Amount"
+                                value={ewayBillDetails.goodDetailsIgstAmount}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsIgstAmount: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Cess Amount"
+                                value={ewayBillDetails.goodDetailsCessAmount}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsCessAmount: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Other Amount"
+                                value={ewayBillDetails.goodDetailsOtherAmount}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsOtherAmount: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Total Invoice Amount"
+                                value={ewayBillDetails.goodDetailsTotalInvoiceAmount}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, goodDetailsTotalInvoiceAmount: e.target.value })
+                                }
+                                type="text"
+                            />
+                        </div>
+                        <div className="bg-white p-4 rounded-md">
+                            <div className="container text-center text-green-700 font-sans font-semibold text-lg">
+                                Transportation Details
+                            </div>
+                            <InputField
+                                label="Transporter GSTN or Enrolment ID"
+                                value={ewayBillDetails.transporterGstnOrEnrolmentId}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, transporterGstnOrEnrolmentId: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="LR No and Date"
+                                value={ewayBillDetails.lrNoAndDate}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, lrNoAndDate: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <div className="container text-center text-green-700 font-sans font-semibold text-lg">
+                                Vehicle Details
+                            </div>
+                            <InputField
+                                label="Multi Vehicle Info"
+                                value={ewayBillDetails.multiVehicleInfo}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, multiVehicleInfo: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Vehicle Type"
+                                value={ewayBillDetails.vehicleType}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, vehicleType: e.target.value })
+                                }
+                                type="text"
+                            />
+                            <InputField
+                                label="Vehicle No"
+                                value={ewayBillDetails.vehicleNo}
+                                onChange={(e) =>
+                                    setEwayBillDetails({ ...ewayBillDetails, vehicleNo: e.target.value })
+                                }
+                                type="text"
+                            />
+                        </div>
+                    </div>
                     <NewDataButtons
                         backLink=""
                         nextLink=""
                         handleSubmit={handleSubmit}
                     />
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
