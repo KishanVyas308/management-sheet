@@ -471,5 +471,32 @@ async function epcgLicenceDataOnDate(req: any, res: any) {
     }
 }
 
+async function ebrcOnDate(req: any, res: any) {
+    const { startDate, endDate } = req.query;
 
-export {  directExportDataOnDate, indirectExportDataOnDate, ewayBillDataOnDate, invoiceDataOnDate, shippingBillDataOnDate, epcgLicenceDataOnDate };
+    if (!startDate || !endDate) {
+        return res.status(200).json({ selectDateError: 'Start date and end date are required' });
+    }
+
+    try {
+        const Ebrc = await prisma.eBRC.findMany({
+            where: {
+                uploadedDate: {
+                    gte: new Date(startDate),
+                    lte: new Date(endDate),
+                },
+            },
+            orderBy: {
+                uploadedDate: 'desc',
+            },
+        });
+        res.json({
+            Ebrc
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
+}
+
+
+export {  directExportDataOnDate, indirectExportDataOnDate, ewayBillDataOnDate, invoiceDataOnDate, shippingBillDataOnDate, epcgLicenceDataOnDate, ebrcOnDate };

@@ -1,6 +1,6 @@
 import express from "express";
 import { getAllUsers } from "../controller/manageUserController";
-import { directExportDataOnDate, ewayBillDataOnDate, indirectExportDataOnDate, invoiceDataOnDate, shippingBillDataOnDate, epcgLicenceDataOnDate } from "../controller/dataAnalyticsController";
+import { directExportDataOnDate, ewayBillDataOnDate, indirectExportDataOnDate, invoiceDataOnDate, shippingBillDataOnDate, epcgLicenceDataOnDate, ebrcOnDate } from "../controller/dataAnalyticsController";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get('/epcglicense', epcgLicenceDataOnDate);
 router.get('/advancelicense');
 router.get('/shippingbill', shippingBillDataOnDate);
 router.get('/invoice', invoiceDataOnDate);
-router.get('/ebrc');
+router.get('/ebrc', ebrcOnDate);
 router.get('/ewaybill', ewayBillDataOnDate);
 router.get('/subsidy');
 

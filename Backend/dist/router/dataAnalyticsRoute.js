@@ -15,7 +15,7 @@ router.get('/epcglicense', dataAnalyticsController_1.epcgLicenceDataOnDate);
 router.get('/advancelicense');
 router.get('/shippingbill', dataAnalyticsController_1.shippingBillDataOnDate);
 router.get('/invoice', dataAnalyticsController_1.invoiceDataOnDate);
-router.get('/ebrc');
+router.get('/ebrc', dataAnalyticsController_1.ebrcOnDate);
 router.get('/ewaybill', dataAnalyticsController_1.ewayBillDataOnDate);
 router.get('/subsidy');
 exports.default = router;
